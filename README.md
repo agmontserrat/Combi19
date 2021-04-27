@@ -1,5 +1,5 @@
-# Combi19
-Trabajo final de la materia Ingeniería de Software II - UNLP
+# ![Django App](project-logo.png)
+> Trabajo final de la materia Ingeniería de Software II - UNLP
 
 Integrantes del grupo: 
 * Tonelli, Manuela 
