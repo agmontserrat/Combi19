@@ -7,7 +7,9 @@ def home (request):
 def pasajes (request):
     return render(request, "Combi19App/pasajes.html")
 
-
 def insumos (request):
     return render(request, "Combi19App/insumos.html")
+
+def registro (request):
+    return render(request, "Combi19App/registro.html")
 
