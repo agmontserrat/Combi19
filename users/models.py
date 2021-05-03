@@ -46,6 +46,7 @@ class MyAccountManager(BaseUserManager):
             dni = dni,
             first_name = first_name,
             last_name = last_name,
+            password=password
         )
         user.is_admin =  True
         user.is_staff = True
@@ -79,12 +80,21 @@ def get_full_name(self):
 def get_name(self):
     return self.first_name
 
-def has_perm(self, perm, obt=None):
+def has_perm(self, perm, obj=None):
     '''Función default para saber si el usuario tiene permisos para hacer cierta acción'''
     return self.is_admin
 
+@property
 def has_module_perms(self, app_label):
     return True
+
+@property
+def is_superuser(self):
+    return self.is_admin
+
+@property
+def is_staff(self):
+    return self.is_admin
 
 @property
 def is_admin(self):
@@ -93,3 +103,7 @@ def is_admin(self):
 @property
 def is_active(self):
     return self.active
+
+@is_staff.setter
+def is_staff(self, value):
+    self._is_staff = value
