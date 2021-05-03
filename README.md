@@ -26,7 +26,7 @@ Ayudante: Sobrado, Ariel
     $ git clone https://github.com/agmontserrat/Combi19.git
     $ cd Combi19
 ~~~
-2. Instala los requerimientos (esto todavia no funciona)
+2. Instala los requerimientos 
  ~~~
     $ pip install -r requirements.txt
 ~~~
