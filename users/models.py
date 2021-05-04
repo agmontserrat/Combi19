@@ -57,7 +57,6 @@ class MyAccountManager(BaseUserManager):
 
 
 class Account(AbstractBaseUser):
-
     email               = models.EmailField(verbose_name="email", max_length=60, unique=True)
     dni                 = models.IntegerField(verbose_name="dni", unique=True)
     first_name          = models.CharField(max_length=30)
