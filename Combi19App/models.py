@@ -38,6 +38,10 @@ class Ruta(models.Model):
     origen = models.CharField(max_length=15)
     destino = models.CharField(max_length=15)
     km = models.IntegerField()
+    espacio = ' --> '
+
+    def __str__(self):
+        return f'{self.origen}{self.espacio}{self.destino}'
     
 
 class Combi():
