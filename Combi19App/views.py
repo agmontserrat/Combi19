@@ -13,3 +13,6 @@ def insumos (request):
 def registro (request):
     return render(request, "Combi19App/registro.html")
 
+def index (request):
+    return render(request, "Combi19App/index.html")
+
