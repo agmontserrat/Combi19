@@ -39,8 +39,7 @@ class Lugar(models.Model):
 
 class Ruta(models.Model):
     choices = [(lugar.id, lugar.nombre) for lugar in Lugar.objects.all()]
-    
-    origen = models.IntegerField(null=False, blank=False, choices=choices)
+    origen = (models.IntegerField(null=False, blank=False, choices=choices))
     destino = models.IntegerField(null=False, blank=False, choices=choices)
     km = models.IntegerField()
     espacio = ' --> '
