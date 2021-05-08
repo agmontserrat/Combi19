@@ -23,12 +23,6 @@ class Insumo(models.Model):
 class Pasaje():
     pass
 
-class Viaje(models.Model):
-    fecha = models.DateField()
-    # ruta  = 
-    # combi = 
-
-
 
 class Lugar(models.Model):
     nombre = models.CharField(max_length=15)
@@ -44,10 +38,16 @@ class Ruta(models.Model):
     destino = (models.CharField(max_length=15,null=False, blank=False, choices=choices))
     km = models.IntegerField()
     espacio = ' --> '
+    nombre = str(origen)+str(espacio)+str(destino)
 
     def __str__(self):
         return f'{self.origen}{self.espacio}{self.destino}'
 
+class Viaje(models.Model):
+    fecha = models.DateField()
+    ruta = models.ForeignKey(Ruta, default=None, on_delete=models.CASCADE)
+    
+    # combi = 
 
 class Combi():
     pass
