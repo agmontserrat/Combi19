@@ -8,7 +8,7 @@ from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 class MyAccountManager(BaseUserManager):
 
     def create_user(self, email, dni, first_name, last_name, password=None):
-        '''Crea un Usuario'''
+        '''Crea una Account con el email'''
         values = [email, dni, first_name, last_name ]
         field_value_map = dict(zip(self.model.REQUIRED_FIELDS, values))
         for field_name, value in field_value_map.items():
@@ -68,11 +68,14 @@ class Account(AbstractBaseUser):
     is_staff            = models.BooleanField(default=False) #No es importante, necesitaba reescribirlo
     is_superuser        = models.BooleanField(default=False)
     
-    object = MyAccountManager()
+    objects = MyAccountManager()
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['dni', 'first_name', 'last_name']
 
+    def __str__(self):
+        return self.get_full_name()
+        
     def get_full_name(self):
         return f'{self.first_name} {self.last_name}'
 

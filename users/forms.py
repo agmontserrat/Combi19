@@ -8,15 +8,40 @@ class RegistrationForm(UserCreationForm):
     email = forms.EmailField(max_length=225, help_text="Requerido. Añadí una dirección de email válida.")
     first_name = forms.CharField(max_length=30, help_text="Requerido. Añadí tu nombre.")
     last_name = forms.CharField(max_length=30, help_text="Requerido. Añadí tu nombre.")
+    # dni = forms.NumberInput(help_text="Requerido. Añadí tu DNI.")
+    # dni = forms.NumberInput()
     class Meta:
         model = Account
-        fields = ('email', 'password1', 'password2', 'dni', 'date_of_birth')
+        fields = ('email', 'first_name', 'last_name', 'password1', 'password2', 'dni', 'date_of_birth')
 
     def clean_email(self):
-        '''Función que valida el email'''
+        '''Recibe un email y lo valida.'''
         email = self.cleaned_data['email'].lower()
         try:
-            account = Account.objects.get(email=email) #Pido que me de la fila si existe la cuenta
-        except Exception as e:
-            raise 
-        raise forms.ValidationError(f"El email {email} ya está en uso.")
+            account = Account.objects.exclude(pk=self.instance.pk).get(email=email)
+        except Account.DoesNotExist:
+            return email
+        raise forms.ValidationError(f"El email {account} ya está en uso")
+
+
+class AccountAuthenticationForm(forms.ModelForm):
+    password = forms.CharField(label="Password", widget=forms.PasswordInput)
+    
+    class Meta:
+        model = Account
+        fields = ("email", "password")
+    
+    # def save(self):
+    #     email = self.cleaned_data['email']
+    #     password = self.cleaned_data['password']
+    #     user = authenticate(email=email, password=password)
+    #     if user: 
+    #         login(request, user)
+   
+    def clean(self):
+        '''Define el error que debe ser mostrado'''
+        if self.is_valid():
+            email = self.cleaned_data['email']
+            password = self.cleaned_data['password']
+            if not authenticate(email=email, password=password):
+                raise forms.ValidationError("Inicio de sesión inválido.")
