@@ -81,6 +81,9 @@ class Account(AbstractBaseUser):
 
     def get_name(self):
         return self.first_name
+    
+    def get_email(self):
+        return self.email
 
     def has_perm(self, perm, obj=None):
         '''Función default para saber si el usuario tiene permisos para hacer cierta acción'''
