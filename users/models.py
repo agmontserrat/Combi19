@@ -1,13 +1,15 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
+from django.contrib.auth.models import Group
 
+from Combi19App.models import Vehiculo
 #Crear un nuevo usuario
 #Crear un superusuario
 
 
 class MyAccountManager(BaseUserManager):
 
-    def create_user(self, email, dni, first_name, last_name, password=None):
+    def create_user(self, email, dni, first_name, last_name, date_of_birth, tipo_de_usuario, password=None):
         '''Crea una Account con el email'''
         values = [email, dni, first_name, last_name ]
         field_value_map = dict(zip(self.model.REQUIRED_FIELDS, values))
@@ -20,25 +22,30 @@ class MyAccountManager(BaseUserManager):
             dni = dni,
             first_name = first_name,
             last_name = last_name,
+            date_of_birth = date_of_birth,
+            tipo_de_usuario = tipo_de_usuario
             )
         user.set_password(password)
         user.save(using=self._db)
         return user
     
 
-    def create_bus_driver(self, email, dni, first_name, last_name, password):
-        user = self.create_user(
-            email = self.normalize_email(email),
-            dni = dni,
-            first_name = first_name,
-            last_name = last_name,
-        )
-        user.is_staff = True #El chofer es staff
-        
+    # def create_bus_driver(self, email, dni, first_name, last_name, tipo_de_usuario, password):
+    #     user = self.create_user(
+    #         email = self.normalize_email(email),
+    #         dni = dni,
+    #         first_name = first_name,
+    #         last_name = last_name,
+    #         password=password,
+    #         tipo_de_usuario=tipo_de_usuario,
+    #     )
+    #     user.tipo_de_usuario = 1 #Es chofer
+    #     user.is_staff = True #El chofer es staff
+    #     user.tipo_de_usuario
 
-        user.save(using=self._db)
+    #     user.save(using=self._db)
         
-        return user
+    #     return user
 
 
     def create_superuser(self, email, dni, first_name, last_name, password):
@@ -64,10 +71,11 @@ class Account(AbstractBaseUser):
     last_name           = models.CharField(max_length=30)
     date_of_birth       = models.DateField(blank=True, null=True)
     is_GOLD             = models.BooleanField(default=False)
-    _is_admin            = models.BooleanField(default=False)
+    _is_admin           = models.BooleanField(default=False)
     is_active           = models.BooleanField(default=True)
     is_staff            = models.BooleanField(default=False)
-    _is_superuser        = models.BooleanField(default=False)
+    _is_superuser       = models.BooleanField(default=False)
+    tipo_de_usuario     = models.BooleanField(default=0)
     
     objects = MyAccountManager()
 
@@ -89,7 +97,6 @@ class Account(AbstractBaseUser):
     def has_perm(self, perm, obj=None):
         '''Función default para saber si el usuario tiene permisos para hacer cierta acción'''
         return self.is_admin
-
     
     def has_module_perms(self, app_label):
         return True
@@ -102,4 +109,8 @@ class Account(AbstractBaseUser):
     def is_admin(self):
         return self.is_staff
 
-    
+class Chofer(Account):
+    choices         = [(combi.patente, combi.patente) for combi in Vehiculo.objects.all()]
+    contacto        = models.IntegerField()
+    combi           = models.OneToOneField(Vehiculo, on_delete=models.PROTECT, choices=choices)
+    tipo_de_usuario = 1
