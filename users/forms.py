@@ -18,11 +18,7 @@ class RegistrationForm(UserCreationForm):
 
     def clean_date_of_birth(self):
         fecha = self.cleaned_data['date_of_birth']
-        print(f"{fecha} ------------ {fecha.year}")
         today = date.today()
-        print(f"{today} -------------- {today.year}")
-        print(type(today), type(fecha))
-        print(fecha > today)
         if (fecha) > (today):
             raise forms.ValidationError('No naciste en el futuro! Ingresá una fecha válida.')
         if (fecha.year + 18, fecha.month, fecha.day) > (today.year, today.month, today.day):
