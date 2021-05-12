@@ -36,7 +36,10 @@
                     <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="#pasajes">Pasajes</a></li>
                     <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="#insumos">Insumos</a></li>
                     <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="#comprar">COMO COMPRAR</a></li>
-                    <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="#salir">salir</a></li>
+                    {% if request.user.is_superuser %}
+                        <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="{% url 'admin:index' %}">Panel de Administración</a></li>
+                    {% endif %}
+                    <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="{% url 'Logout' %}">Cerrar Sesión</a></li>
                 </ul>
             </div>
         </div>
@@ -59,7 +62,7 @@
 
         </div>
     </header>
-    <!-- Portfolio Section-->
+    <!-- Pasajes Section-->
     <section class="page-section bg-primary text-white mb-0" id="pasajes">
         <div class="container">
             <!-- Portfolio Section Heading-->
@@ -68,7 +71,7 @@
             <P>formulario de compra de pasaje</P>
         </div>
     </section>
-    <!-- About Section-->
+    <!-- Insumos Section-->
     <section class="page-section bg-primary text-white mb-0" id="insumos">
         <div class="container">
             <!-- About Section Heading-->
@@ -76,7 +79,7 @@
             <h2 class="page-section-heading text-center text-uppercase text-white">INSUMOS</h2>
             <p>compra de insumos</p>
     </section>
-    <!-- Contact Section-->
+    <!-- Como Comprar Section-->
     <section class="page-section bg-primary text-white mb-0id=" id="comprar">
         <div class="container ">
             <!-- Contact Section Heading-->

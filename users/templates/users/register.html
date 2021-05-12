@@ -7,6 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Registrate en COMBI-19</title>
 
+    <link rel="icon" type="image/x-icon" href="{% static 'users/img/logo_is.png' %}" />
     <!-- Font Icon -->
     <link rel="stylesheet" href="{% static 'fonts/material-icon/css/material-design-iconic-font.min.css' %}">
 
@@ -24,38 +25,48 @@
                     <div class="signup-form">
                         <h2 class="form-title">Registrate</h2>
                         <form method="POST" class="register-form" id="register-form">{% csrf_token %}
+
+                            <!--Nombre del Usuario -->
                             <div class="form-group">
                                 <label for="first_name"><i class="zmdi zmdi-account material-icons-name"></i></label>
                                 <input type="text" name="first_name" id="first_name" placeholder="Tu nombre" required autofocus/>
                             </div>
+                            <!--Apellido del Usuario -->
 							<div class="form-group">
                                 <label for="last_name"><i class="zmdi zmdi-account material-icons-name"></i></label>
                                 <input type="text" name="last_name" id="last_name" placeholder="Tu apellido" required/>
                             </div>
+                            <!-- Email del Usuario -->
                             <div class="form-group">
                                 <label for="email"><i class="zmdi zmdi-email"></i></label>
                                 <input type="email" name="email" id="inputEmail" placeholder="Email" required >
                             </div>
+                            <!-- DNI del Usuario -->
                             <div class="form-group">
                                 <label for="dni"><i class="zmdi zmdi-account material-icons-name"></i></label>
                                 <input type="number" name="dni" id="inputDni" placeholder="DNI" required >
                             </div>
+                            <!-- Fecha de Nacimiento del Usuario -->
                             <div class="form-group">
                                 <label for="date_of_birth"><i class="zmdi zmdi-account material-icons-name"></i></label>
                                 <input type="date" name="date_of_birth" id="date_of_birth" placeholder="Tu fecha de nacimiento" required />
                             </div>
+                            <!-- Contraseña del Usuario -->
                             <div class="form-group">
                                 <label for="password1"><i class="zmdi zmdi-lock"></i></label>
                                 <input type="password" name="password1" id="password1" placeholder="Contraseña" required>
                             </div>
+                            <!-- Repetir Contraseña -->
                             <div class="form-group">
                                 <label for="password2"><i class="zmdi zmdi-lock-outline"></i></label>
                                 <input type="password" name="password2" id="password2" placeholder="Confirmar contraseña" required>
                             </div>
+
                             <!-- <div class="form-group">
                                 <input type="checkbox" name="agree-term" id="agree-term" class="agree-term" />
                                 <label for="agree-term" class="label-agree-term"><span><span></span></span>I agree all statements in  <a href="#" class="term-service">Terms of service</a></label>
                             </div> -->
+
                             <div class="form-group form-button">
                                 <input type="submit" name="signup" id="signup" class="form-submit" value="Register"/>
                             </div>
@@ -65,12 +76,12 @@
 							{% for field in registration_form %} <!--Basicamente esto dice que si hay errores, que los muestre-->
 							<p>
 							{% for error in field.errors %}
-							<p style="color: red">{{ error }}</p>
+							<p style="color: darkred">{{ error }}</p>
 							{% endfor %}
 							</p>
 							{% endfor %}
 							{% if registration_form.non_field_errors %}
-							<div style="color: red">
+							<div style="color: darkred">
 								<p>{{registration_form.non_field_errors}}</p>
 							</div>
 
@@ -80,7 +91,7 @@
                     </div>
                     <div class="signup-image">
                         <figure><img src="{% static 'img\signup-image.jpg' %}" alt="Registro Imagen"></figure>
-                        <a href="#" class="signup-image-link">Ya tengo cuenta</a>
+                        <a href="{% url 'Login' %}" class="signup-image-link">Ya tengo cuenta</a>
                     </div>
                 </div>
             </div>

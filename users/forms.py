@@ -6,9 +6,10 @@ from datetime import date
 from users.models import Account
 
 class RegistrationForm(UserCreationForm):
-    email = forms.EmailField(max_length=225, help_text="Requerido. Añadí una dirección de email válida.")
-    first_name = forms.CharField(max_length=30, help_text="Requerido. Añadí tu nombre.")
-    last_name = forms.CharField(max_length=30, help_text="Requerido. Añadí tu nombre.")
+    email          = forms.EmailField(max_length=225, help_text="Requerido. Añadí una dirección de email válida.")
+    first_name     = forms.CharField(max_length=30, help_text="Requerido. Añadí tu nombre.")
+    last_name      = forms.CharField(max_length=30, help_text="Requerido. Añadí tu nombre.")
+    date_of_birth  = forms.DateField()
     # dni = forms.NumberInput(help_text="Requerido. Añadí tu DNI.")
     # dni = forms.NumberInput()
     class Meta:
@@ -17,10 +18,25 @@ class RegistrationForm(UserCreationForm):
 
     def clean_date_of_birth(self):
         fecha = self.cleaned_data['date_of_birth']
+        print(f"{fecha} ------------ {fecha.year}")
         today = date.today()
+        print(f"{today} -------------- {today.year}")
+        print(type(today), type(fecha))
+        print(fecha > today)
+        if (fecha) > (today):
+            raise forms.ValidationError('No naciste en el futuro! Ingresá una fecha válida.')
         if (fecha.year + 18, fecha.month, fecha.day) > (today.year, today.month, today.day):
-            raise forms.ValidationError('Debes ser mayor de 18 años para registrarte en COMBI-19')
+            raise forms.ValidationError('Debes ser mayor de 18 años para registrarte en COMBI-19.')
+        
         return fecha
+    
+    def clean_dni(self):
+        dni = self.cleaned_data['dni']
+        try:
+            account = Account.objects.exclude(pk=self.instance.pk).get(dni=dni)
+        except Account.DoesNotExist:
+            return dni
+        raise forms.ValidationError(f"Ya existe una cuenta con el DNI {dni}. Olvidaste tu contraseña?")
 
     def clean_email(self):
         '''Recibe un email y lo valida.'''
@@ -29,11 +45,13 @@ class RegistrationForm(UserCreationForm):
             account = Account.objects.exclude(pk=self.instance.pk).get(email=email)
         except Account.DoesNotExist:
             return email
-        raise forms.ValidationError(f"El email {email} ya está en uso")
+        raise forms.ValidationError(f"El email {email} ya está en uso! Probá con otro.")
 
 
 class AccountAuthenticationForm(forms.ModelForm):
     password = forms.CharField(label="Password", widget=forms.PasswordInput)
+    # remember_me = forms.BooleanField()
+  
     
     class Meta:
         model = Account

@@ -33,10 +33,11 @@ class MyAccountManager(BaseUserManager):
             first_name = first_name,
             last_name = last_name,
         )
-        user.is_staff = True
+        user.is_staff = True #El chofer es staff
         
 
         user.save(using=self._db)
+        
         return user
 
 
@@ -64,8 +65,8 @@ class Account(AbstractBaseUser):
     date_of_birth       = models.DateField(blank=True, null=True)
     is_GOLD             = models.BooleanField(default=False)
     is_admin            = models.BooleanField(default=False)
-    is_active           = models.BooleanField(default=True) #No es importante, necesitaba reescribirlo
-    is_staff            = models.BooleanField(default=False) #No es importante, necesitaba reescribirlo
+    is_active           = models.BooleanField(default=True)
+    is_staff            = models.BooleanField(default=False)
     is_superuser        = models.BooleanField(default=False)
     
     objects = MyAccountManager()
@@ -98,7 +99,7 @@ class Account(AbstractBaseUser):
         return self.is_admin
 
     @property
-    def is_staff(self):
-        return self.is_admin
+    def is_admin(self):
+        return self.is_staff
 
     

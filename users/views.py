@@ -17,7 +17,8 @@ def register_view(request, *args, **kwargs):
         if form.is_valid():
             form.save()
             email = form.cleaned_data.get('email').lower()
-            
+            date_of_birth = form.cleaned_data.get('date_of_birth')
+            dni = form.cleaned_data.get('dni')
             raw_password = form.cleaned_data.get('password1')
             account = authenticate(email=email, password= raw_password)
             login(request, account)
@@ -49,9 +50,12 @@ def login_view(request, *args, **kwargs):
         if form.is_valid():
             email = request.POST['email']
             password = request.POST['password']
+            # remember_me = request.POST['remember_me']
             user = authenticate(email=email, password=password)
             if user:
                 login(request, user)
+                # if not remember_me:
+                #     request.session.set_expiry(0)
                 destination = get_redirect_if_exists(request)
                 if destination:
                     return redirect(destination)
