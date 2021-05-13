@@ -53,7 +53,7 @@ class Viaje(models.Model):
     combi         =   models.ForeignKey(Vehiculo, blank=True, null=True, on_delete=models.CASCADE)
     estado        =   models.BooleanField(default=False)
     # chofer        =   models.ForeignKey(Chofer, default=None, on_delete=models.PROTECT)
-    insumo        =   models.ManyToManyField(Insumo, default="",blank=True, null=True)
+    # insumo        =   models.ManyToManyField(Insumo, default="",blank=True, null=True)
 
     class Meta:
         constraints = [
