@@ -2,14 +2,13 @@ from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 from django.contrib.auth.models import Group
 
-from Combi19App.models import Vehiculo
 #Crear un nuevo usuario
 #Crear un superusuario
 
 
 class MyAccountManager(BaseUserManager):
 
-    def create_user(self, email, dni, first_name, last_name, date_of_birth, tipo_de_usuario, password=None):
+    def create_user(self, email, dni, first_name, last_name, password=None):
         '''Crea una Account con el email'''
         values = [email, dni, first_name, last_name ]
         field_value_map = dict(zip(self.model.REQUIRED_FIELDS, values))
@@ -22,8 +21,7 @@ class MyAccountManager(BaseUserManager):
             dni = dni,
             first_name = first_name,
             last_name = last_name,
-            date_of_birth = date_of_birth,
-            tipo_de_usuario = tipo_de_usuario
+            
             )
         user.set_password(password)
         user.save(using=self._db)
@@ -42,9 +40,7 @@ class MyAccountManager(BaseUserManager):
     #     user.tipo_de_usuario = 1 #Es chofer
     #     user.is_staff = True #El chofer es staff
     #     user.tipo_de_usuario
-
     #     user.save(using=self._db)
-        
     #     return user
 
 
@@ -56,9 +52,9 @@ class MyAccountManager(BaseUserManager):
             last_name = last_name,
             password=password
         )
-        user.is_admin =  True
+        user._is_admin =  True
         user.is_staff = True
-        user.is_superuser = True
+        user._is_superuser = True
 
         user.save(using=self._db)
         return user
@@ -79,8 +75,15 @@ class Account(AbstractBaseUser):
     
     objects = MyAccountManager()
 
+    class Meta:
+        verbose_name        = "Usuario"
+        verbose_name_plural = "Usuarios"
+
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['dni', 'first_name', 'last_name']
+
+    def tipo(self):
+        return 0
 
     def __str__(self):
         return self.get_full_name()
@@ -110,7 +113,14 @@ class Account(AbstractBaseUser):
         return self.is_staff
 
 class Chofer(Account):
-    choices         = [(combi.patente, combi.patente) for combi in Vehiculo.objects.all()]
-    contacto        = models.IntegerField()
-    combi           = models.OneToOneField(Vehiculo, on_delete=models.PROTECT, choices=choices)
-    tipo_de_usuario = 1
+
+    class Meta:
+        proxy = True
+        permissions = (
+            ("es_chofer", "Es un chofer"),
+        )
+        verbose_name_plural = "Choferes"
+
+    def tipo(self):
+        return 1
+    

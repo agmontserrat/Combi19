@@ -1,8 +1,9 @@
 from django.db import models
 from django.db.models.expressions import F
+from django.db.models.constraints import UniqueConstraint
 
 # Create your models here.
-
+from users.models import Chofer
 
 class Vehiculo(models.Model):
     patente       = models.CharField(max_length=10)
@@ -26,7 +27,9 @@ class Insumo(models.Model):
 class Lugar(models.Model):
     nombre        = models.CharField(max_length=15)
     codigo_postal = models.IntegerField(blank=True, null=True)
-    verbose_name_plural='Lugares'
+
+    class Meta:
+        verbose_name_plural = "Lugares"
 
     def __str__(self):
         return self.nombre
@@ -44,10 +47,18 @@ class Ruta(models.Model):
 
 
 class Viaje(models.Model):
+    
     fecha         =   models.DateTimeField(blank=True, null=True)
     ruta          =   models.ForeignKey(Ruta, default=None, on_delete=models.CASCADE)
     combi         =   models.ForeignKey(Vehiculo, blank=True, null=True, on_delete=models.CASCADE)
-    estado        = models.BooleanField(default=False)
+    estado        =   models.BooleanField(default=False)
+    # chofer        =   models.ForeignKey(Chofer, default=None, on_delete=models.PROTECT)
+    insumo        =   models.ManyToManyField(Insumo, default="",blank=True, null=True)
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=['fecha', 'combi', ], name='viaje_unico') 
+        ]
 
     def __str__(self):
         return f'Fecha: {self.fecha} - Ruta: {self.ruta} - Combi:{self.combi} '
