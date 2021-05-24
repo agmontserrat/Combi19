@@ -6,7 +6,8 @@ from django.db.models.constraints import UniqueConstraint
 from users.models import Chofer
 
 class Vehiculo(models.Model):
-    patente       = models.CharField(max_length=10)
+
+    patente       = models.CharField(max_length=10, unique=True)
     capacidad     = models.IntegerField()
     modelo        = models.IntegerField()
 
@@ -19,28 +20,32 @@ class Insumo(models.Model):
     descripcion   = models.CharField(max_length=30)
     precio        = models.IntegerField()
     imagen        = models.ImageField(upload_to="insumos", null=True)
+    cantidad      = models.IntegerField(blank=True, null=True)
 
     def __str__(self):
-        return self.nombre
+        return f'{self.nombre}'
 
 
 class Lugar(models.Model):
-    nombre        = models.CharField(max_length=15)
-    codigo_postal = models.IntegerField(blank=True, null=True)
+    nombre        = models.CharField(max_length=15, blank=True, null=True, unique=True)
+    provincia     = models.CharField(max_length=15, blank=True, null=True, unique=True)
+    codigo_postal = models.IntegerField(blank=True, null=True, unique=True)
 
     class Meta:
         verbose_name_plural = "Lugares"
 
     def __str__(self):
-        return self.nombre
+        return f'{self.nombre}'
 
 
 class Ruta(models.Model):
-    choices      = [(lugar.nombre, lugar.nombre) for lugar in Lugar.objects.all()]
-    origen       = (models.CharField(max_length=15, null=False, blank=False, choices=choices))
-    destino      = (models.CharField(max_length=15, null=False, blank=False, choices=choices))
-    nombre       = models.CharField(max_length=30, blank=True, null=True)
-    km           = models.IntegerField()
+    #choices      = [(lugar.nombre, lugar.nombre) for lugar in Lugar.objects.all()]
+    #origen       = (models.CharField(max_length=15, null=False, blank=False, choices=choices))
+    #destino      = (models.CharField(max_length=15, null=False, blank=False, choices=choices))
+    origen        = models.ForeignKey(Lugar, default=None, on_delete=models.CASCADE, related_name='origen')
+    destino       = models.ForeignKey(Lugar, default=None, on_delete=models.CASCADE, related_name='destino')
+    nombre        = models.CharField(max_length=30, blank=True, null=True)
+    km            = models.IntegerField()
 
     def __str__(self):
         return f'Origen: {self.origen} --> Destino: {self.destino}'
