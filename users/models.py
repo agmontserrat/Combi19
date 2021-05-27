@@ -2,6 +2,8 @@ from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 from django.contrib.auth.models import Group
 
+from datetime import date
+
 #Crear un nuevo usuario
 #Crear un superusuario
 
@@ -62,7 +64,7 @@ class MyAccountManager(BaseUserManager):
 
 class Account(AbstractBaseUser):
     email               = models.EmailField(verbose_name="email", max_length=60, unique=True)
-    dni                 = models.IntegerField(verbose_name="dni", unique=True)
+    dni                 = models.IntegerField(verbose_name="dni", unique=True,)
     first_name          = models.CharField(max_length=30)
     last_name           = models.CharField(max_length=30)
     date_of_birth       = models.DateField(blank=True, null=True)
@@ -71,7 +73,6 @@ class Account(AbstractBaseUser):
     is_active           = models.BooleanField(default=True)
     is_staff            = models.BooleanField(default=False)
     _is_superuser       = models.BooleanField(default=False)
-    tipo_de_usuario     = models.BooleanField(default=0)
     
     objects = MyAccountManager()
 
@@ -80,7 +81,16 @@ class Account(AbstractBaseUser):
         verbose_name_plural = "Usuarios"
 
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['dni', 'first_name', 'last_name']
+    REQUIRED_FIELDS = ['dni', 'first_name', 'last_name', 'date_of_birth']
+
+    def clean(self):
+        date_of_birth = self.date_of_birth
+        today = date.today()
+        if (date_of_birth) > (today):
+            raise ValidationError('No naciste en el futuro! Ingresá una fecha válida.')
+        if (date_of_birth.year + 18, date_of_birth.month, date_of_birth.day) > (today.year, today.month, today.day):
+            raise ValidationError('Debes ser mayor de 18 años para registrarte en COMBI-19.')
+        
 
     def tipo(self):
         return 0
@@ -112,15 +122,14 @@ class Account(AbstractBaseUser):
     def is_admin(self):
         return self.is_staff
 
-class Chofer(Account):
+class Chofer(models.Model):
+    user = models.OneToOneField(Account, on_delete=models.CASCADE, null=True)
+    telefono = models.CharField(max_length=15)
+    is_chofer= models.BooleanField(default=True)
 
     class Meta:
-        proxy = True
-        permissions = (
-            ("es_chofer", "Es un chofer"),
-        )
         verbose_name_plural = "Choferes"
 
-    def tipo(self):
-        return 1
-    
+    def __str__(self):
+        return str(self.user)
+	
