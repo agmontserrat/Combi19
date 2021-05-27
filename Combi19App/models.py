@@ -65,10 +65,10 @@ class Viaje(models.Model):
     # chofer        =   models.ForeignKey(Chofer, default=None, on_delete=models.PROTECT)
     # insumo        =   models.ManyToManyField(Insumo, default="",blank=True, null=True)
 
+    
     class Meta:
-        constraints = [
-            models.UniqueConstraint(fields=['fecha', 'combi', ], name='viaje_unico') 
-        ]
+        unique_together = ('fecha', 'combi')
+        
 
     def __str__(self):
         return f'Fecha: {self.fecha} - Ruta: {self.ruta} - Combi:{self.combi} '
