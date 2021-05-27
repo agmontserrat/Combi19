@@ -8,7 +8,7 @@ admin.site.site_header = 'Sitio administrativo de COMBI-19'
 # Register your models here.
 
 class VehiculoAdmin(admin.ModelAdmin):
-    list_display = ['patente','capacidad','modelo']
+    list_display = ['patente', 'chofer', 'capacidad','modelo']
 
 class LugarAdmin(admin.ModelAdmin):
     list_display = ['nombre','provincia','codigo_postal']

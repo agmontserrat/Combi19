@@ -10,7 +10,8 @@ class Vehiculo(models.Model):
     patente       = models.CharField(max_length=10, unique=True)
     capacidad     = models.IntegerField()
     modelo        = models.IntegerField()
-
+    chofer        = models.ForeignKey(Chofer, blank=True, null=True, default=None, on_delete=models.CASCADE)
+    
     def __str__(self):
         return self.patente
 
@@ -58,7 +59,7 @@ class Ruta(models.Model):
 class Viaje(models.Model):
     
     fecha         =   models.DateTimeField(blank=True, null=True)
-    ruta          =   models.ForeignKey(Ruta, default=None, on_delete=models.CASCADE)
+    ruta          =   models.ForeignKey(Ruta, default=None, blank=True, null=True, on_delete=models.CASCADE)
     combi         =   models.ForeignKey(Vehiculo, blank=True, null=True, on_delete=models.CASCADE)
     estado        =   models.BooleanField(default=False)
     # chofer        =   models.ForeignKey(Chofer, default=None, on_delete=models.PROTECT)
