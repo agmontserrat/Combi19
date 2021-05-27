@@ -1,6 +1,7 @@
 from django.db import models
 from django.db.models.expressions import F
 from django.db.models.constraints import UniqueConstraint
+from django.core.exceptions import ValidationError
 
 # Create your models here.
 from users.models import Chofer
@@ -41,13 +42,15 @@ class Lugar(models.Model):
 
 
 class Ruta(models.Model):
-    #choices      = [(lugar.nombre, lugar.nombre) for lugar in Lugar.objects.all()]
-    #origen       = (models.CharField(max_length=15, null=False, blank=False, choices=choices))
-    #destino      = (models.CharField(max_length=15, null=False, blank=False, choices=choices))
     origen        = models.ForeignKey(Lugar, default=None, on_delete=models.CASCADE, related_name='origen')
     destino       = models.ForeignKey(Lugar, default=None, on_delete=models.CASCADE, related_name='destino')
     nombre        = models.CharField(max_length=30, blank=True, null=True)
     km            = models.IntegerField()
+
+    def clean(self):
+        if self.origen==self.destino:
+            raise ValidationError('Los campos no pueden coincidir')
+    
 
     class Meta:
         unique_together = ('origen', 'destino')
