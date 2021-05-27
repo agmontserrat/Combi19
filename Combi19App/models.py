@@ -33,6 +33,7 @@ class Lugar(models.Model):
 
     class Meta:
         verbose_name_plural = "Lugares"
+        
 
     def __str__(self):
         return f'{self.nombre}'
@@ -47,6 +48,9 @@ class Ruta(models.Model):
     nombre        = models.CharField(max_length=30, blank=True, null=True)
     km            = models.IntegerField()
 
+    class Meta:
+        unique_together = ('origen', 'destino')
+        
     def __str__(self):
         return f'Origen: {self.origen} --> Destino: {self.destino}'
 
