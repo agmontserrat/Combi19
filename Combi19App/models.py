@@ -18,8 +18,8 @@ class Vehiculo(models.Model):
 
 
 class Insumo(models.Model):
-    nombre        = models.CharField(max_length=15)
-    descripcion   = models.CharField(max_length=30)
+    nombre        = models.CharField(max_length=30)
+    descripcion   = models.CharField(max_length=50)
     precio        = models.IntegerField()
     imagen        = models.ImageField(upload_to="insumos", null=True)
     cantidad      = models.IntegerField(blank=True, null=True)
@@ -29,10 +29,10 @@ class Insumo(models.Model):
 
 
 class Lugar(models.Model):
-    nombre        = models.CharField(max_length=15, blank=True, null=True, unique=True)
-    provincia     = models.CharField(max_length=15, blank=True, null=True, unique=True)
+    nombre        = models.CharField(max_length=40, blank=True, null=True, unique=True)
+    provincia     = models.CharField(max_length=20, blank=True, null=True)
     codigo_postal = models.IntegerField(blank=True, null=True, unique=True)
-
+    imagen        = models.ImageField(upload_to="ciudades", blank=True, null=True)
     class Meta:
         verbose_name_plural = "Lugares"
         

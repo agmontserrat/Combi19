@@ -1,0 +1,208 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    {% load static %}
+  <title>Combi-19</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!--icono en barra-->
+    <link rel="icon" type="image/x-icon" href="{% static 'Combi19App/img/logo_is.png' %}" />
+
+    <!--acceso a fuentes-->
+    <script src="https://use.fontawesome.com/releases/v5.15.1/js/all.js" crossorigin="anonymous"></script>
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css" />
+    <link href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic" rel="stylesheet" type="text/css" />
+    
+    <!-- tipo de letra -->
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="apple-touch-icon" href="{% static 'Combi19App/img/apple-icon.png' %}">
+
+    <!-- Load Require CSS -->
+    <link href="{% static 'Combi19App/css/bootstrap.min.css' %}" rel="stylesheet">
+	<!-- iconos  -->
+    <link href="{% static 'Combi19App/css/boxicon.min.css' %}" rel="stylesheet">
+
+	<!-- carga CSS -->
+    <link rel="stylesheet" href="{% static 'Combi19App/css/estilos.css' %}">
+    <!-- <link href="{% static 'Combi19App/css/styles.css' %}" rel="stylesheet" /> -->
+
+
+</head>
+
+<body>
+    <!-- Header -->
+    <nav id="main_nav" class="navbar navbar-expand-lg navbar-light bg-white shadow">
+        <div class="container d-flex justify-content-center align-items-center">
+            <a class="navbar-brand h1 " href="index.html">
+                <a class="navbar-brand" href="#!"><img src="{% static 'Combi19App/img/logo_is_chiquito.png' %}" width="40">
+                </a>
+                <span class="text-dark h4">COMBI-</span><span class="text-primary h4">19</span></a>
+            </a>
+            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbar-toggler-success" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="align-self-center collapse navbar-collapse flex-fill  d-lg-flex justify-content-lg-between" id="navbar-toggler-success">
+                <div class="flex-fill mx-xl-5 mb-2">
+                    <ul class="nav navbar-nav d-flex justify-content-between mx-xl-5 text-center text-dark">
+                       <li class="nav-item">
+                            <a class="nav-link btn-outline-primary rounded-pill px-2" href="{% url 'Home' %}">Home</a>
+						<!-- px = padding y mx es el margin 
+						rounded-pill =genera ese boton con bordes redondeados rounded-circle-->	
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link btn-outline-primary rounded-pill px-2" href="{% url 'About' %}">Sobre Nosotros</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link btn-outline-primary rounded-pill px-2" href="#">Pasajes</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link btn-outline-primary rounded-pill px-2" href="{% url 'Insumos' %}">Insumos</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link btn-outline-primary rounded-pill px-2" href="#">Contáctanos</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="btn-group" role="group">
+                    <div class="btn-group" role="group">
+                        <button class="btn btn-outline-light dropdown-toggle" type="button" id="dropdownMenuButton1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class='bx bx-help-circle bx-sm bx-tada-hover text-primary'></i>                           
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+                            <a class="dropdown-item" href="#">¿Como comprar?</a>
+                            <a class="dropdown-item" href="#">¿Como cancelar un pasaje?</a>
+                        </div>
+                    </div>
+                <div class="btn-group" role="group">
+                    <div class="btn-group" role="group">
+                        <button class="btn btn-outline-light dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class='bx bx-user-circle bx-sm text-primary'></i>
+                            <span class="text-dark">{{ request.user.first_name }}</span>
+                        </button>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                <a class="dropdown-item" href="#">Perfil</a>
+                                <a class="dropdown-item" href="#">Mis Viajes</a>
+                                <a class="dropdown-item" href="#">Mis tarjetas</a>
+                                <a class="dropdown-item" href="#">Suscripción GOLD</a>
+                                {% if request.user.is_superuser %}
+                                <a class="dropdown-item" href="{% url 'admin:index' %}">Panel de administración</a>
+                                {% endif %}
+                            </div>
+                        
+                    </div>
+                </div>    
+                    <a class="btn btn-outline-light" href="{% url 'Logout' %}">
+                        <i class='bx bx-log-out-circle bx-sm text-primary'></i>    
+                    </a>
+                </div>
+
+                
+            </div>
+        </div>
+    </nav>
+    <!-- Close Header -->
+    <div class="main">
+        {% block content %}
+    
+        {% endblock content %}
+    </div>
+
+
+    <footer class="bg-primary pt-4">
+        <div class="container">
+            <div class="row py-4">
+                <div class="col-lg-3 col-12 align-left">
+                    <a class="navbar-brand" href="index.html">
+                        <i class='bx bx-bus bx-sm text-light'></i>
+                        <span class="text-light h5">Combi-</span><span class="text-light h5 semi-bold-600">19</span>
+                    </a>
+                    <p class="text-light my-lg-4 my-2">
+                        La primera empresa de viajes con una clara respuesta ante COVID-19.
+                    </p>
+                    <ul class="list-inline footer-icons light-300">
+                        <li class="list-inline-item m-0">
+                            <a class="text-light" target="_blank" href="http://facebook.com/">
+                                <i class='bx bxl-facebook-square bx-md'></i>
+                            </a>
+                        </li>
+                        <li class="list-inline-item m-0">
+                            <a class="text-light" target="_blank" href="https://www.linkedin.com/">
+                                <i class='bx bxl-linkedin-square bx-md'></i>
+                            </a>
+                        </li>
+                        <li class="list-inline-item m-0">
+                            <a class="text-light" target="_blank" href="https://www.whatsapp.com/">
+                                <i class='bx bxl-whatsapp-square bx-md'></i>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="col-lg-3 col-md-4 my-sm-0 mt-4">
+                   
+                        <ul class="list-unstyled text-light light-300">
+                            <li class="pb-2">
+                                <i class='bx-fw bx bxs-chevron-right bx-xs'></i><a class="text-decoration-none text-light" 
+								href="{% url 'Home' %}">Home</a>
+                            </li>
+                            <li class="pb-2">
+                                <i class='bx-fw bx bxs-chevron-right bx-xs'></i><a class="text-decoration-none text-light py-1" 
+								href="{% url 'About' %}">Nosotros</a>
+                            </li>
+                            <li class="pb-2">
+                                <i class='bx-fw bx bxs-chevron-right bx-xs'></i><a class="text-decoration-none text-light py-1" 
+								href="work.html">Pasajes</a>
+                            </li>
+                            <li class="pb-2">
+                                <i class='bx-fw bx bxs-chevron-right bx-xs'></i></i><a class="text-decoration-none text-light py-1" 
+								href="pricing.html">Insumos</a>
+                            </li>
+                            <li class="pb-2">
+                                <i class='bx-fw bx bxs-chevron-right bx-xs'></i><a class="text-decoration-none text-light py-1" 
+								href="contact.html">Contáctanos</a>
+                            </li>
+                        </ul>
+                </div>
+
+                
+                <div class="col-lg-3 col-md-4 my-sm-0 mt-4">
+                    <h2 class="h4 pb-lg-3 text-light light-300">Atendemos en:</h2>
+                    <ul class="list-unstyled text-light light-300">
+                        <li class="pb-2">
+                            <i class='bx-fw bx bx-phone bx-xs'></i><a class="text-decoration-none text-light py-1" 
+							href="tel:010-020-0340">021-2354-4568</a>
+                        </li>
+                        <li class="pb-2">
+                            <i class='bx-fw bx bx-mail-send bx-xs'></i><a class="text-decoration-none text-light py-1"
+							href="mailto:info@company.com">info@company.com</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="w-100 bg-secondary py-3">
+            <div class="container">
+                <div class="row pt-2">
+                    <div class="col-lg-6 col-sm-12">
+                        <p class="text-lg-start text-center text-light light-300">
+                            © Copyright 2021 Combi-19. Todos los derechos reservados.
+                        </p>
+                    </div>
+                    <div class="col-lg-6 col-sm-12">
+                        <p class="text-lg-end text-center text-light light-300">
+                            Diseñado por <a rel="sponsored" class="text-decoration-none text-light" 
+							href="https://cursophp.com.ar/" target="_blank"><strong>G37 Dev</strong></a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </footer>
+     

@@ -2,7 +2,7 @@ from django import forms
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.models import Group
-
+from datetime import date
 from users.models import Account, Chofer
 from users.forms import RegistrationForm
 
@@ -38,6 +38,7 @@ class AccountAdmin(UserAdmin):
         form = super(AccountAdmin,self).get_form(request, obj, **kwargs)
         return form
 
+    
 
 admin.site.unregister(Group)
 admin.site.register(Chofer)

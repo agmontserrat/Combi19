@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 from django.contrib.auth.models import Group
+from django.core.exceptions import ValidationError
 
 from datetime import date
 
@@ -83,14 +84,7 @@ class Account(AbstractBaseUser):
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['dni', 'first_name', 'last_name', 'date_of_birth']
 
-    def clean(self):
-        date_of_birth = self.date_of_birth
-        today = date.today()
-        if (date_of_birth) > (today):
-            raise ValidationError('No naciste en el futuro! Ingresá una fecha válida.')
-        if (date_of_birth.year + 18, date_of_birth.month, date_of_birth.day) > (today.year, today.month, today.day):
-            raise ValidationError('Debes ser mayor de 18 años para registrarte en COMBI-19.')
-        
+    
 
     def tipo(self):
         return 0
