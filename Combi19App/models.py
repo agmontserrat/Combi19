@@ -29,7 +29,7 @@ class Insumo(models.Model):
 
 
 class Lugar(models.Model):
-    nombre        = models.CharField(max_length=40, blank=True, null=True, unique=True)
+    nombre        = models.CharField(max_length=40, blank=True, null=True, unique=True, verbose_name='Lugar')
     provincia     = models.CharField(max_length=20, blank=True, null=True)
     codigo_postal = models.IntegerField(blank=True, null=True, unique=True)
     imagen        = models.ImageField(upload_to="ciudades", blank=True, null=True)
