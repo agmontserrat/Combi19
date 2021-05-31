@@ -19,6 +19,10 @@ def insumos (request):
     return render(request, "Combi19App/insumos.html", {"insumos": insumos})
 
 @login_required
+def contacto (request):
+    return render(request, "Combi19App/contact.html")
+
+@login_required
 def about (request):
     return render(request, "Combi19App/about.html")
 def index (request):
