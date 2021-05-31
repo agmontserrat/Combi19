@@ -3,7 +3,18 @@
 {% load static %}
 {% block content %}
 
-    <h2 class="h2 pb-4 typo-space-line">¡Disfrutá tu viaje!</h2>
+  
+    <div id="work_banner" class="banner-wrapper bg-light w-100 py-5" style="background-image: url({% static 'Combi19App/img/pochoclo.jpg' %}); ">
+        
+        <div class="banner-vertical-center-work container text-light d-flex justify-content-center align-items-center py-5 p-0">
+            <div class="banner-content col-lg-8 col-12 m-lg-auto text-center">
+                <h1 class="banner-heading h1 display-3 pb-5 semi-bold-600 typo-space-line-center">Disfrutá tu viaje</h1>
+                <h3 class="h4 pb-2 regular-400">Date un gustito. Te lo alcanzamos en el viaje.</h3>
+                
+               
+            </div>
+        </div>
+    </div>
 
     
         <!-- Start Recent Work -->
@@ -14,9 +25,10 @@
                     <div class="col-xl-3 col-md-4 col-sm-6">
                         <a href="#" class="service-work card border-0 text-white shadow-sm overflow-hidden mx-5 m-sm-0">
                             <img class="card-img" src="{{ i.imagen.url }}" alt="Card image" >
-                            <div class="service-work-vertical card-img-overlay d-flex align-items-end">
+                            <div class="service-work-vertical card-img-overlay d-flex align-items-end ">
                                 <div class="service-work-content text-left text-light">
-                                    <span class="btn btn-outline-light rounded-pill mb-lg-3 px-lg-4 light-300">{{i.nombre}} ${{  i.precio }}</span>
+                                    <span class="btn btn-outline-light rounded-pill mb-lg-3 px-lg-4 light-300">{{i.nombre}} </span>
+                                    <p class="card-text light-300">${{  i.precio }}</p>
                                 </div>
                             </div>
                         </a>
