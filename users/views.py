@@ -34,6 +34,12 @@ def register_view(request, *args, **kwargs):
         context['registration_form'] = form
     return render(request, 'users/register.html', context)
 
+def profile_view(request):
+    return render(request, "users/profile.html")
+
+def misviajes_view(request):
+    return render(request, "users/misviajes.html")
+
 def logout_view(request):
     logout(request)
     return redirect("Home")
