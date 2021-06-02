@@ -25,6 +25,7 @@ def contacto (request):
 @login_required
 def about (request):
     return render(request, "Combi19App/about.html")
+    
 def index (request):
     if request.user.is_authenticated:
         return render(request, "Combi19App/home.html")

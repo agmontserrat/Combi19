@@ -3,7 +3,7 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.models import Group
 from datetime import date
-from users.models import Account, Chofer
+from users.models import Account, Chofer, Tarjeta
 from users.forms import RegistrationForm
 
 class AccountAdmin(UserAdmin):
@@ -38,8 +38,10 @@ class AccountAdmin(UserAdmin):
         form = super(AccountAdmin,self).get_form(request, obj, **kwargs)
         return form
 
-    
+class TarjetaAdmin(admin.ModelAdmin):
+    list_display=['usuario','nro']
 
 admin.site.unregister(Group)
 admin.site.register(Chofer)
+admin.site.register(Tarjeta, TarjetaAdmin)
 admin.site.register(Account, AccountAdmin)

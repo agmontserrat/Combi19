@@ -1,4 +1,4 @@
-from users.models import Account
+from users.models import Account, Tarjeta
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.contrib.auth import login, authenticate, logout
@@ -86,6 +86,12 @@ def editprofile_view(request, *args, **kwargs):
 
 def misviajes_view(request):
     return render(request, "users/misviajes.html")
+
+def mistarjetas_view(request):
+
+    tarjetas = Tarjeta.objects.filter(usuario_id=request.user.id)
+    return render(request, "users/mistarjetas.html", {"tarjetas": tarjetas})
+    
 
 def logout_view(request):
     logout(request)

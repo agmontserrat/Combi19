@@ -129,8 +129,13 @@ class Chofer(models.Model):
 	
 
 class Tarjeta(models.Model):
+    usuario = models.ForeignKey(Account, on_delete=models.CASCADE, null=True)
     nro = models.BigIntegerField()
     nombre_titular = models.CharField(max_length= 40)
-    num_seguridad = models.IntegerField
-    cvv = models.IntegerField
-    
+    fecha_vencimiento = models.IntegerField(default=None,null=True)
+    cvv = models.IntegerField(default=None, null=True)
+
+    class Meta:
+        verbose_name="Tarjeta"
+        verbose_name_plural="Tarjetas" 
+

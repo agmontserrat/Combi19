@@ -86,9 +86,9 @@
                                 <span class="text-dark">{{ request.user.first_name }}</span>
                             </button>
                             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                <a class="dropdown-item" href="{% url 'Profile' %}">Editar perfil</a>
+                                <a class="dropdown-item" href="{% url 'Profile' %}">Mi perfil</a>
                                 <a class="dropdown-item" href="{% url 'Viajes' %}">Mis Viajes</a>
-                                <a class="dropdown-item" href="#">Mis tarjetas</a>
+                                <a class="dropdown-item" href="{% url 'Tarjetas' %}">Mis tarjetas</a>
                                 <a class="dropdown-item" href="#">Suscripción GOLD</a>
                                 {% if request.user.is_superuser %}
                                 <a class="dropdown-item" href="{% url 'admin:index' %}">Panel de administración</a>
