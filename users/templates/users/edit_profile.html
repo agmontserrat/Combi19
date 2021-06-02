@@ -1,0 +1,75 @@
+{% extends 'Combi19App/base.html' %}
+
+{% load static %}
+{% block content %}
+
+<div class="container rounded bg-white mt-5 mb-5">
+    <div class="row">
+        <div class="col-md-5 border-right">
+            <div class="d-flex flex-column align-items-center text-center p-3 py-5">
+                <div class="card partner-wap  py-5 px-5">
+                    <i class='display-1 text-white bx bx-user'></i> 
+                </div>
+                <span class="font-weight-bold pt-5">{{request.user.first_name}}</span>
+                <span class="text-black-50">{{request.user.email}}</span>
+                <span> </span>
+            </div>
+        </div>
+        
+            <div class="col-md-7 border-right">
+                <form class="form" method="post">{% csrf_token %}
+                    <div class="p-3 py-5">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h4 class="text-right">Editar mi perfil</h4>
+                        </div>
+                        <div class="row mt-2">
+                            <div class="col-md-6"><label class="labels">Nombre</label><input type="text" name="first_name" id="first_name" class="form-control" placeholder="" required value={{form.initial.first_name}}></div>
+                            <div class="col-md-6"><label class="labels">Apellido</label><input type="text" name="last_name" id="last_name" class="form-control" placeholder="" required value={{form.initial.last_name}}></div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col-md-12"><label class="labels">Fecha de Nacimiento</label><input type="date" name="date_of_birth" id="date_of_birth" class="form-control" placeholder="" value={{form.initial.date_of_birth}} required></div>
+                            <div class="col-md-12"><label class="labels">DNI</label><input type="number" name="dni" id="inputDni" class="form-control" placeholder="" required value="{{form.initial.dni}}"></div>
+                            <div class="col-md-12"><label class="labels">Email</label><input type="email" name="email" id="inputEmail" class="form-control" placeholder="" required value="{{form.initial.email}}"></div>
+                            
+                            
+                        </div>
+                        
+                        {% for field in form %}
+                            <p>
+                            {% for error in field.errors %}
+                            <p style="color: red">{{ error }}</p>
+                            {% endfor %}
+                            </p>
+                            {% endfor %}
+                            {% if form.non_field_errors %}
+                            <div style="color: red">
+                            <p>{{form.non_field_errors}}</p>
+                            </div>
+
+                        {% endif %}
+                        <div class="mt-5 text-center">
+                            <button class="btn btn-primary profile-button" type="submit">Guardar cambios</button>
+                            <a href="{% url 'Profile' %}">
+                                <button class="btn btn-outline-primary profile-button" type="button">Cancelar</button>
+                            </a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            
+            
+
+            
+    </div>
+</div>
+</div>
+ <!-- Bootstrap core JS-->
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js "></script>
+ <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js "></script>
+ <!-- Third party plugin JS-->
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js "></script>
+ <!-- Bootstrap -->
+ <script src="{% static 'Combi19App/js/bootstrap.bundle.min.js' %}"></script>
+ <!-- Load jQuery require for isotope -->
+ <script src="{% static 'Combi19App/js/jquery.min.js' %}"></script>
+{% endblock %} 

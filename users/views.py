@@ -1,8 +1,9 @@
+from users.models import Account
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.contrib.auth import login, authenticate, logout
 
-from users.forms import RegistrationForm, AccountAuthenticationForm
+from users.forms import AccountUpdateForm, RegistrationForm, AccountAuthenticationForm
 
 
 
@@ -36,6 +37,52 @@ def register_view(request, *args, **kwargs):
 
 def profile_view(request):
     return render(request, "users/profile.html")
+
+def editprofile_view(request, *args, **kwargs):
+    if not request.user.is_authenticated:
+        return redirect("Login")
+    try:
+        account = Account.objects.get(pk=request.user.id)
+    except Account.DoesNotExist:
+        return HttpResponse("Hubo un error")
+    if account.pk != request.user.pk:
+        return HttpResponse("No podes editar el perfil de otro")
+
+
+    context = {}
+    if request.POST:
+        form = AccountUpdateForm(request.POST, request.FILES, instance=request.user)
+        # print(form.errors)
+        if form.is_valid():   
+            form.save()
+            return redirect("Profile")
+        else:
+            form = AccountUpdateForm(request.POST, instance=request.user,
+                initial={
+                    
+                    "email": account.email,
+                    "first_name": account.first_name,
+                    "last_name": account.last_name,
+                    "dni": account.dni,
+                    "date_of_birth": account.date_of_birth
+                }
+            )
+            context['form'] = form
+    else:
+        
+        form = AccountUpdateForm(
+                initial={
+                    
+                    "email": account.email,
+                    "first_name": account.first_name,
+                    "last_name": account.last_name,
+                    "dni": account.dni,
+                    "date_of_birth": account.date_of_birth
+                }
+            )
+        context['form'] = form
+    
+    return render(request, "users/edit_profile.html", context)
 
 def misviajes_view(request):
     return render(request, "users/misviajes.html")

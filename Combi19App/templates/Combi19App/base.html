@@ -67,23 +67,24 @@
                         </li>
                     </ul>
                 </div>
-
-                <div class="btn-group" role="group">
+                <div class="navbar align-self-center">
                     <div class="btn-group" role="group">
-                        <button class="btn btn-outline-light dropdown-toggle" type="button" id="dropdownMenuButton1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i class='bx bx-help-circle bx-sm bx-tada-hover text-primary'></i>                           
-                        </button>
-                        <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-                            <a class="dropdown-item" href="#">¿Como comprar?</a>
-                            <a class="dropdown-item" href="#">¿Como cancelar un pasaje?</a>
+                        <div class="btn-group" role="group">
+                            <button class="btn btn-outline-light dropdown-toggle" type="button" id="dropdownMenuButton1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class='bx bx-help-circle bx-sm bx-tada-hover text-primary'></i>                           
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+                                <a class="dropdown-item" href="#">¿Como comprar?</a>
+                                <a class="dropdown-item" href="#">¿Como cancelar un pasaje?</a>
+                            </div>
                         </div>
                     </div>
-                <div class="btn-group" role="group">
                     <div class="btn-group" role="group">
-                        <button class="btn btn-outline-light dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i class='bx bx-user-circle bx-sm text-primary'></i>
-                            <span class="text-dark">{{ request.user.first_name }}</span>
-                        </button>
+                        <div class="btn-group" role="group">
+                            <button class="btn btn-outline-light dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class='bx bx-user-circle bx-sm text-primary'></i>
+                                <span class="text-dark">{{ request.user.first_name }}</span>
+                            </button>
                             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                 <a class="dropdown-item" href="{% url 'Profile' %}">Editar perfil</a>
                                 <a class="dropdown-item" href="{% url 'Viajes' %}">Mis Viajes</a>
@@ -93,14 +94,16 @@
                                 <a class="dropdown-item" href="{% url 'admin:index' %}">Panel de administración</a>
                                 {% endif %}
                             </div>
-                        
+                            
+                        </div>
                     </div>
-                </div>    
-                    <a class="btn btn-outline-light" href="{% url 'Logout' %}">
-                        <i class='bx bx-log-out-circle bx-sm text-primary'></i>    
-                    </a>
+                    <div>
+                        <a class="btn btn-outline-light" href="{% url 'Logout' %}">
+                            <i class='bx bx-log-out-circle bx-sm text-primary'></i>    
+                        </a>
+                    </div>
+                    </div>
                 </div>
-
                 
             </div>
         </div>
