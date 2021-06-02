@@ -127,3 +127,10 @@ class Chofer(models.Model):
     def __str__(self):
         return str(self.user)
 	
+
+class Tarjeta(models.Model):
+    nro = models.BigIntegerField()
+    nombre_titular = models.CharField(max_length= 40)
+    num_seguridad = models.IntegerField
+    cvv = models.IntegerField
+    
