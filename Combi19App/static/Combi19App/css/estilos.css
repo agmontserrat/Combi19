@@ -69,11 +69,32 @@ p, a {font-weight: 400;}
   border-color: #002c46;
 }
 
+
+.btn-outline-primary {
+  color: #002c46;
+  border-color: #002c46;
+}
+
+/* line 85, src/assets/scss/mixins/_buttons.scss */
+.btn-outline-primary:hover {
+  color: #f6f9fe;
+  background-color: #002c46;
+  border-color: #002c46;
+}
+
+
+
 .bg-primary{
   background-color: #115571 !important;
 }
 .bg-secondary{
   background-color: #002c46 !important;
+}
+.bg-secondary-nuevo{
+  background-color: #270046 !important;
+}
+.text-secondary-iconos{
+  color: #002c46 !important;
 }
 
 /* Home */

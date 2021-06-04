@@ -57,7 +57,7 @@
                             <a class="nav-link btn-outline-primary rounded-pill px-2" href="{% url 'About' %}">Sobre Nosotros</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link btn-outline-primary rounded-pill px-2" href="#">Pasajes</a>
+                            <a class="nav-link btn-outline-primary rounded-pill px-2" href="{% url 'Pasajes' %}">Pasajes</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link btn-outline-primary rounded-pill px-2" href="{% url 'Insumos' %}">Insumos</a>
@@ -89,7 +89,7 @@
                                 <a class="dropdown-item" href="{% url 'Profile' %}">Mi perfil</a>
                                 <a class="dropdown-item" href="{% url 'Viajes' %}">Mis Viajes</a>
                                 <a class="dropdown-item" href="{% url 'Tarjetas' %}">Mis tarjetas</a>
-                                <a class="dropdown-item" href="#">Suscripción GOLD</a>
+                                <a class="dropdown-item" href="{% url 'Suscripcion' %}">Suscripción GOLD</a>
                                 {% if request.user.is_superuser %}
                                 <a class="dropdown-item" href="{% url 'admin:index' %}">Panel de administración</a>
                                 {% endif %}

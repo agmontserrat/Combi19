@@ -31,3 +31,6 @@ def index (request):
         return render(request, "Combi19App/home.html")
     return render(request, "Combi19App/index.html")
 
+@login_required
+def suscripcion (request):
+    return render(request, "Combi19App/pricing.html")

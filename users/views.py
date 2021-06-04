@@ -3,7 +3,7 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.contrib.auth import login, authenticate, logout
 
-from users.forms import AccountUpdateForm, RegistrationForm, AccountAuthenticationForm
+from users.forms import AccountUpdateForm, AddCardForm, RegistrationForm, AccountAuthenticationForm
 
 
 
@@ -88,10 +88,29 @@ def misviajes_view(request):
     return render(request, "users/misviajes.html")
 
 def mistarjetas_view(request):
-
     tarjetas = Tarjeta.objects.filter(usuario_id=request.user.id)
     return render(request, "users/mistarjetas.html", {"tarjetas": tarjetas})
     
+def tarjeta_view(request, *args, **kwargs):
+    # try:
+    #     account = Account.objects.get(pk=request.user.id)
+    # except Account.DoesNotExist:
+    #     return HttpResponse("Hubo un error")
+    context = {}
+    
+    if request.POST:
+        form = AddCardForm(request.POST, instance=request.user)
+        print(form.errors)
+        if form.is_valid():
+            form.save()
+            return redirect("Tarjetas")
+        else:
+            context['form'] = form
+        
+    else:
+        form = AddCardForm()
+        context['form'] = form
+    return render(request, "users/nueva_tarjeta.html", context)
 
 def logout_view(request):
     logout(request)

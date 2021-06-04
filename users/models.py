@@ -132,7 +132,7 @@ class Tarjeta(models.Model):
     usuario = models.ForeignKey(Account, on_delete=models.CASCADE, null=True)
     nro = models.BigIntegerField()
     nombre_titular = models.CharField(max_length= 40)
-    fecha_vencimiento = models.IntegerField(default=None,null=True)
+    fecha_vencimiento = models.CharField(max_length=10 ,default=None,null=True)
     cvv = models.IntegerField(default=None, null=True)
 
     class Meta:
