@@ -1,4 +1,4 @@
-from Combi19App.models import Insumo
+from Combi19App.models import Insumo, Viaje
 from django.shortcuts import render, HttpResponse
 from django.contrib.auth.decorators import login_required
 
@@ -11,7 +11,8 @@ def home (request):
 
 @login_required
 def pasajes (request):
-    return render(request, "Combi19App/pasajes.html")
+    viajes = Viaje.objects.all()
+    return render(request, "Combi19App/pasajes.html", {"viajes": viajes})
 
 @login_required
 def insumos (request):

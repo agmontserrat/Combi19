@@ -1,4 +1,6 @@
-{% extends 'Combi19App/base.html' %} {% load static %} {% block content %}
+{% extends 'Combi19App/base.html' %} 
+{% load static %} 
+{% block content %}
 
 
 <div id="work_banner" class="banner-wrapper bg-light w-100 py-5" style="background-image: url({% static 'Combi19App/img/ruta.jpg' %}); ">
@@ -14,12 +16,12 @@
 
 
 <!-- Start Recent Work -->
-<section class="py-5 mb-5">
+<section class="py-5 ">
     <div class="container">
-        <div class="row gy-5 g-lg-5 mb-4">
+        <div class="row gy-5 g-lg-5 ">
             <div>
                 <form class="contact-form row" method="post" action="#" role="form">
-                    <div class="col-lg-4 mb-4">
+                    <div class="col-lg-4 ">
                         <div class="form-floating">
                             <input type="text" class="form-control form-control-lg light-300" id="floatingname" name="inputname" placeholder="Name">
                             <label for="floatingname light-300">Origen</label>
@@ -48,115 +50,53 @@
             </form>
         </div>
 </section>
-
-
-<!-- Start Pricing Horizontal Section -->
-<section class="bg-light pt-sm-0 py-5">
-    <div class="container py-5">
-
-        <h1 class="h2 semi-bold-600 text-center mt-2">Resultados</h1>
-
-        <!-- Start Pricing Horizontal -->
-        <div class="pricing-horizontal row col-10 m-auto d-flex shadow-sm rounded overflow-hidden bg-white">
-            <div class="pricing-horizontal-icon col-md-3 text-center bg-secondary text-light py-4">
-                <i class="display-1 bx bx-package pt-4"></i>
-                <h5 class="h5 semi-bold-600 pb-4 light-300">Gratis</h5>
-            </div>
-            <div class="pricing-horizontal-body offset-lg-1 col-md-5 col-lg-4 d-flex align-items-center pl-5 pt-lg-0 pt-4">
-                <ul class="text-left px-4 list-unstyled mb-0 light-300">
-                    <li><i class="bx bxs-circle me-2"></i>5 Usuarios</li>
-                    <li><i class="bx bxs-circle me-2"></i>2 TB espacio</li>
-                    <li><i class="bx bxs-circle me-2"></i>Blog</li>
-                </ul>
-            </div>
-            <div class="pricing-horizontal-tag col-md-4 text-center pt-3 d-flex align-items-center">
-                <div class="w-100 light-300">
-                    <p>$0</p>
-                    <a href="#" class="btn rounded-pill px-4 btn-outline-primary mb-3">Registrarse</a>
-                </div>
-            </div>
+<section class="py-5 mb-5">
+    <div class="container">
+        <div class="row gy-5 g-lg-5 mb-4"> 
+            {%  for v in viajes %}
+                <div class="col-xl-6 col-md-6 col-sm-6">
+                    <div  class="card bg-light border-0 shadow-lg overflow-hidden">
+                        <div class="card-header ">
+                            <i class='bx bx-bus'></i>
+                            <span class="semi-bold-600">De {{v.ruta.origen}} a {{v.ruta.destino}}</span>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <p class="semi-bold-600">Origen {{v.ruta.origen}}</p>
+                                </div>
+                                
+                                <div class="col-md-6 text-end">
+                                    <p class="semi-bold-600">Destino {{v.ruta.destino}}</p>
+                                    
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <img class="img-fluid rounded w-100" src="{{v.ruta.origen.imagen.url}}" alt="Card image">
+                                </div>
+                                <div class="col-md-4">
+                                    <h5 class="card-title m-2"></h5>
+                                    
+                                </div>
+                                <div class="col-md-4">
+                                    <img class="img-fluid rounded w-100" src="{{v.ruta.destino.imagen.url}}" alt="Card image">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-footer light-300">
+                            {{v.fecha}}
+                            <a href="#" class="btn btn-primary text-right">Viajar</a>
+                        </div>
+                    </div>
+                </div><!-- End Recent Work -->
+            {%  endfor %}
         </div>
-        <!-- End Pricing Horizontal -->
-
-        <!-- Start Pricing Horizontal -->
-        <div class="pricing-horizontal row col-10 m-auto d-flex shadow-sm rounded overflow-hidden my-5 bg-white">
-            <div class="pricing-horizontal-icon col-md-3 text-center bg-secondary text-light py-4">
-                <i class="display-1 bx bx-package pt-4"></i>
-                <h5 class="h5 semi-bold-600 pb-4 light-300">Básico</h5>
-            </div>
-            <div class="pricing-horizontal-body offset-lg-1 col-md-5 col-lg-4 d-flex align-items-center pl-5 pt-lg-0 pt-4">
-                <ul class="text-left px-4 list-unstyled mb-0 light-300">
-                    <li><i class="bx bxs-circle me-2"></i>25 a 99 Usuarios</li>
-                    <li><i class="bx bxs-circle me-2"></i>10 TB espacio en disco</li>
-                    <li><i class="bx bxs-circle me-2"></i>Chat</li>
-                </ul>
-            </div>
-            <div class="pricing-horizontal-tag col-md-4 text-center pt-3 d-flex align-items-center">
-                <div class="w-100 light-300">
-                    <p>$120/Año</p>
-                    <a href="#" class="btn rounded-pill px-4 btn-outline-primary mb-3">Comprar</a>
-                </div>
-            </div>
-        </div>
-        <!-- End Pricing Horizontal -->
-
-        <!-- Start Pricing Horizontal -->
-        <div class="pricing-horizontal row col-10 m-auto d-flex shadow-sm rounded overflow-hidden bg-white">
-            <div class="pricing-horizontal-icon col-md-3 text-center bg-secondary text-light py-4">
-                <i class="display-1 bx bx-package pt-4"></i>
-                <h5 class="h5 semi-bold-600 pb-4 light-300">Enterprise</h5>
-            </div>
-            <div class="pricing-horizontal-body offset-lg-1 col-md-5 col-lg-4 d-flex align-items-center pl-5 pt-lg-0 pt-4">
-                <ul class="text-left px-4 list-unstyled mb-0 light-300">
-                    <li><i class="bx bxs-circle me-2"></i>100 usuarios o mas</li>
-                    <li><i class="bx bxs-circle me-2"></i>80 TB</li>
-                    <li><i class="bx bxs-circle me-2"></i>Acceso ilimitado</li>
-                    <li><i class="bx bxs-circle me-2"></i>Configuraciones</li>
-                </ul>
-            </div>
-            <div class="pricing-horizontal-tag col-md-4 text-center pt-3 d-flex align-items-center">
-                <div class="w-100 light-300">
-                    <p>$840/Año</p>
-                    <a href="#" class="btn rounded-pill px-4 btn-outline-primary mb-3">Comprar</a>
-                </div>
-            </div>
-        </div>
-        <!-- End Pricing Horizontal -->
-
+        
     </div>
 </section>
-<!--End Pricing Horizontal Section-->
-
-<section class="container py-5">
-    <h1 class="col-12 col-xl-8 h2 text-left text-primary pt-3">Completá tus datos</h1>
-    <div>
-        <form class="contact-form row" method="post" action="#" role="form">
-            <div class="col-lg-4 mb-4">
-                <div class="form-floating">
-                    <input type="text" class="form-control form-control-lg light-300" id="floatingname" name="inputname" placeholder="Name">
-                    <label for="floatingname light-300">Forma de pago</label>
-                </div>
-            </div>
-            <!-- End Input Name -->
-
-            <div class="col-md-12 col-12 m-auto text-end">
-                <button type="submit" class="btn btn-secondary rounded-pill px-md-5 px-4 py-2 radius-0 text-light light-300">Comprar</button>
-            </div>
-    </div>
-    <!-- End Input Name -->
 
 
-    </form>
-    </div>
-    <!-- End Contact Form -->
-
-
-    </div>
-</section>
-</div>
-
-</div>
-</section>
 
 
 <!-- Bootstrap core JS-->
