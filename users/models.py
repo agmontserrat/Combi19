@@ -11,7 +11,7 @@ from datetime import date
 
 class MyAccountManager(BaseUserManager):
 
-    def create_user(self, email, dni, first_name, last_name, password=None):
+    def create_user(self, email, dni, first_name, last_name, date_of_birth , password=None):
         '''Crea una Account con el email'''
         values = [email, dni, first_name, last_name ]
         field_value_map = dict(zip(self.model.REQUIRED_FIELDS, values))
@@ -24,7 +24,8 @@ class MyAccountManager(BaseUserManager):
             dni = dni,
             first_name = first_name,
             last_name = last_name,
-            
+            date_of_birth = date_of_birth,
+            password=password,
             )
         user.set_password(password)
         user.save(using=self._db)
@@ -47,12 +48,13 @@ class MyAccountManager(BaseUserManager):
     #     return user
 
 
-    def create_superuser(self, email, dni, first_name, last_name, password):
+    def create_superuser(self, email, dni, first_name, last_name, date_of_birth, password):
         user = self.create_user(
             email = self.normalize_email(email),
             dni = dni,
             first_name = first_name,
             last_name = last_name,
+            date_of_birth = date_of_birth,
             password=password
         )
         user._is_admin =  True

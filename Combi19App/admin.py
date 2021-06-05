@@ -17,7 +17,7 @@ class RutaAdmin(admin.ModelAdmin):
     list_display=['origen','destino','km','nombre']
 
 class ViajeAdmin(admin.ModelAdmin):
-    list_display=['fecha','ruta','combi','estado']
+    list_display=['fecha','ruta','combi','estado','precio']
 
 class InsumoAdmin(admin.ModelAdmin):
     list_display = ['nombre','descripcion','precio','cantidad']

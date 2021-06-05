@@ -1,7 +1,7 @@
 from Combi19App.models import Insumo, Viaje
 from django.shortcuts import render, HttpResponse
 from django.contrib.auth.decorators import login_required
-
+from .filters import ViajeFilter
 
 
 # Aca creamos nuestras vistas.
@@ -12,7 +12,13 @@ def home (request):
 @login_required
 def pasajes (request):
     viajes = Viaje.objects.all()
-    return render(request, "Combi19App/pasajes.html", {"viajes": viajes})
+
+    miFiltro = ViajeFilter(request.GET, queryset=viajes)
+
+    viajes = miFiltro.qs
+
+    context = {"viajes": viajes, 'miFiltro': miFiltro}
+    return render(request, "Combi19App/pasajes.html", context)
 
 @login_required
 def insumos (request):

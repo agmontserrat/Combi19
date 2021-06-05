@@ -2,9 +2,9 @@ from django.db import models
 from django.db.models.expressions import F
 from django.db.models.constraints import UniqueConstraint
 from django.core.exceptions import ValidationError
-
+from django.core.validators import MinValueValidator
 # Create your models here.
-from users.models import Chofer
+from users.models import Account, Chofer
 
 class Vehiculo(models.Model):
 
@@ -58,6 +58,12 @@ class Ruta(models.Model):
     def __str__(self):
         return f'Origen: {self.origen} --> Destino: {self.destino}'
 
+class Comentario(models.Model):
+    usuario = models.ForeignKey(Account, default=None, null=True,on_delete=models.CASCADE)
+    comentario = models.CharField(max_length=100)
+
+    def __str__(self):
+        return f"{self.usuario}: {self.comentario}"
 
 class Viaje(models.Model):
     
@@ -65,8 +71,10 @@ class Viaje(models.Model):
     ruta          =   models.ForeignKey(Ruta, default=None, blank=True, null=True, on_delete=models.CASCADE)
     combi         =   models.ForeignKey(Vehiculo, blank=True, null=True, on_delete=models.CASCADE)
     estado        =   models.BooleanField(default=False)
-    # chofer        =   models.ForeignKey(Chofer, default=None, on_delete=models.PROTECT)
-    # insumo        =   models.ManyToManyField(Insumo, default="",blank=True, null=True)
+    precio        =   models.DecimalField(default=None, blank=True, null=True, max_digits=10, decimal_places=2)
+    insumo        =   models.ManyToManyField(Insumo,default=None, blank=True,)
+    pasajeros     =   models.ManyToManyField(Account, default=None, blank=True, )
+    comentarios   =   models.ManyToManyField(Comentario, default=None, blank=True, )
 
     
     class Meta:

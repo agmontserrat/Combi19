@@ -1,5 +1,6 @@
 {% extends 'Combi19App/base.html' %} 
 {% load static %} 
+{% load bootstrap %}
 {% block content %}
 
 
@@ -19,41 +20,42 @@
 <section class="py-5 ">
     <div class="container">
         <div class="row gy-5 g-lg-5 ">
-            <div>
-                <form class="contact-form row" method="post" action="#" role="form">
-                    <div class="col-lg-4 ">
+                <form class="form-control col-md-5" method="get" action="#" role="form">
+                    {{miFiltro.form|bootstrap}}
+
+                
+
+                    <!-- <div class="col-lg-4 ">
                         <div class="form-floating">
                             <input type="text" class="form-control form-control-lg light-300" id="floatingname" name="inputname" placeholder="Name">
                             <label for="floatingname light-300">Origen</label>
                         </div>
-                    </div>
+                    </div> -->
                     <!-- End Input Name -->
 
-                    <div class="col-lg-4 mb-4">
+                    <!-- <div class="col-lg-4 mb-4">
                         <div class="form-floating">
                             <input type="text" class="form-control form-control-lg light-300" id="floatingemail" name="inputemail" placeholder="Email">
                             <label for="floatingemail light-300">Destino</label>
                         </div>
-                    </div>
+                    </div> -->
                     <!-- End Input Email -->
-                    <div class="col-lg-4 mb-4">
+                    <!-- <div class="col-lg-4 mb-4">
                         <div class="form-floating">
                             <input type="date" class="form-control form-control-lg light-300" id="floatingname" name="inputname" placeholder="Name">
                             <label for="floatingname light-300">Fecha</label>
                         </div>
-                    </div>
-                    <div class="col-md-12 col-12 m-auto text-end">
+                    </div>-->
+                    <div class="col-md-12 col-12 m-auto py-2 text-end">
                         <button type="submit" class="btn btn-secondary rounded-pill px-md-5 px-4 py-2 radius-0 text-light light-300">Buscar viaje</button>
-                    </div>
-            </div>
-            <!-- End Input Name -->
-            </form>
+                    </div> 
+                </form>
         </div>
 </section>
 <section class="py-5 mb-5">
     <div class="container">
         <div class="row gy-5 g-lg-5 mb-4"> 
-            {%  for v in viajes %}
+            {%  for v in miFiltro.qs %}
                 <div class="col-xl-6 col-md-6 col-sm-6">
                     <div  class="card bg-light border-0 shadow-lg overflow-hidden">
                         <div class="card-header ">
@@ -63,24 +65,40 @@
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-md-6">
-                                    <p class="semi-bold-600">Origen {{v.ruta.origen}}</p>
+                                    <p class="semi-bold-600">Origen</p>
                                 </div>
                                 
                                 <div class="col-md-6 text-end">
-                                    <p class="semi-bold-600">Destino {{v.ruta.destino}}</p>
+                                    <p class="semi-bold-600">Destino</p>
                                     
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-md-4">
-                                    <img class="img-fluid rounded w-100" src="{{v.ruta.origen.imagen.url}}" alt="Card image">
+                                <div class="col-md-5">
+                                    <div href="#" class="card border-0 text-white shadow-sm overflow-hidden mx-5 m-sm-0">
+                                        <img class="card-img" src="{{v.ruta.origen.imagen.url}}" alt="San Fer. del Valle de Catamarca ">
+                                        <div class="service-work-vertical card-img-overlay d-flex align-items-end">
+                                            <div class="service-work-content text-left text-light">
+                                                <span class="btn btn-outline-light rounded-pill mb-lg-3 px-lg-4 light-300">{{v.ruta.origen}}</span>
+                                                
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="col-md-4">
-                                    <h5 class="card-title m-2"></h5>
+                                <div class="col-md-2">
+
+                                </div>
+                                <div class="col-md-5">
                                     
-                                </div>
-                                <div class="col-md-4">
-                                    <img class="img-fluid rounded w-100" src="{{v.ruta.destino.imagen.url}}" alt="Card image">
+                                    <div href="#" class="card border-0 text-white shadow-sm overflow-hidden mx-5 m-sm-0">
+                                        <img class="card-img" src="{{v.ruta.destino.imagen.url}}" alt="San Fer. del Valle de Catamarca ">
+                                        <div class="service-work-vertical card-img-overlay d-flex align-items-end">
+                                            <div class="service-work-content text-left text-light">
+                                                <span class="btn btn-outline-light rounded-pill mb-lg-3 px-lg-4 light-300">{{v.ruta.destino}}</span>
+                                                
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
