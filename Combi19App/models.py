@@ -75,7 +75,7 @@ class Viaje(models.Model):
     insumo        =   models.ManyToManyField(Insumo,default=None, blank=True,)
     pasajeros     =   models.ManyToManyField(Account, default=None, blank=True, )
     comentarios   =   models.ManyToManyField(Comentario, default=None, blank=True, )
-
+    asientos_ocupados = models.IntegerField(default=0, null=True, blank=True)
     
     class Meta:
         unique_together = ('fecha', 'combi')

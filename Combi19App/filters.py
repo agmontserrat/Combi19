@@ -12,5 +12,5 @@ class ViajeFilter(django_filters.FilterSet):
     class Meta:
         model = Viaje
         fields = '__all__'
-        exclude = ['fecha', 'ruta','combi', 'estado', 'pasajeros', 'insumo', 'comentarios', 'precio']
+        exclude = ['fecha', 'ruta','combi', 'estado', 'pasajeros', 'insumo', 'comentarios', 'precio', 'asientos_ocupados']
 

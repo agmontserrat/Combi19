@@ -63,23 +63,15 @@
                             <span class="semi-bold-600">De {{v.ruta.origen}} a {{v.ruta.destino}}</span>
                         </div>
                         <div class="card-body">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <p class="semi-bold-600">Origen</p>
-                                </div>
-                                
-                                <div class="col-md-6 text-end">
-                                    <p class="semi-bold-600">Destino</p>
-                                    
-                                </div>
-                            </div>
+                    
                             <div class="row">
                                 <div class="col-md-5">
+                                    <label for="Origen" class="semi-bold-600">Origen</label>
                                     <div href="#" class="card border-0 text-white shadow-sm overflow-hidden mx-5 m-sm-0">
                                         <img class="card-img" src="{{v.ruta.origen.imagen.url}}" alt="San Fer. del Valle de Catamarca ">
                                         <div class="service-work-vertical card-img-overlay d-flex align-items-end">
                                             <div class="service-work-content text-left text-light">
-                                                <span class="btn btn-outline-light rounded-pill mb-lg-3 px-lg-4 light-300">{{v.ruta.origen}}</span>
+                                                <span class="btn btn-outline-light rounded-pill mb-lg-3 px-lg-4 light-300" id="Origen">{{v.ruta.origen}}</span>
                                                 
                                             </div>
                                         </div>
@@ -89,12 +81,12 @@
 
                                 </div>
                                 <div class="col-md-5">
-                                    
+                                    <label for="Destino" class="semi-bold-600 text-end">Destino</label>
                                     <div href="#" class="card border-0 text-white shadow-sm overflow-hidden mx-5 m-sm-0">
                                         <img class="card-img" src="{{v.ruta.destino.imagen.url}}" alt="San Fer. del Valle de Catamarca ">
                                         <div class="service-work-vertical card-img-overlay d-flex align-items-end">
                                             <div class="service-work-content text-left text-light">
-                                                <span class="btn btn-outline-light rounded-pill mb-lg-3 px-lg-4 light-300">{{v.ruta.destino}}</span>
+                                                <span class="btn btn-outline-light rounded-pill mb-lg-3 px-lg-4 light-300" id="Destino">{{v.ruta.destino}}</span>
                                                 
                                             </div>
                                         </div>
@@ -104,7 +96,7 @@
                         </div>
                         <div class="card-footer light-300">
                             {{v.fecha}}
-                            <a href="#" class="btn btn-primary text-right">Viajar</a>
+                            <a href="#" class="btn btn-primary text-end">Viajar</a>
                         </div>
                     </div>
                 </div><!-- End Recent Work -->

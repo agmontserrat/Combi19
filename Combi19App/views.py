@@ -2,7 +2,7 @@ from Combi19App.models import Insumo, Viaje
 from django.shortcuts import render, HttpResponse
 from django.contrib.auth.decorators import login_required
 from .filters import ViajeFilter
-
+from django.db.models import F
 
 # Aca creamos nuestras vistas.
 @login_required
@@ -11,7 +11,7 @@ def home (request):
 
 @login_required
 def pasajes (request):
-    viajes = Viaje.objects.all()
+    viajes = Viaje.objects.all().filter(asientos_ocupados__lt= F('combi__capacidad') )
 
     miFiltro = ViajeFilter(request.GET, queryset=viajes)
 
