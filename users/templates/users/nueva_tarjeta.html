@@ -20,7 +20,7 @@
                                     <label for="name">Nombre</label><small> <space></space>(en mayuscula)</small>
                                     
                                     <div class="input-group">
-                                        <input class="form-control" name="nombre_titular" id="nombre_titular" type="text" placeholder="MARIA PAZ GARCIA">
+                                        <input class="form-control" name="nombre_titular" id="nombre_titular" type="text" placeholder="MARIA PAZ GARCIA" value="{% if form.initial %} {{form.initial.nombre_titular }} {% endif %}">
                                         <div class="input-group-append">
                                             <span class="input-group-text">
                                                 <i class='bx bxs-user p-1'></i>
@@ -35,7 +35,7 @@
                                 <div class="form-group">
                                     <label for="ccnumber">Numero de la tarjeta </label><small> <space></space>(sin espacios)</small>
                                     <div class="input-group">
-                                        <input class="form-control" type="text" placeholder="0000000000000000"  name="nro" id="nro" autocomplete="email">
+                                        <input class="form-control" type="text" placeholder="0000000000000000"  name="nro" id="nro" autocomplete="email" value="{% if form.initial %} {{form.initial.nro }} {% endif %}">
                                         
                                         <div class="input-group-append">
                                             <span class="input-group-text">
@@ -49,14 +49,12 @@
                         <div class="row">
                             <div class="form-group col-sm-8">
                                 <label for="ccmonth">Fecha Vencimiento</label>
-                                <input class= "form-control" type="month" id="fecha_vencimiento" name="fecha_vencimiento" min="2021-01" max="2030-12">
+                                <input class= "form-control" type="month" id="fecha_vencimiento" name="fecha_vencimiento" min="2021-01" max="2030-12" value="{% if form.initial %} {{form.initial.fecha_vencimiento | date:"Y-m-d" }} {% endif %}">
                             </div>
-                            
-
                             <div class="col-sm-4">
                                 <div class="form-group">
                                     <label for="cvv">CVV/CVC</label>
-                                    <input class="form-control" name="cvv" id="cvv" type="text" placeholder="123">
+                                    <input class="form-control" name="cvv" id="cvv" type="text" placeholder="123" value="{% if form.initial %} {{form.initial.cvv }} {% endif %}">
                                 </div>
                             </div>
                         </div>
@@ -74,10 +72,15 @@
                         </div>
                     {% endif %}
                     <div class="card-footer">
+                        {% if form.initial %}
+                        <button class="btn btn-primary px-4" type="submit">
+                            Guardar</button>
+                        {% else %}
                         <button class="btn btn-primary px-4" type="submit">
                             Agregar</button>
                         <button class="btn btn-outline-danger px-4" type="reset">
                             <i class='bx bx-reset'></i> Reset</button>
+                        {% endif %}
                     </div>
                 </div>
             </form>

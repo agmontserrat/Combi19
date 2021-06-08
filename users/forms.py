@@ -1,10 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate
-
 from datetime import date
-
-from django.db.models import fields
 from django.http import request
 from users.models import Account, Tarjeta
 
@@ -48,7 +45,6 @@ class RegistrationForm(UserCreationForm):
         except Account.DoesNotExist:
             return email
         raise forms.ValidationError(f"El email {email} ya está en uso! Probá con otro.")
-
 
 class AccountAuthenticationForm(forms.ModelForm):
     password = forms.CharField(label="Password", widget=forms.PasswordInput)
@@ -143,3 +139,34 @@ class AddCardForm(forms.ModelForm):
             tarjeta.save()
         return tarjeta
     
+class EditCardForm(forms.ModelForm):
+    class Meta:
+        model = Tarjeta
+        fields = ("nro", "nombre_titular", "cvv", "fecha_vencimiento")
+
+    def clean_nro(self):
+        nro = str(self.cleaned_data['nro'])
+        if len(nro) != 16:
+            raise forms.ValidationError("Las tarjetas necesitan un número de 16 digitos.")
+        return nro
+    
+    def clean_nombre_titular(self):
+        nombre_titular = self.cleaned_data['nombre_titular']
+        if any(char.isdigit() for char in nombre_titular):
+            raise forms.ValidationError("El nombre no puede contener dígitos.")
+        return nombre_titular
+
+    def clean_fecha_vencimiento(self):
+        fecha = self.cleaned_data['fecha_vencimiento']
+        return fecha
+
+    def save(self, user=None, commit=True):
+        tarjeta = super(EditCardForm, self).save(commit=False)
+        tarjeta.usuario = user
+        tarjeta.nombre_titular= self.cleaned_data['nombre_titular']  
+        tarjeta.nro= self.cleaned_data['nro']  
+        tarjeta.fecha_vencimiento = self.cleaned_data['fecha_vencimiento']  
+        tarjeta.cvv = self.cleaned_data['cvv']
+        if commit:
+            tarjeta.save()
+        return tarjeta

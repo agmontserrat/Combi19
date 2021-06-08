@@ -11,5 +11,5 @@ urlpatterns = [
     path ('viajes/', views.misviajes_view, name = "Viajes"),
     path ('tarjetas', views.mistarjetas_view, name = "Tarjetas"),
     path ('tarjetas/agregar', views.tarjeta_view, name = "Nueva Tarjeta"),
-    path ('tarjetas/editar', views.edit_tarjeta_view, name = "Editar Tarjeta"),
+    path ('tarjetas/editar<tarjeta_id>', views.edit_tarjeta_view, name = "Editar Tarjeta"),
 ]

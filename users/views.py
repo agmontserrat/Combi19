@@ -3,7 +3,7 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.contrib.auth import login, authenticate, logout
 
-from users.forms import AccountUpdateForm, AddCardForm, RegistrationForm, AccountAuthenticationForm
+from users.forms import AccountUpdateForm, AddCardForm, RegistrationForm, AccountAuthenticationForm, EditCardForm
 
 
 
@@ -113,44 +113,48 @@ def tarjeta_view(request, *args, **kwargs):
     return render(request, "users/nueva_tarjeta.html", context)
 
 def edit_tarjeta_view(request, *args, **kwargs):
+    tarjeta_id = kwargs.get("tarjeta_id")
+    print(tarjeta_id)
     try:
-        tarjeta = Tarjeta.objects.get(usuario=request.user.id)
+        tarjeta = Tarjeta.objects.get(pk=tarjeta_id)
     except Tarjeta.DoesNotExist:
         return HttpResponse("Hubo un error")
+
     
-
-
     context = {}
     if request.POST:
-        form = AddCardForm(request.POST, request.FILES, instance=request.user)
-        # print(form.errors)
+        form = EditCardForm(request.POST, instance=tarjeta)
+        print(form)
         if form.is_valid():   
-            form.save()
+            form.save(user=request.user)
+            
             return redirect("Tarjetas")
         else:
-            form = AddCardForm(request.POST, instance=request.user,
+            form = EditCardForm(request.POST,  instance=tarjeta,
                 initial={
                     "nro": tarjeta.nro,
                     "nombre_titular": tarjeta.nombre_titular,
                     "cvv": tarjeta.cvv,
                     "fecha_vencimiento": tarjeta.fecha_vencimiento,
+                    "usuario" : tarjeta.usuario
                 }
             )
             context['form'] = form
     else:
-        
-        form = AccountUpdateForm(
+        form = EditCardForm( 
                 initial={
-                    
                     "nro": tarjeta.nro,
                     "nombre_titular": tarjeta.nombre_titular,
                     "cvv": tarjeta.cvv,
                     "fecha_vencimiento": tarjeta.fecha_vencimiento,
+                    "usuario" : tarjeta.usuario
                 }
             )
         context['form'] = form
     
     return render(request, "users/nueva_tarjeta.html", context)
+
+
 def logout_view(request):
     logout(request)
     return redirect("Home")
