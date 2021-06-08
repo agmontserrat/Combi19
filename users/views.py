@@ -114,7 +114,6 @@ def tarjeta_view(request, *args, **kwargs):
 
 def edit_tarjeta_view(request, *args, **kwargs):
     tarjeta_id = kwargs.get("tarjeta_id")
-    print(tarjeta_id)
     try:
         tarjeta = Tarjeta.objects.get(pk=tarjeta_id)
     except Tarjeta.DoesNotExist:
@@ -153,6 +152,21 @@ def edit_tarjeta_view(request, *args, **kwargs):
         context['form'] = form
     
     return render(request, "users/nueva_tarjeta.html", context)
+
+
+def delete_tarjeta_view(request, *args, **kwargs):
+    tarjeta_id = kwargs.get("tarjeta_id")
+    try:
+        tarjeta = Tarjeta.objects.get(pk=tarjeta_id)
+    except Tarjeta.DoesNotExist:
+        return HttpResponse("Hubo un error")
+    context = {"tarjeta":tarjeta}
+
+    if request.POST:
+        tarjeta.delete()
+        return redirect("Tarjetas")
+
+    return render(request, "users/eliminar_tarjeta.html", context)
 
 
 def logout_view(request):

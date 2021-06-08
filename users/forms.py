@@ -140,6 +140,7 @@ class AddCardForm(forms.ModelForm):
         return tarjeta
     
 class EditCardForm(forms.ModelForm):
+
     class Meta:
         model = Tarjeta
         fields = ("nro", "nombre_titular", "cvv", "fecha_vencimiento")

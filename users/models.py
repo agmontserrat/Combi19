@@ -137,6 +137,9 @@ class Tarjeta(models.Model):
     fecha_vencimiento = models.CharField(max_length=10 ,default=None,null=True)
     cvv = models.IntegerField(default=None, null=True)
 
+    def __str__(self):
+        return str(self.nro)
+
     class Meta:
         verbose_name="Tarjeta"
         verbose_name_plural="Tarjetas" 
