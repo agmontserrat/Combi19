@@ -123,6 +123,18 @@ class AddCardForm(forms.ModelForm):
         if any(char.isdigit() for char in nombre_titular):
             raise forms.ValidationError("El nombre no puede contener dígitos.")
         return nombre_titular
+    
+    def clean_cvv(self):
+        if len(str(self.cleaned_data['cvv']))>3:
+            raise forms.ValidationError('El CVV debe ser de 3 digitos')
+    
+    def clean_numero_existente(self):
+        nro = self.cleaned_data['nro']
+        try:
+            account = Account.objects.exclude(pk=self.instance.pk).get(nro=nro)
+        except Account.DoesNotExist:
+            return nro
+        raise forms.ValidationError(f"Ya existe una tarrjeta con ese numero {nro} ")
 
     def clean_fecha_vencimiento(self):
         fecha = self.cleaned_data['fecha_vencimiento']
@@ -156,6 +168,10 @@ class EditCardForm(forms.ModelForm):
         if any(char.isdigit() for char in nombre_titular):
             raise forms.ValidationError("El nombre no puede contener dígitos.")
         return nombre_titular
+
+    def clean_cvv(self):
+        if len(str(self.cleaned_data['cvv']))>3:
+            raise forms.ValidationError('El CVV debe ser de 3 digitos')
 
     def clean_fecha_vencimiento(self):
         fecha = self.cleaned_data['fecha_vencimiento']
