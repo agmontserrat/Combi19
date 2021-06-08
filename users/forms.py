@@ -107,16 +107,26 @@ class AccountUpdateForm(forms.ModelForm):
             account.save()
         return account
 
+
+
 class AddCardForm(forms.ModelForm):
     class Meta:
         model = Tarjeta
         fields = ("nro", "nombre_titular", "cvv", "fecha_vencimiento")
 
     def clean_nro(self):
-        nro = str(self.cleaned_data['nro'])
-        if len(nro) != 16:
-            raise forms.ValidationError("Las tarjetas necesitan un número de 16 digitos.")
-        return nro
+        numero = self.cleaned_data['nro']
+        try:
+            tarjeta = Tarjeta.objects.all(nro = numero).exclude(usuario = self.instance)
+        except: 
+            print("HOLA ENTRASTE AL ELSE")
+            raise forms.ValidationError("Ya tenés registrada esta tarjeta")
+        else:
+            print("HOLA ENTRASTE AL EXCEPT")
+            numero = str(numero)
+            if len(numero) != 16:
+                raise forms.ValidationError("Las tarjetas necesitan un número de 16 digitos.")
+            return numero
     
     def clean_nombre_titular(self):
         nombre_titular = self.cleaned_data['nombre_titular']
@@ -139,17 +149,30 @@ class AddCardForm(forms.ModelForm):
             tarjeta.save()
         return tarjeta
     
+
+
 class EditCardForm(forms.ModelForm):
 
     class Meta:
         model = Tarjeta
         fields = ("nro", "nombre_titular", "cvv", "fecha_vencimiento")
 
+    def __init__(self, usuario, *args, **kwargs):
+        self.usuario = usuario
+        super(EditCardForm, self).__init__(self,  usuario,*args, **kwargs)
+
     def clean_nro(self):
-        nro = str(self.cleaned_data['nro'])
-        if len(nro) != 16:
-            raise forms.ValidationError("Las tarjetas necesitan un número de 16 digitos.")
-        return nro
+        numero = self.cleaned_data['nro']
+        try:
+            tarjeta = Tarjeta.objects.all(nro = numero).exclude(usuario = self.usuario)
+        except: 
+            numero = str(numero)
+            if len(numero) != 16:
+                raise forms.ValidationError("Las tarjetas necesitan un número de 16 digitos.")
+            return numero
+        else:
+            raise forms.ValidationError("Ya tenés registrada esta tarjeta")
+        
     
     def clean_nombre_titular(self):
         nombre_titular = self.cleaned_data['nombre_titular']

@@ -112,6 +112,9 @@ def tarjeta_view(request, *args, **kwargs):
         context['form'] = form
     return render(request, "users/nueva_tarjeta.html", context)
 
+
+
+
 def edit_tarjeta_view(request, *args, **kwargs):
     tarjeta_id = kwargs.get("tarjeta_id")
     try:
@@ -119,17 +122,15 @@ def edit_tarjeta_view(request, *args, **kwargs):
     except Tarjeta.DoesNotExist:
         return HttpResponse("Hubo un error")
 
-    
     context = {}
     if request.POST:
-        form = EditCardForm(request.POST, instance=tarjeta)
+        form = EditCardForm(request.POST, usuario=request.user, instance=tarjeta, )
         print(form)
         if form.is_valid():   
             form.save(user=request.user)
-            
             return redirect("Tarjetas")
         else:
-            form = EditCardForm(request.POST,  instance=tarjeta,
+            form = EditCardForm(request.POST, usuario=request.user,  instance=tarjeta,
                 initial={
                     "nro": tarjeta.nro,
                     "nombre_titular": tarjeta.nombre_titular,
@@ -140,7 +141,7 @@ def edit_tarjeta_view(request, *args, **kwargs):
             )
             context['form'] = form
     else:
-        form = EditCardForm( 
+        form = EditCardForm( usuario=request.user,
                 initial={
                     "nro": tarjeta.nro,
                     "nombre_titular": tarjeta.nombre_titular,
