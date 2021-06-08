@@ -112,6 +112,45 @@ def tarjeta_view(request, *args, **kwargs):
         context['form'] = form
     return render(request, "users/nueva_tarjeta.html", context)
 
+def edit_tarjeta_view(request, *args, **kwargs):
+    try:
+        tarjeta = Tarjeta.objects.get(usuario=request.user.id)
+    except Tarjeta.DoesNotExist:
+        return HttpResponse("Hubo un error")
+    
+
+
+    context = {}
+    if request.POST:
+        form = AddCardForm(request.POST, request.FILES, instance=request.user)
+        # print(form.errors)
+        if form.is_valid():   
+            form.save()
+            return redirect("Tarjetas")
+        else:
+            form = AddCardForm(request.POST, instance=request.user,
+                initial={
+                    "nro": tarjeta.nro,
+                    "nombre_titular": tarjeta.nombre_titular,
+                    "cvv": tarjeta.cvv,
+                    "fecha_vencimiento": tarjeta.fecha_vencimiento,
+                }
+            )
+            context['form'] = form
+    else:
+        
+        form = AccountUpdateForm(
+                initial={
+                    
+                    "nro": tarjeta.nro,
+                    "nombre_titular": tarjeta.nombre_titular,
+                    "cvv": tarjeta.cvv,
+                    "fecha_vencimiento": tarjeta.fecha_vencimiento,
+                }
+            )
+        context['form'] = form
+    
+    return render(request, "users/nueva_tarjeta.html", context)
 def logout_view(request):
     logout(request)
     return redirect("Home")

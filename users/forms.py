@@ -143,5 +143,3 @@ class AddCardForm(forms.ModelForm):
             tarjeta.save()
         return tarjeta
     
-class DeleteCardForm(forms.ModelForm):
-    pass

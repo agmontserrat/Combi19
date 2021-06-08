@@ -6,7 +6,7 @@
     <div class="container-lg py-5">
         <div class="col-md-12 m-auto text-center py-5">
             <h1 class="pricing-header h2 semi-bold-600">¿Que tipo de usuario querés ser?</h1>
-            <p class="pricing-footer">
+            <p class="pricing-footer light-300">
                 Ofrecemos un plan básico para los usuarios regulares, y un plan GOLD que beneficia mucho a los viajeros frecuentes.
             </p>
         </div>
@@ -18,35 +18,47 @@
             <div class="col-md-6 pb-5 pt-sm-0 mt-5 px-xl-3">
                 <div class="pricing-table card h-100 shadow-sm border-0 py-5">
                     <div class="pricing-table-body card-body rounded-pill text-center align-self-center p-md-0">
-                        <i class="pricing-table-icon display-3 bx bx-package text-secondary"></i>
+                        <i class="pricing-table-icon display-3 bx bx-package text-secondary-iconos "></i>
                         <h2 class="pricing-table-heading h5 semi-bold-600">Plan Básico</h2>
                         <p>$0</p>
                         <ul class="pricing-table-body text-start text-dark px-4 list-unstyled light-300">
                             <li><i class="bx bxs-circle me-2"></i>Paga el total de todos los pasajes</li>
                             
                         </ul>
-                        <div class="pricing-table-footer pt-5">
-                            <a href="#" class="btn rounded-pill px-4 btn-outline-primary light-300">Registrarse</a>
-                        </div>
+                        {% if request.user.is_GOLD %}
+                            <div class="pricing-table-footer pt-5">
+                                <a href="#" class="btn rounded-pill px-4 btn-outline-primary light-300">Adquirir</a>
+                            </div>
+                        {% else %}
+                            <div class="pricing-table-footer pt-5">
+                                <a href="#" class="btn disabled rounded-pill px-4  light-300">Ya tenés este paquete</a>
+                            </div>
+                        {% endif %}
                     </div>
                 </div>
             </div>
 
 
             <div class="col-md-6 pt-sm-0 pt-3 px-xl-3">
-                <div class="pricing-table card bg-secondary h-100 card-rounded shadow-sm border-0 py-5">
+                <div class="pricing-table card bg-secondary-nuevo h-100 card-rounded shadow-sm border-0 py-5">
                     <div class="pricing-table-body card-body text-center text-white align-self-center p-md-0">
                         <i class="pricing-table-icon display-3 bx bx-package text-white py-3"></i>
                         <h2 class="pricing-table-heading h5 semi-bold-600">Plan GOLD</h2>
                         <p>$120/Mes</p>
                         <ul class="pricing-table-list text-start text-dark px-4 list-unstyled light-300">
-                            <li class="text-white"><i class="bx bxs-circle me-2"></i>10% de descuentos en todos los viajes.</li>
+                            <li class="text-white  mx-2"><i class="bx bxs-circle"></i>10% de descuentos en todos los viajes.</li>
                             
                             
                         </ul>
-                        <div class="pricing-table-footer pt-5 pb-2">
-                            <a href="#" class="btn rounded-pill px-4 btn-outline-light light-300">Comprar</a>
-                        </div>
+                        {% if request.user.is_GOLD %}
+                            <div class="pricing-table-footer pt-5 pb-2">
+                                <a href="#" class=" disabled btn rounded-pill px-4 btn-outline-light light-300">Ya tenés este paquete</a>
+                            </div>
+                        {% else %}
+                            <div class="pricing-table-footer pt-5 pb-2">
+                                <a href="#" class="btn rounded-pill px-4 btn-outline-light light-300">Adquirir</a>
+                            </div>
+                        {% endif %}
                     </div>
                 </div>
             </div>
@@ -81,7 +93,11 @@
                 <div class="pricing-horizontal-tag col-md-4 text-center pt-3 d-flex align-items-center">
                     <div class="w-100 light-300">
                         <p>$0</p>
-                        <a href="#" class="btn rounded-pill px-4 btn-outline-primary mb-3">Registrarse</a>
+                        {% if request.user.is_GOLD %}
+                        <a href="#" class="btn rounded-pill px-4 btn-outline-primary mb-3">Adquirir</a>
+                        {% else %}
+                        <a href="#" class="disabled btn rounded-pill px-4  mb-3">Ya tenés este paquete</a>
+                        {% endif %}
                     </div>
                 </div>
             </div>
@@ -102,7 +118,11 @@
                 <div class="pricing-horizontal-tag col-md-4 text-center pt-3 d-flex align-items-center">
                     <div class="w-100 light-300">
                         <p>$1000/Año</p>
-                        <a href="#" class="btn rounded-pill px-4 btn-outline-primary mb-3">Comprar</a>
+                        {% if request.user.is_GOLD %}
+                            <a href="#" class="btn disabled rounded-pill px-4 btn-outline-primary mb-3">Ya tenés este paquete</a>
+                        {% else %}
+                            <a href="#" class="btn rounded-pill px-4 btn-outline-primary mb-3">Adquirir</a>
+                        {% endif %}
                     </div>
                 </div>
             </div>
