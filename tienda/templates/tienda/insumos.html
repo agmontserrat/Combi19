@@ -2,7 +2,16 @@
 
 {% load static %}
 {% block content %}
-  
+  <head>
+    <style>
+      .left{
+    float: left;
+}
+.right{
+    float: right;
+}
+    </style>
+  </head>
     <div id="work_banner" class="banner-wrapper bg-light w-100 py-5" style="background-image: url({% static 'Combi19App/img/pochoclo.jpg' %}); ">
         
         <div class="banner-vertical-center-work container text-light d-flex justify-content-center align-items-center py-5 p-0">
@@ -17,11 +26,11 @@
         <!-- Start Recent Work -->
         <section class="py-5 mb-5">
             <div class="container">
-                <div>
-                    <p style="color: black;">Total: ${{importe_total}}</p>
+                <div class="left">
+                  <br>
                     {%include "carro/widget.html"%}
                 </div>
-                <div class="row gy-5 g-lg-5 mb-4"> 
+                <div class="row gy-5 g-lg-5 mb-4" class="right"> 
                     {%  for i in insumos %}
                     <div class="col-xl-4 col-md-5 col-sm-12">
                         <div class="card border-0 shadow-sm overflow-hidden mx-2 m-sm-0 mb-3" style="width: 18rem; ">
