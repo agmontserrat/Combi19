@@ -22,7 +22,7 @@ urlpatterns = [
     path('admin/', admin.site.urls,),
     path('', include('Combi19App.urls')),
     path('', include('users.urls')),
-    path('tienda', include('tienda.urls')),
+    path('', include('tienda.urls')),
 ]
 
 if settings.DEBUG:
