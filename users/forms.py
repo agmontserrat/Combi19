@@ -4,7 +4,7 @@ from django.contrib.auth import authenticate
 from datetime import date
 from django.http import request
 from users.models import Account, Tarjeta
-
+from django.db.models import Q
 from django import forms
 
 
@@ -112,19 +112,19 @@ class AccountUpdateForm(forms.ModelForm):
 class AddCardForm(forms.ModelForm):
     class Meta:
         model = Tarjeta
-        fields = ("nro", "nombre_titular", "cvv", "fecha_vencimiento")
+        fields = ("nro", "nombre_titular", "cvv", "fecha_vencimiento",)
 
     def clean_nro(self):
         numero = self.cleaned_data['nro']
         try:
-            tarjeta = Tarjeta.objects.all(nro = numero).exclude(usuario = self.instance)
-        except: 
-            raise forms.ValidationError("Ya tenés registrada esta tarjeta")
-        else:
+            tarjeta = Tarjeta.objects.get(Q(nro = numero) & Q(usuario = self.instance))
+        except Exception as E:
             numero = str(numero)
             if len(numero) != 16:
                 raise forms.ValidationError("Las tarjetas necesitan un número de 16 digitos.")
             return numero
+        else:
+            raise forms.ValidationError("Ya tenés registrada esta tarjeta")
     
     def clean_nombre_titular(self):
         nombre_titular = self.cleaned_data['nombre_titular']
@@ -133,16 +133,10 @@ class AddCardForm(forms.ModelForm):
         return nombre_titular
     
     def clean_cvv(self):
-        if len(str(self.cleaned_data['cvv']))>3:
+        cvv = self.cleaned_data['cvv']
+        if len(str(cvv))>3:
             raise forms.ValidationError('El CVV debe ser de 3 digitos')
-    
-    def clean_numero_existente(self):
-        nro = self.cleaned_data['nro']
-        try:
-            account = Account.objects.exclude(pk=self.instance.pk).get(nro=nro)
-        except Account.DoesNotExist:
-            return nro
-        raise forms.ValidationError(f"Ya existe una tarrjeta con ese numero {nro} ")
+        return cvv
 
     def clean_fecha_vencimiento(self):
         fecha = self.cleaned_data['fecha_vencimiento']
@@ -175,7 +169,9 @@ class EditCardForm(forms.ModelForm):
         numero = self.cleaned_data['nro']
         try:
             tarjeta = Tarjeta.objects.all(nro = numero).exclude(usuario = self.usuario)
-        except: 
+        except Exception as E: 
+            print("HOLAAAA")
+            print(E)
             raise forms.ValidationError("Ya tenés registrada esta tarjeta")
         else:
             numero = str(numero)

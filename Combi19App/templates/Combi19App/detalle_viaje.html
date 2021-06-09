@@ -64,9 +64,9 @@
                         <div class="col-md-4 px-3 d-flex  flex-column justify-content-end">
                             {% if request.user.is_GOLD %}
                                 <span class="h5 text-end text-muted text-decoration-strike" style="text-decoration: line-through;">{{viaje.precio}} </span>
-                                <span class="h5 text-end total-precio">{{viaje.precio | porcentaje:0.1}}</span>
+                                <span class="h5 text-end" id="total-precio-gold">{{viaje.precio | porcentaje:0.1}}</span>
                             {% else %}
-                                <p class=" h5 text-end total-precio">{{viaje.precio}}</p>
+                                <p class=" h5 text-end" id="total-precio">{{viaje.precio}}</p>
                             {% endif %}
                         </div>
                     </div>
@@ -86,10 +86,22 @@
                 <label class="custom-control-label" for="credit">{{t.nro}}</label>
                 </div>
             {% endfor%}
+
+            <!-- {% load define_action %}
+            {% if request.user.is_GOLD %}
+              {% with precio={viaje.precio | porcentaje:0.1} %}
+                {% define precio as total %}
+              {% endwith %}
             
+            {% else %}            
+              {% with precio={viaje.precio} %}
+                {% define precio as total %}
+              {% endwith %}
+            
+            {% endif %}   -->
           </div>
           <hr class="mb-4">
-          <button class="btn btn-primary btn-lg btn-block " id="boton-listo" type="button" onclick="showDiv()">Listo</button>
+          <button class="btn btn-primary btn-lg btn-block " id="boton-listo" type="button" onclick="showDiv({action})">Listo</button>
           <div class="text-end" style="display:none;" id="final-form">
             <h4 class="mb-3 " id="mostrar">Total: </h4>          
             <button class="btn btn-primary btn-lg btn-block"  type="submit">Confirmar compra</button>
@@ -105,16 +117,19 @@
 <script>
     const form = document.getElementById("formulario")
 
-    function showDiv() {
+    function showDiv(precio) {
         document.getElementById('final-form').style.display = "block";
         document.getElementById("boton-listo").style.display = "none"
 
-        var total = document.getElementById("total-precio").value  
-        var cantidad = document.getElementById("cantidad").value
-        // total = parseInt(total, 10);
-        // cantidad = parseInt(cantidad, 10);
+        console.log(precio)
+        
+        console.log(document.getElementById("total-precio-gold") )
+        var cantidad = parseInt(document.getElementById("cantidad").value,10)
+        
+        console.log(typeof(cantidad))
+
         document.getElementById("cantidad").setAttribute("readonly", true);
-        console.log(total)
+        
         console.log(cantidad)
         document.getElementById("mostrar").innerHTML = "Total:" + (total * cantidad)
     }
