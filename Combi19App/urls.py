@@ -9,6 +9,7 @@ urlpatterns = [
     path('pasajes', views.pasajes, name="Pasajes"),
     path('contacto', views.contacto, name="Contacto"),
     path('suscripcion', views.suscripcion, name="Suscripcion"),
+    path ('pasajes/comprar<v_id>', views.comprar_pasaje, name = "Comprar Pasaje"),
     path('', views.index, name="Index")
     
 ]

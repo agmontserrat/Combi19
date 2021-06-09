@@ -1,5 +1,6 @@
+from users.models import Tarjeta
 from Combi19App.models import Insumo, Viaje
-from django.shortcuts import render, HttpResponse
+from django.shortcuts import render, HttpResponse, redirect
 from django.contrib.auth.decorators import login_required
 from .filters import ViajeFilter
 from django.db.models import F
@@ -19,6 +20,22 @@ def pasajes (request):
 
     context = {"viajes": viajes, 'miFiltro': miFiltro}
     return render(request, "Combi19App/pasajes.html", context)
+
+@login_required
+def comprar_pasaje(request, *args, **kwargs):
+    viaje_id = kwargs.get("v_id")
+    try: 
+        viaje = Viaje.objects.get(pk = viaje_id)
+    except:
+        return HttpResponse("Hubo un error")
+
+    try: 
+        tarjetas_usuario = Tarjeta.objects.filter(usuario_id=request.user.id)
+    except Exception as E: #No tenemos tarjetas
+        return redirect("Tarjetas")
+        
+    context = {"viaje": viaje, "tarjetas": tarjetas_usuario}
+    return render(request, "Combi19App/detalle_viaje.html", context)
 
 @login_required
 def insumos (request):

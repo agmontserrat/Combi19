@@ -21,35 +21,12 @@
 <section class="py-5 ">
     <div class="container">
         <div class="row gy-5 g-lg-5 ">
-                <form class="form-control col-md-5" method="get" action="#" role="form">
+                <form class="form-control col-md-5" id="formularioFiltros" method="get" action="#" role="form">
                     {{miFiltro.form|bootstrap}}
-
-                
-
-                    <!-- <div class="col-lg-4 ">
-                        <div class="form-floating">
-                            <input type="text" class="form-control form-control-lg light-300" id="floatingname" name="inputname" placeholder="Name">
-                            <label for="floatingname light-300">Origen</label>
-                        </div>
-                    </div> -->
-                    <!-- End Input Name -->
-
-                    <!-- <div class="col-lg-4 mb-4">
-                        <div class="form-floating">
-                            <input type="text" class="form-control form-control-lg light-300" id="floatingemail" name="inputemail" placeholder="Email">
-                            <label for="floatingemail light-300">Destino</label>
-                        </div>
-                    </div> -->
-                    <!-- End Input Email -->
-                    <!-- <div class="col-lg-4 mb-4">
-                        <div class="form-floating">
-                            <input type="date" class="form-control form-control-lg light-300" id="floatingname" name="inputname" placeholder="Name">
-                            <label for="floatingname light-300">Fecha</label>
-                        </div>
-                    </div>-->
+                    <div id= "error"></div> 
                     <div class="col-md-12 col-12 m-auto py-2 text-end">
                         <button type="submit" class="btn btn-secondary rounded-pill px-md-5 px-4 py-2 radius-0 text-light light-300">Buscar viaje</button>
-                    </div> 
+                    </div>
                 </form>
         </div>
 </section>
@@ -59,42 +36,7 @@
             {%  for v in miFiltro.qs %}
                 <div class="col-xl-6 col-md-12 col-sm-12">
                     <div  class="card bg-light border-0 shadow-lg overflow-hidden">
-                        <!-- <div class="card-header ">
-                            <i class='bx bx-bus'></i>
-                            <span class="semi-bold-600">De {{v.ruta.origen}} a {{v.ruta.destino}}</span>
-                        </div> -->
                         <div class="card-body">
-                    
-                            <!-- <div class="row">
-                                <div class="col-md-4">
-                                    <label for="Origen" class="semi-bold-600">Origen</label>
-                                    <div href="#" class="card border-0 text-white shadow-sm overflow-hidden mx-5 m-sm-0">
-                                        <img class="card-img" src="{{v.ruta.origen.imagen.url}}" alt="San Fer. del Valle de Catamarca ">
-                                        <div class="service-work-vertical card-img-overlay d-flex align-items-end">
-                                            <div class="service-work-content text-left text-light">
-                                                <span class="btn btn-outline-light rounded-pill mb-lg-3 px-lg-4 light-300" id="Origen">{{v.ruta.origen}}</span>
-                                                
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <p class="light-300"> </p>
-                                    <p class="light-300"> Precio: {{v.precio}}</p>
-                                </div>
-                                <div class="col-md-4">
-                                    <label for="Destino" class="semi-bold-600 text-end">Destino</label>
-                                    <div href="#" class="card border-0 text-white shadow-sm overflow-hidden mx-5 m-sm-0">
-                                        <img class="card-img" src="{{v.ruta.destino.imagen.url}}" alt="San Fer. del Valle de Catamarca ">
-                                        <div class="service-work-vertical card-img-overlay d-flex align-items-end">
-                                            <div class="service-work-content text-left text-light">
-                                                <span class="btn btn-outline-light rounded-pill mb-lg-3 px-lg-4 light-300" id="Destino">{{v.ruta.destino}}</span>
-                                                
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div> -->
                             <div class="row">
                                 <div class="col-md-4">
                                     <div href="#" class="card border-0 text-white shadow-sm overflow-hidden mx-5 m-sm-0">
@@ -117,7 +59,7 @@
                                     {% else %}
                                         <p class=" h5 text-end">{{v.precio}}</p>
                                     {% endif %}
-                                    <a href="#" class="btn btn-primary">Viajar</a>
+                                    <a href="{% url 'Comprar Pasaje' v_id=v.id %}" class="btn btn-primary">Viajar</a>
                                 </div>
                             </div>
                         </div>
@@ -143,4 +85,29 @@
 <script src="{% static 'Combi19App/js/bootstrap.bundle.min.js' %}"></script>
 <!-- Load jQuery require for isotope -->
 <script src="{% static 'Combi19App/js/jquery.min.js' %}"></script>
+
+<script>
+    const form = document.getElementById("formularioFiltros")
+    const origen = document.getElementById("id_ruta__origen__nombre");
+    const destino = document.getElementById("id_ruta__destino__nombre");
+    const elementoError = document.getElementById("error")
+
+
+    form.addEventListener('submit', (e) => {
+        let mensajes = []
+        if (origen.value !== '' || origen.value != null ) {
+            if (destino.value !== '' || destino.value != null ){
+            
+                if (origen.value === destino.value){
+                    mensajes.push("Las ciudades no pueden coincidir!")
+                }
+            }
+        }
+        
+        if (mensajes.length > 0) {
+            e.preventDefault()
+            elementoError.innerText = mensajes.join(', ')
+        }
+})
+</script>
 {% endblock %}

@@ -112,9 +112,6 @@ def tarjeta_view(request, *args, **kwargs):
         context['form'] = form
     return render(request, "users/nueva_tarjeta.html", context)
 
-
-
-
 def edit_tarjeta_view(request, *args, **kwargs):
     tarjeta_id = kwargs.get("tarjeta_id")
     try:
@@ -154,7 +151,6 @@ def edit_tarjeta_view(request, *args, **kwargs):
     
     return render(request, "users/nueva_tarjeta.html", context)
 
-
 def delete_tarjeta_view(request, *args, **kwargs):
     tarjeta_id = kwargs.get("tarjeta_id")
     try:
@@ -168,7 +164,6 @@ def delete_tarjeta_view(request, *args, **kwargs):
         return redirect("Tarjetas")
 
     return render(request, "users/eliminar_tarjeta.html", context)
-
 
 def logout_view(request):
     logout(request)

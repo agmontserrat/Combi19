@@ -119,10 +119,8 @@ class AddCardForm(forms.ModelForm):
         try:
             tarjeta = Tarjeta.objects.all(nro = numero).exclude(usuario = self.instance)
         except: 
-            print("HOLA ENTRASTE AL ELSE")
             raise forms.ValidationError("Ya tenés registrada esta tarjeta")
         else:
-            print("HOLA ENTRASTE AL EXCEPT")
             numero = str(numero)
             if len(numero) != 16:
                 raise forms.ValidationError("Las tarjetas necesitan un número de 16 digitos.")
@@ -178,12 +176,12 @@ class EditCardForm(forms.ModelForm):
         try:
             tarjeta = Tarjeta.objects.all(nro = numero).exclude(usuario = self.usuario)
         except: 
+            raise forms.ValidationError("Ya tenés registrada esta tarjeta")
+        else:
             numero = str(numero)
             if len(numero) != 16:
                 raise forms.ValidationError("Las tarjetas necesitan un número de 16 digitos.")
             return numero
-        else:
-            raise forms.ValidationError("Ya tenés registrada esta tarjeta")
         
     
     def clean_nombre_titular(self):
