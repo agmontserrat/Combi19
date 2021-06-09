@@ -14,14 +14,10 @@
             </div>
         </div>
     </div>
-<<<<<<< HEAD
-    
         <!-- Start Recent Work -->
-=======
->>>>>>> 916231c8261fb5bc74eef13236fedc1c22e9d815
         <section class="py-5 mb-5">
             <div class="container">
-                <div style= "float:right: ;">
+                <div>
                     <p style="color: black;">Total: ${{importe_total}}</p>
                     {%include "carro/widget.html"%}
                 </div>
@@ -38,7 +34,8 @@
                                   <h5 class="card-title text-end ">{{i.nombre}}</h5>
                                 
                                   <p class="card-text text-end light-300">${{  i.precio }}</p>
-                                  <span class="btn btn-outline-success rounded-pill light-300 text-end">Comprar <i class='bx bxs-cart-add'></i></span>
+                                  <a href= "{% url 'carro:agregar' i.id %}">
+                                  <span class="btn btn-outline-success rounded-pill light-300 text-end">Comprar <i class='bx bxs-cart-add'></i></span></a>
                                 </div>
                               </div>
                             </div>

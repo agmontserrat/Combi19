@@ -6,8 +6,8 @@ class Carro:
     # Para corroborar si tenia un carrito previamente guardado en la sesion
         if not carro:
             carro=self.session["carro"]={}
-        else:
-            self.carro=carro
+        #else:
+        self.carro=carro
 
     def agregar(self, insumo):
         if(str(insumo.id)not in self.carro.keys()):

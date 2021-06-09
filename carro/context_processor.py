@@ -1,6 +1,6 @@
 
 def importe_total(request):
-    total=125
+    total=0
     if request.user.is_authenticated:
         if 'carro' in request.session:
             for key,value in request.session['carro'].items():
