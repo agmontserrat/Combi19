@@ -15,7 +15,7 @@
       
       <div class="col-md-8 mx-auto">
         <h4 class="mb-3">Usuario</h4>
-        <form class="formulario pb-5" novalidate="">
+        <form class=" pb-5" id="formulario" novalidate="">
           <div class="row">
             <div class="col-md-6 mb-3">
               <label for="firstName">Nombre</label>
@@ -86,22 +86,10 @@
                 <label class="custom-control-label" for="credit">{{t.nro}}</label>
                 </div>
             {% endfor%}
-
-            <!-- {% load define_action %}
-            {% if request.user.is_GOLD %}
-              {% with precio={viaje.precio | porcentaje:0.1} %}
-                {% define precio as total %}
-              {% endwith %}
-            
-            {% else %}            
-              {% with precio={viaje.precio} %}
-                {% define precio as total %}
-              {% endwith %}
-            
-            {% endif %}   -->
           </div>
           <hr class="mb-4">
-          <button class="btn btn-primary btn-lg btn-block " id="boton-listo" type="button" onclick="showDiv({action})">Listo</button>
+          <div id= "error"></div>
+          <button class="btn btn-primary btn-lg btn-block " id="boton-listo" type="button">Listo</button>
           <div class="text-end" style="display:none;" id="final-form">
             <h4 class="mb-3 " id="mostrar">Total: </h4>          
             <button class="btn btn-primary btn-lg btn-block"  type="submit">Confirmar compra</button>
@@ -116,23 +104,35 @@
 <!-- Bootstrap core JS-->
 <script>
     const form = document.getElementById("formulario")
+    
+    const elementoError = document.getElementById("error")
+    const boton = document.getElementById("boton-listo")
 
-    function showDiv(precio) {
-        document.getElementById('final-form').style.display = "block";
-        document.getElementById("boton-listo").style.display = "none"
+    boton.addEventListener("click", (e) => {
+      let mensajes = []
+      var cantidad = parseInt(document.getElementById("cantidad").value,10)
+      if (cantidad === '' || document.getElementById("cantidad").getAttribute("min") > cantidad  ||  cantidad > document.getElementById("cantidad").getAttribute("max")) {
+          mensajes.push("La cantidad de pasajes es inválida!")
+      }
+      
+      if (mensajes.length > 0) {
+          e.preventDefault()
+          elementoError.innerText = mensajes.join(', ')
+      }
+      else{
+        document.getElementById("cantidad").setAttribute("readonly", true)
+        elementoError.innerText = ''
+        showDiv()
+        var total = document.getElementById("mostrar")
 
-        console.log(precio)
-        
-        console.log(document.getElementById("total-precio-gold") )
-        var cantidad = parseInt(document.getElementById("cantidad").value,10)
-        
-        console.log(typeof(cantidad))
-
-        document.getElementById("cantidad").setAttribute("readonly", true);
-        
-        console.log(cantidad)
-        document.getElementById("mostrar").innerHTML = "Total:" + (total * cantidad)
+        total.innerText = 'Total: HOLA '
     }
+})
+  function showDiv(precio) {
+    document.getElementById('final-form').style.display = "block";
+    document.getElementById("boton-listo").style.display = "none"
+  }
+    
 </script>
 
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>

@@ -107,8 +107,6 @@ class AccountUpdateForm(forms.ModelForm):
             account.save()
         return account
 
-
-
 class AddCardForm(forms.ModelForm):
     class Meta:
         model = Tarjeta
@@ -153,8 +151,6 @@ class AddCardForm(forms.ModelForm):
             tarjeta.save()
         return tarjeta
     
-
-
 class EditCardForm(forms.ModelForm):
 
     class Meta:
@@ -168,16 +164,14 @@ class EditCardForm(forms.ModelForm):
     def clean_nro(self):
         numero = self.cleaned_data['nro']
         try:
-            tarjeta = Tarjeta.objects.all(nro = numero).exclude(usuario = self.usuario)
-        except Exception as E: 
-            print("HOLAAAA")
-            print(E)
-            raise forms.ValidationError("Ya tenés registrada esta tarjeta")
-        else:
+            tarjeta = Tarjeta.objects.get(Q(nro = numero) & Q(usuario = self.instance))
+        except Exception as E:
             numero = str(numero)
             if len(numero) != 16:
                 raise forms.ValidationError("Las tarjetas necesitan un número de 16 digitos.")
             return numero
+        else:
+            raise forms.ValidationError("Ya tenés registrada esta tarjeta")
         
     
     def clean_nombre_titular(self):

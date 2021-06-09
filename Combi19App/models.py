@@ -73,7 +73,7 @@ class Viaje(models.Model):
     estado        =   models.BooleanField(default=False)
     precio        =   models.DecimalField(default=None, blank=True, null=True, max_digits=10, decimal_places=2)
     insumo        =   models.ManyToManyField(Insumo,default=None, blank=True,)
-    pasajeros     =   models.ManyToManyField(Account, default=None, blank=True, )
+    pasajeros     =   models.ManyToManyField(Account, default=None, blank=True,)
     comentarios   =   models.ManyToManyField(Comentario, default=None, blank=True, )
     asientos_ocupados = models.IntegerField(default=0, null=True, blank=True)
     
@@ -86,7 +86,8 @@ class Viaje(models.Model):
 
 
 class Pasaje():
-    viaje = models.ForeignKey(Viaje, on_delete=models.PROTECT)
+    viaje = models.ForeignKey(Viaje, on_delete=models.CASCADE)
+    usuario = models.ForeignKey(Account, on_delete=models.CASCADE)
     
     
 class Testeo():
