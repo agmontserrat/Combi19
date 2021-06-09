@@ -42,12 +42,10 @@ class TarjetaAdmin(admin.ModelAdmin):
     readonly_fields=['usuario','nombre_titular','nro','cvv','fecha_vencimiento',]
     fields = ['usuario','nombre_titular','nro','fecha_vencimiento',]
     list_display=['usuario','nro']
-    def has_add_permission(self, request): 
-     # Nobody is allowed to add 
+    def has_add_permission(self, request):
         return False 
-    # def has_delete_permission(self, request, obj=None): 
-    #  # Nobody is allowed to delete 
-    #     return False
+    def has_change_permission(self, request, obj=None):
+        return False
 
 admin.site.unregister(Group)
 admin.site.register(Chofer)
