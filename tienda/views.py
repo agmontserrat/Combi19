@@ -2,8 +2,9 @@ from users.models import Tarjeta
 from Combi19App.models import Viaje
 from django.shortcuts import render, HttpResponse, redirect
 from django.contrib.auth.decorators import login_required
-from .filters import ViajeFilter
+from Combi19App.filters import ViajeFilter
 from django.db.models import F
+from .models import Insumo
 
 # Aca creamos nuestras vistas.
 @login_required
@@ -37,8 +38,6 @@ def comprar_pasaje(request, *args, **kwargs):
     context = {"viaje": viaje, "tarjetas": tarjetas_usuario}
     return render(request, "Combi19App/detalle_viaje.html", context)
 
-
-
 @login_required
 def contacto (request):
     return render(request, "Combi19App/contact.html")
@@ -55,3 +54,8 @@ def index (request):
 @login_required
 def suscripcion (request):
     return render(request, "Combi19App/pricing.html")
+
+@login_required
+def tienda (request):
+    insumos = Insumo.objects.all()
+    return render(request, "tienda/insumos.html", {"insumos": insumos})

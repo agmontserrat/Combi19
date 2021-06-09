@@ -47,7 +47,8 @@ INSTALLED_APPS = [
     'mathfilters',
     'bootstrapform',
     'Combi19App',
-    'users'
+    'users',
+    'tienda',
 ]
 
 MIDDLEWARE = [

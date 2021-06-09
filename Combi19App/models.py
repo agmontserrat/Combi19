@@ -3,6 +3,7 @@ from django.db.models.expressions import F
 from django.db.models.constraints import UniqueConstraint
 from django.core.exceptions import ValidationError
 from django.core.validators import MinValueValidator
+from tienda.models import Insumo
 # Create your models here.
 from users.models import Account, Chofer
 
@@ -15,17 +16,6 @@ class Vehiculo(models.Model):
     
     def __str__(self):
         return self.patente
-
-
-class Insumo(models.Model):
-    nombre        = models.CharField(max_length=30)
-    descripcion   = models.CharField(max_length=50)
-    precio        = models.IntegerField()
-    imagen        = models.ImageField(upload_to="insumos", null=True)
-    cantidad      = models.IntegerField(blank=True, null=True)
-
-    def __str__(self):
-        return f'{self.nombre}'
 
 
 class Lugar(models.Model):
@@ -80,15 +70,12 @@ class Viaje(models.Model):
     class Meta:
         unique_together = ('fecha', 'combi')
         
-
     def __str__(self):
         return f'Fecha: {self.fecha} - Ruta: {self.ruta} - Combi:{self.combi} '
 
-
 class Pasaje():
     viaje = models.ForeignKey(Viaje, on_delete=models.CASCADE)
-    usuario = models.ForeignKey(Account, on_delete=models.CASCADE)
-    
+    usuario = models.ForeignKey(Account, on_delete=models.CASCADE)  
     
 class Testeo():
     pass

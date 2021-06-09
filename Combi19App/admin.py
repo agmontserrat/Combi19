@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.contrib.admin.options import ModelAdmin
 from django.db.models.base import Model
-from .models import Vehiculo, Insumo, Viaje, Lugar, Ruta
+from .models import Vehiculo, Viaje, Lugar, Ruta
 
 admin.site.site_header = 'Sitio administrativo de COMBI-19'
 
@@ -19,11 +19,11 @@ class RutaAdmin(admin.ModelAdmin):
 class ViajeAdmin(admin.ModelAdmin):
     list_display=['fecha','ruta','combi','estado','precio']
 
-class InsumoAdmin(admin.ModelAdmin):
-    list_display = ['nombre','descripcion','precio','cantidad']
+# class InsumoAdmin(admin.ModelAdmin):
+#     list_display = ['nombre','descripcion','precio','cantidad']
 
 admin.site.register(Vehiculo, VehiculoAdmin)
-admin.site.register(Insumo, InsumoAdmin)
+# admin.site.register(Insumo, InsumoAdmin)
 admin.site.register(Viaje, ViajeAdmin)
 admin.site.register(Lugar, LugarAdmin)
 admin.site.register(Ruta, RutaAdmin)
