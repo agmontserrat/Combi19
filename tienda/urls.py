@@ -5,7 +5,7 @@ from users import views as UserViews
 urlpatterns = [
     path('home', views.home, name="Home"),
     path('nosotros', views.about, name ="About"),
-    path('', views.tienda, name="Insumos"),
+    path('tienda', views.tienda, name="Insumos"),
     path('pasajes', views.pasajes, name="Pasajes"),
     path('contacto', views.contacto, name="Contacto"),
     path('suscripcion', views.suscripcion, name="Suscripcion"),
