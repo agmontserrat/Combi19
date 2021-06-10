@@ -47,7 +47,10 @@ class TarjetaAdmin(admin.ModelAdmin):
     def has_change_permission(self, request, obj=None):
         return False
 
+class ChoferAdmin(admin.ModelAdmin):
+    list_display=['user', 'telefono']
+
 admin.site.unregister(Group)
-admin.site.register(Chofer)
+admin.site.register(Chofer, ChoferAdmin)
 admin.site.register(Tarjeta, TarjetaAdmin)
 admin.site.register(Account, AccountAdmin)

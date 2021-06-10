@@ -34,7 +34,7 @@ class Lugar(models.Model):
 class Ruta(models.Model):
     origen        = models.ForeignKey(Lugar, default=None, on_delete=models.CASCADE, related_name='origen')
     destino       = models.ForeignKey(Lugar, default=None, on_delete=models.CASCADE, related_name='destino')
-    nombre        = models.CharField(max_length=30, blank=True, null=True)
+    nombre        = models.CharField(max_length=30, blank=True, null=True, verbose_name='Nombre de ruta')
     km            = models.IntegerField()
 
     def clean(self):
