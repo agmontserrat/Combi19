@@ -37,7 +37,7 @@ def comprar_pasaje(request, *args, **kwargs):
         return redirect("Tarjetas")
 
     if request.user.is_GOLD:
-        precio = viaje.precio * 0.1
+        precio = int(viaje.precio) - int(viaje.precio) * 0.1
     else:
         precio = viaje.precio
 
@@ -59,10 +59,38 @@ def comprar_pasaje(request, *args, **kwargs):
         return redirect("Compra Exitosa")
     
     return render(request, "Combi19App/detalle_viaje.html", context)
+    
+@login_required
+def suscripcion_gold_exito(request):
+    tarjetas = Tarjeta.objects.filter(usuario_id=request.user.id)
+
+    if not tarjetas:
+        return redirect("Tarjetas")
+
+    usuario = request.user
+    usuario.is_GOLD = True
+    usuario.save()
+    usuario.refresh_from_db()
+    
+    return render(request, "Combi19App/goldexito.html")
+
+@login_required
+def suscripcion_gold_chau(request):
+
+    usuario = request.user
+    usuario.is_GOLD = False
+    usuario.save()
+    usuario.refresh_from_db()
+    
+    return render(request, "Combi19App/usuarionormalexito.html")
 
 @login_required
 def compra_exitosa(request):
     return render(request, "Combi19App/exito.html")
+
+@login_required
+def insumo_exitoso(request):
+    return render(request, "Combi19App/exitoinsumo.html")
 
 @login_required
 def contacto (request):
@@ -80,3 +108,7 @@ def index (request):
 @login_required
 def suscripcion (request):
     return render(request, "Combi19App/pricing.html")
+
+@login_required
+def comprar_insumos(request, *args, **kwargs):
+    carrito = kwargs.get("carrito")

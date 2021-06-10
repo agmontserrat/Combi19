@@ -13,4 +13,5 @@ urlpatterns = [
     path ('tarjetas/agregar', views.tarjeta_view, name = "Nueva Tarjeta"),
     path ('tarjetas/editar<tarjeta_id>', views.edit_tarjeta_view, name = "Editar Tarjeta"),
     path ('tarjetas/eliminar<tarjeta_id>', views.delete_tarjeta_view, name = "Eliminar Tarjeta"),
+    path ('viajes/eliminar<v_id>', views.delete_viaje, name = "Eliminar Viaje"),
 ]

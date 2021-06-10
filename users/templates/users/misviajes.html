@@ -44,6 +44,7 @@
                                                     <br>
                                                     <p class="m-0 p-0 text-muted">{{v.fecha|date:"d/m/Y"  }} </p> 
                                                     <p class="m-0 p-0 text-muted">{{v.fecha | time}} </p> 
+                                                    <a href="{% url 'Eliminar Viaje' v_id=v.id %}" class="btn btn-primary">Cancelar</a>
                                                 </div>
                                                 
                                             </div>

@@ -76,6 +76,7 @@ class Viaje(models.Model):
 class Pasaje(models.Model):
     viaje = models.ForeignKey(Viaje, on_delete=models.CASCADE)
     usuario = models.ForeignKey(Account, on_delete=models.CASCADE)  
+    
     class Meta:
         verbose_name_plural = "Pasajes"
 

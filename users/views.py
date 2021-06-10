@@ -1,9 +1,12 @@
 from users.models import Account, Tarjeta
-from Combi19App.models import Viaje
+from Combi19App.models import Pasaje, Viaje
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.contrib.auth import login, authenticate, logout
-
+from datetime import datetime
+import pytz
+from django.db.models import F
+from django.utils import timezone
 from users.forms import AccountUpdateForm, AddCardForm, RegistrationForm, AccountAuthenticationForm, EditCardForm
 
 
@@ -157,17 +160,42 @@ def edit_tarjeta_view(request, *args, **kwargs):
 
 def delete_tarjeta_view(request, *args, **kwargs):
     tarjeta_id = kwargs.get("tarjeta_id")
+
     try:
         tarjeta = Tarjeta.objects.get(pk=tarjeta_id)
     except Tarjeta.DoesNotExist:
         return HttpResponse("Hubo un error")
     context = {"tarjeta":tarjeta}
 
+
     if request.POST:
         tarjeta.delete()
         return redirect("Tarjetas")
 
     return render(request, "users/eliminar_tarjeta.html", context)
+
+def delete_viaje(request, *args, **kwargs):
+    viaje_id = kwargs.get("v_id")
+    try:
+        viaje = Viaje.objects.get(pk=viaje_id)
+    except Viaje.DoesNotExist:
+        return HttpResponse("Hubo un error")
+
+    if (((viaje.fecha)-timezone.now()).days > 2):
+        context = {"mensaje": "Se te reembolsará el 100% del valor del pasaje"}
+    else:
+        context = {"mensaje": "Estas cancelando dentro de las 48hs previas al viaje, se te reembolsará solo el 50% de tu pago."}
+    
+    if request.POST:
+        pasaje = Pasaje.objects.filter(viaje=viaje_id).filter(usuario=request.user)
+        pasaje.delete()
+        viaje.asientos_ocupados= F('asientos_ocupados') - 1
+        viaje.pasajeros.remove(request.user)
+        viaje.save()
+        viaje.refresh_from_db()
+        return redirect("Viajes")
+
+    return render(request, "users/eliminar_viaje.html", context)
 
 def logout_view(request):
     logout(request)
