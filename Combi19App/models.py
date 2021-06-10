@@ -73,9 +73,11 @@ class Viaje(models.Model):
     def __str__(self):
         return f'Fecha: {self.fecha} - Ruta: {self.ruta} - Combi:{self.combi} '
 
-class Pasaje():
+class Pasaje(models.Model):
     viaje = models.ForeignKey(Viaje, on_delete=models.CASCADE)
     usuario = models.ForeignKey(Account, on_delete=models.CASCADE)  
-    
+    class Meta:
+        verbose_name_plural = "Pasajes"
+
 class Testeo():
     pass

@@ -15,7 +15,7 @@
       
       <div class="col-md-8 mx-auto">
         <h4 class="mb-3">Usuario</h4>
-        <form class=" pb-5" id="formulario" novalidate="">
+        <form class=" pb-5" id="formulario" method="POST"> {% csrf_token %}
           <div class="row">
             <div class="col-md-6 mb-3">
               <label for="firstName">Nombre</label>
@@ -57,8 +57,8 @@
                             <br>
                             <p class="m-0 p-0 text-muted">{{viaje.fecha|date:"d/m/Y"  }} </p> 
                             <p class="m-0 p-0 text-muted">{{viaje.fecha | time}} </p> 
-                            <label class="text-muted"for="cantidad">Pasajes</label>
-                            <input type="number" name="cantidad" id="cantidad" min="1" value="1" max="{{viaje.combi.capacidad | restar:viaje.asientos_ocupados}}" >
+                            <label class="text-muted"for='asientos_ocupados'>Pasajes</label>
+                            <input type="number" name='asientos_ocupados' id='asientos_ocupados' min="1" value="1" max="{{viaje.combi.capacidad | restar:viaje.asientos_ocupados}}" >
                             
                         </div>
                         <div class="col-md-4 px-3 d-flex  flex-column justify-content-end">
@@ -107,10 +107,10 @@
     
     boton.addEventListener("click", (e) => {
       let mensajes = []
-      var cantidad = parseInt(document.getElementById("cantidad").value,10)
+      var cantidad = parseInt(document.getElementById('asientos_ocupados').value,10)
       
 
-      if (cantidad === '' || document.getElementById("cantidad").getAttribute("min") > cantidad  ||  cantidad > document.getElementById("cantidad").getAttribute("max")) {
+      if (cantidad === '' || document.getElementById('asientos_ocupados').getAttribute("min") > cantidad  ||  cantidad > document.getElementById('asientos_ocupados').getAttribute("max")) {
           mensajes.push("La cantidad de pasajes es inválida!")
       }
       
@@ -119,7 +119,7 @@
           elementoError.innerText = mensajes.join(', ')
       }
       else{
-        document.getElementById("cantidad").setAttribute("readonly", true)
+        document.getElementById('asientos_ocupados').setAttribute("readonly", true)
         elementoError.innerText = ''
         showDiv()
         var total = document.getElementById("mostrar")

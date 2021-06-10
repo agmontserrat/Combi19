@@ -22,6 +22,7 @@ def pasajes (request):
     context = {"viajes": viajes, 'miFiltro': miFiltro}
     return render(request, "Combi19App/pasajes.html", context)
 
+
 @login_required
 def comprar_pasaje(request, *args, **kwargs):
     viaje_id = kwargs.get("v_id")
@@ -34,8 +35,13 @@ def comprar_pasaje(request, *args, **kwargs):
         tarjetas_usuario = Tarjeta.objects.filter(usuario_id=request.user.id)
     except Exception as E: #No tenemos tarjetas
         return redirect("Tarjetas")
+    
+    if request.user.is_GOLD:
+        precio = viaje.precio * 0.1
+    else:
+        precio = viaje.precio
         
-    context = {"viaje": viaje, "tarjetas": tarjetas_usuario}
+    context = {"viaje": viaje, "tarjetas": tarjetas_usuario, "precio": precio}
     return render(request, "Combi19App/detalle_viaje.html", context)
 
 @login_required

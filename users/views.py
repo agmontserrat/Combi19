@@ -1,4 +1,5 @@
 from users.models import Account, Tarjeta
+from Combi19App.models import Viaje
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.contrib.auth import login, authenticate, logout
@@ -85,7 +86,10 @@ def editprofile_view(request, *args, **kwargs):
     return render(request, "users/edit_profile.html", context)
 
 def misviajes_view(request):
-    return render(request, "users/misviajes.html")
+    viajes_pendientes = Viaje.objects.filter(pasajeros=request.user).filter(estado=False)
+    viajes_finalizados = Viaje.objects.filter(pasajeros=request.user).filter(estado=True)
+    context = {"finalizados": viajes_finalizados, "pendientes":viajes_pendientes}
+    return render(request, "users/misviajes.html", context)
 
 def mistarjetas_view(request):
     tarjetas = Tarjeta.objects.filter(usuario_id=request.user.id)
