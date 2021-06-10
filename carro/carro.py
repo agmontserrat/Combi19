@@ -21,8 +21,11 @@ class Carro:
         else:
             for key, value in self.carro.items():
                 if key==str(insumo.id):
-                    value["cantidad"]=value["cantidad"]+1
-                    value["precio"]=float(value["precio"])+insumo.precio
+                    if value['cantidad']< insumo.cantidad:
+                        value["cantidad"]=value["cantidad"]+1
+                        value["precio"]=float(value["precio"])+insumo.precio
+                    else:
+                        self.guardar_carrito()
                     break
         self.guardar_carrito()
 
