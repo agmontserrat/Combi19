@@ -69,8 +69,8 @@ class MyAccountManager(BaseUserManager):
 class Account(AbstractBaseUser):
     email               = models.EmailField(verbose_name="email", max_length=60, unique=True)
     dni                 = models.IntegerField(verbose_name="dni", unique=True,)
-    first_name          = models.CharField(max_length=30)
-    last_name           = models.CharField(max_length=30)
+    first_name          = models.CharField(max_length=30, verbose_name='Nombre')
+    last_name           = models.CharField(max_length=30, verbose_name='Apellido')
     date_of_birth       = models.DateField(blank=True, null=True)
     is_GOLD             = models.BooleanField(default=False)
     _is_admin           = models.BooleanField(default=False)
@@ -120,8 +120,8 @@ class Account(AbstractBaseUser):
         return self.is_staff
 
 class Chofer(models.Model):
-    user = models.OneToOneField(Account, on_delete=models.CASCADE, null=True)
-    telefono = models.CharField(max_length=15)
+    user = models.OneToOneField(Account, on_delete=models.CASCADE, null=True, verbose_name='Usuario')
+    telefono = models.BigIntegerField()
     is_chofer= models.BooleanField(default=True)
 
     class Meta:
@@ -133,7 +133,7 @@ class Chofer(models.Model):
 
 class Tarjeta(models.Model):
     usuario = models.ForeignKey(Account, on_delete=models.CASCADE, null=True)
-    nro = models.BigIntegerField()
+    nro = models.BigIntegerField(blank=True, null=True, verbose_name='Numero de tarjerta')
     nombre_titular = models.CharField(max_length= 40)
     fecha_vencimiento = models.CharField(max_length=10 ,default=None,null=True)
     cvv = models.IntegerField(default=None, null=True)
