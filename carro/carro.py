@@ -6,8 +6,8 @@ class Carro:
     # Para corroborar si tenia un carrito previamente guardado en la sesion
         if not carro:
             carro=self.session["carro"]={}
-        else:
-            self.carro=carro
+        #else:
+        self.carro=carro
 
     def agregar(self, insumo):
         if(str(insumo.id)not in self.carro.keys()):
@@ -22,6 +22,7 @@ class Carro:
             for key, value in self.carro.items():
                 if key==str(insumo.id):
                     value["cantidad"]=value["cantidad"]+1
+                    value["precio"]=float(value["precio"])+insumo.precio
                     break
         self.guardar_carrito()
 
@@ -39,6 +40,7 @@ class Carro:
         for key, value in self.carro.items():
                 if key==str(insumo.id):
                     value["cantidad"]=value["cantidad"]-1
+                    value["precio"]=float(value["precio"])-insumo.precio
                     if value["cantidad"]<1:
                         self.eliminar(insumo)
                     break

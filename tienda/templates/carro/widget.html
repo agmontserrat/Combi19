@@ -11,4 +11,41 @@
             <th>Suma</th>
         </tr>
     </thead>
+
+    <tbody>
+        {% if request.session.carro.items %}
+            {% for key,value in request.session.carro.items %}
+                <tr class="text-center">
+                    <td>{{value.nombre}}</td>
+                    <td>{{value.cantidad}}</td>
+                    <td>
+                        <a href="{% url 'carro:agregar' value.insumo_id %}" class="btn btn-sm btn-success">+</a>
+                        <a href="{% url 'carro:restar' value.insumo_id %}" class="btn btn-sm btn-success">-</a><br/>
+                        ${{value.precio}}
+                        
+                    </td>
+                
+                </tr>
+            {%endfor%}
+        {%else%}
+            <tr>
+                <td colspan="3">
+                    <div class="alert alert-danger text-center">
+                        No hay insumos agregados
+                    </div>
+                </td>
+            </tr>
+        {% endif %}
+
+    </tbody>
+
+    <tfoot>
+        <tr>
+            <td colspan="3">
+                TOTAL:{{importe_total}}
+                <span class="btn btn-outline-success rounded-pill light-300 text-end right">Comprar <i class='bx bxs-cart-add'></i></span></a>
+            </td>
+        </tr>
+    </tfoot>
+
 </table>

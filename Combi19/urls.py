@@ -23,6 +23,7 @@ urlpatterns = [
     path('', include('Combi19App.urls')),
     path('', include('users.urls')),
     path('', include('tienda.urls')),
+    path('carro/', include('carro.urls')),
 ]
 
 if settings.DEBUG:

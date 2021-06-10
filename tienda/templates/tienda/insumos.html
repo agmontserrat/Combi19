@@ -2,7 +2,16 @@
 
 {% load static %}
 {% block content %}
-  
+  <head>
+    <style>
+      .left{
+    float: left;
+}
+.right{
+    float: right;
+}
+    </style>
+  </head>
     <div id="work_banner" class="banner-wrapper bg-light w-100 py-5" style="background-image: url({% static 'Combi19App/img/pochoclo.jpg' %}); ">
         
         <div class="banner-vertical-center-work container text-light d-flex justify-content-center align-items-center py-5 p-0">
@@ -14,6 +23,7 @@
             </div>
         </div>
     </div>
+<<<<<<< HEAD
         <section class="py-5 mb-5">
             <div class="container">
                 <div>
@@ -22,6 +32,16 @@
                 </div>
                 <div class="row gy-5 g-lg-5 mb-4"> 
                     
+=======
+        <!-- Start Recent Work -->
+        <section class="py-5 mb-5">
+            <div class="container">
+                <div class="left">
+                  <br>
+                    {%include "carro/widget.html"%}
+                </div>
+                <div class="row gy-5 g-lg-5 mb-4" class="right"> 
+>>>>>>> 95927ef8cfd3ddef12464d34f02f7c63305502f4
                     {%  for i in insumos %}
                     <div class="col-xl-4 col-md-5 col-sm-12">
                         <div class="card border-0 shadow-sm overflow-hidden mx-2 m-sm-0 mb-3" style="width: 18rem; ">
@@ -34,7 +54,8 @@
                                   <h5 class="card-title text-end ">{{i.nombre}}</h5>
                                 
                                   <p class="card-text text-end light-300">${{  i.precio }}</p>
-                                  <span class="btn btn-outline-success rounded-pill light-300 text-end">Comprar <i class='bx bxs-cart-add'></i></span>
+                                  <a href= "{% url 'carro:agregar' i.id %}">
+                                  <span class="btn btn-outline-success rounded-pill light-300 text-end">Comprar <i class='bx bxs-cart-add'></i></span></a>
                                 </div>
                               </div>
                             </div>
