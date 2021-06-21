@@ -37,8 +37,9 @@
                         </div>
                         <div class="col-md-6 text-end">
                           <div class="card-body ">
-                            <h5 class="card-title text-end ">{{i.nombre}}</h5>
+                            <h5 class="card-title text-end" style="height: 3em;">{{i.nombre}}</h5>
                             <p class="card-text text-end light-300">${{  i.precio }}</p>
+                            <p class="card-text text-end text-muted light-300">Stock: {{  i.cantidad}}</p>
                             <a href= "{% url 'carro:agregar' i.id %}">
                             <span class="btn btn-outline-success rounded-pill light-300 text-end">Añadir <i class='bx bxs-cart-add'></i></span></a>
                           </div>

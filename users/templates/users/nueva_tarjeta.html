@@ -49,7 +49,7 @@
                         <div class="row">
                             <div class="form-group col-sm-8">
                                 <label for="ccmonth">Fecha Vencimiento</label>
-                                <input class= "form-control" type="month" id="fecha_vencimiento" name="fecha_vencimiento" min="2021-01" max="2030-12" value="{% if form.initial %} {{form.initial.fecha_vencimiento | date:"Y-m-d" }} {% endif %}">
+                                <input class= "form-control" type="month" id="fecha_vencimiento" name="fecha_vencimiento" min="{% now 'Y-m' %}" max="2030-12" value="{% if form.initial %} {{form.initial.fecha_vencimiento | date:"Y-m-d" }} {% endif %}">
                             </div>
                             <div class="col-sm-4">
                                 <div class="form-group">

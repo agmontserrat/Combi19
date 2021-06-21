@@ -33,41 +33,45 @@
 <section class="py-5 mb-5">
     <div class="container">
         <div class="row gy-5 g-lg-5 mb-4"> 
-            {%  for v in miFiltro.qs %}
-                <div class="col-xl-6 col-md-12 col-sm-12">
-                    <div  class="card bg-light border-0 shadow-lg overflow-hidden">
-                        <div class="card-body">
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <div href="#" class="card border-0 text-white shadow-sm overflow-hidden mx-5 m-sm-0">
-                                        <img class="card-img" src="{{v.ruta.destino.imagen.url}}" alt="">
+            {% if miFiltro.qs %}
+                {%  for v in miFiltro.qs %}
+                    <div class="col-xl-6 col-md-12 col-sm-12">
+                        <div  class="card bg-light border-0 shadow-lg overflow-hidden">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div href="#" class="card border-0 text-white shadow-sm overflow-hidden mx-5 m-sm-0">
+                                            <img class="card-img" src="{{v.ruta.destino.imagen.url}}" alt="">
+                                            
+                                        </div>
+                                    </div>
+                                    <div class=" col-md-4 px-3">
+                                        <h5 class="h5 ">{{v.ruta.destino}}, <span class="text-muted">{{v.ruta.destino.provincia}}</span></h2>
+                                        <p class="m-0 p-0 text-muted">Desde {{v.ruta.origen}} <i class='p-0 bx bx-map'></i></p> 
+                                        <br>
+                                        <p class="m-0 p-0 text-muted">{{v.fecha|date:"d/m/Y"  }} </p> 
+                                        <p class="m-0 p-0 text-muted">{{v.fecha | time}} </p> 
+                                    </div>
+                                    <div class="col-md-4 px-3 d-flex  flex-column justify-content-end">
+                                        {% if request.user.is_GOLD %}
+                                            <span class="h5 text-end text-muted text-decoration-strike" style="text-decoration: line-through;">{{v.precio}} </span>
+                                            <span class="h5 text-end">{{v.precio | porcentaje:0.1}}</span>
                                         
+                                        {% else %}
+                                            <p class=" h5 text-end">{{v.precio}}</p>
+                                        {% endif %}
+                                        <a href="{% url 'Comprar Pasaje' v_id=v.id %}" class="btn btn-primary">Viajar</a>
                                     </div>
                                 </div>
-                                <div class=" col-md-4 px-3">
-                                    <h5 class="h5 ">{{v.ruta.destino}}, <span class="text-muted">{{v.ruta.destino.provincia}}</span></h2>
-                                    <p class="m-0 p-0 text-muted">Desde {{v.ruta.origen}} <i class='p-0 bx bx-map'></i></p> 
-                                    <br>
-                                    <p class="m-0 p-0 text-muted">{{v.fecha|date:"d/m/Y"  }} </p> 
-                                    <p class="m-0 p-0 text-muted">{{v.fecha | time}} </p> 
-                                </div>
-                                <div class="col-md-4 px-3 d-flex  flex-column justify-content-end">
-                                    {% if request.user.is_GOLD %}
-                                        <span class="h5 text-end text-muted text-decoration-strike" style="text-decoration: line-through;">{{v.precio}} </span>
-                                        <span class="h5 text-end">{{v.precio | porcentaje:0.1}}</span>
-                                      
-                                    {% else %}
-                                        <p class=" h5 text-end">{{v.precio}}</p>
-                                    {% endif %}
-                                    <a href="{% url 'Comprar Pasaje' v_id=v.id %}" class="btn btn-primary">Viajar</a>
-                                </div>
                             </div>
+                            
+                            
                         </div>
-                        
-                        
-                    </div>
-                </div><!-- End Recent Work -->
-            {%  endfor %}
+                    </div><!-- End Recent Work -->
+                {%  endfor %}
+            {% else %}
+                    <p>No hay viajes asignados para los datos indicados</p>
+            {% endif %}
         </div>
         
     </div>
