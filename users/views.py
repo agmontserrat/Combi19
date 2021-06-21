@@ -128,13 +128,13 @@ def edit_tarjeta_view(request, *args, **kwargs):
 
     context = {}
     if request.POST:
-        form = EditCardForm(request.POST, usuario=request.user, instance=tarjeta, )
-        print(form)
+        form = EditCardForm(request.POST, instance=tarjeta )
+        print(form.errors)
         if form.is_valid():   
             form.save(user=request.user)
             return redirect("Tarjetas")
         else:
-            form = EditCardForm(request.POST, usuario=request.user,  instance=tarjeta,
+            form = EditCardForm(request.POST, instance=tarjeta,
                 initial={
                     "nro": tarjeta.nro,
                     "nombre_titular": tarjeta.nombre_titular,
@@ -145,7 +145,7 @@ def edit_tarjeta_view(request, *args, **kwargs):
             )
             context['form'] = form
     else:
-        form = EditCardForm( usuario=request.user,
+        form = EditCardForm(instance=tarjeta,
                 initial={
                     "nro": tarjeta.nro,
                     "nombre_titular": tarjeta.nombre_titular,

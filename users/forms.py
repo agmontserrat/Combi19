@@ -151,15 +151,16 @@ class AddCardForm(forms.ModelForm):
             tarjeta.save()
         return tarjeta
     
+
 class EditCardForm(forms.ModelForm):
 
     class Meta:
         model = Tarjeta
         fields = ("nro", "nombre_titular", "cvv", "fecha_vencimiento")
 
-    def __init__(self, usuario, *args, **kwargs):
-        self.usuario = usuario
-        super(EditCardForm, self).__init__(self,  usuario,*args, **kwargs)
+    # def __init__(self, usuario, *args, **kwargs):
+    #     self.usuario = usuario
+    #     super(EditCardForm, self).__init__(*args, **kwargs)
 
     def clean_nro(self):
         numero = self.cleaned_data['nro']
@@ -183,6 +184,7 @@ class EditCardForm(forms.ModelForm):
     def clean_cvv(self):
         if len(str(self.cleaned_data['cvv']))>3:
             raise forms.ValidationError('El CVV debe ser de 3 digitos')
+        return self.cleaned_data['cvv']
 
     def clean_fecha_vencimiento(self):
         fecha = self.cleaned_data['fecha_vencimiento']
@@ -190,11 +192,12 @@ class EditCardForm(forms.ModelForm):
 
     def save(self, user=None, commit=True):
         tarjeta = super(EditCardForm, self).save(commit=False)
-        tarjeta.usuario = user
+        
         tarjeta.nombre_titular= self.cleaned_data['nombre_titular']  
         tarjeta.nro= self.cleaned_data['nro']  
         tarjeta.fecha_vencimiento = self.cleaned_data['fecha_vencimiento']  
         tarjeta.cvv = self.cleaned_data['cvv']
+        tarjeta.usuario = user
         if commit:
             tarjeta.save()
-        return tarjeta
+        return tarjeta 
