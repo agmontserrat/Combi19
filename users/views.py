@@ -187,9 +187,10 @@ def delete_viaje(request, *args, **kwargs):
         context = {"mensaje": "Estas cancelando dentro de las 48hs previas al viaje, se te reembolsará solo el 50% de tu pago."}
     
     if request.POST:
-        pasaje = Pasaje.objects.filter(viaje=viaje_id).filter(usuario=request.user)
+        pasaje = Pasaje.objects.filter(viaje=viaje_id).filter(usuario=request.user)[0]
+        cant = pasaje.cantidad
         pasaje.delete()
-        viaje.asientos_ocupados= F('asientos_ocupados') - 1
+        viaje.asientos_ocupados= F('asientos_ocupados') - cant
         viaje.pasajeros.remove(request.user)
         viaje.save()
         viaje.refresh_from_db()

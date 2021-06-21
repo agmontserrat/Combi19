@@ -10,7 +10,7 @@ from users.models import Account, Chofer
 class Vehiculo(models.Model):
 
     patente       = models.CharField(max_length=10, unique=True)
-    capacidad     = models.IntegerField()
+    capacidad     = models.IntegerField(validators=[MinValueValidator(0)])
     modelo        = models.IntegerField()
     chofer        = models.ForeignKey(Chofer, blank=True, null=True, default=None, on_delete=models.CASCADE)
     
@@ -21,7 +21,7 @@ class Vehiculo(models.Model):
 class Lugar(models.Model):
     nombre        = models.CharField(max_length=40, blank=True, null=True, unique=True, verbose_name='Lugar')
     provincia     = models.CharField(max_length=20, blank=True, null=True)
-    codigo_postal = models.IntegerField(blank=True, null=True, unique=True)
+    codigo_postal = models.IntegerField(blank=True, null=True, unique=True, validators=[MinValueValidator(1000)])
     imagen        = models.ImageField(upload_to="ciudades", blank=True, null=True)
     class Meta:
         verbose_name_plural = "Lugares"
@@ -35,7 +35,7 @@ class Ruta(models.Model):
     origen        = models.ForeignKey(Lugar, default=None, on_delete=models.CASCADE, related_name='origen')
     destino       = models.ForeignKey(Lugar, default=None, on_delete=models.CASCADE, related_name='destino')
     nombre        = models.CharField(max_length=30, blank=True, null=True, verbose_name='Nombre de ruta')
-    km            = models.IntegerField()
+    km            = models.IntegerField(validators=[MinValueValidator(0)])
 
     def clean(self):
         if self.origen==self.destino:
@@ -76,7 +76,7 @@ class Viaje(models.Model):
 class Pasaje(models.Model):
     viaje = models.ForeignKey(Viaje, on_delete=models.CASCADE)
     usuario = models.ForeignKey(Account, on_delete=models.CASCADE)  
-    
+    cantidad = models.IntegerField(blank=True,null=True)
     class Meta:
         verbose_name_plural = "Pasajes"
 

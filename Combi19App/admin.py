@@ -20,7 +20,7 @@ class ViajeAdmin(admin.ModelAdmin):
     list_display=['fecha','ruta','combi','estado','precio']
 
 class PasajeAdmin(admin.ModelAdmin):
-    list_display=['usuario','viaje']
+    list_display=['usuario','viaje','cantidad']
 
 # class InsumoAdmin(admin.ModelAdmin):
 #     list_display = ['nombre','descripcion','precio','cantidad']
