@@ -1,11 +1,11 @@
 from users.models import Tarjeta
-from Combi19App.models import Viaje, Pasaje
+from Combi19App.models import Comentario, Viaje, Pasaje, Ruta
 from django.shortcuts import render, HttpResponse, redirect
 from django.contrib.auth.decorators import login_required
-from .filters import ViajeFilter
+from .filters import ViajeFilter, ComentarioFilter
 from django.db.models import F
 
-from Combi19App.forms import CompraPasajeForm
+from Combi19App.forms import CompraPasajeForm, ComentarioForm
 
 # Aca creamos nuestras vistas.
 @login_required
@@ -112,3 +112,22 @@ def suscripcion (request):
 @login_required
 def comprar_insumos(request, *args, **kwargs):
     carrito = kwargs.get("carrito")
+
+@login_required
+def reseñas(request):
+    com = Comentario.objects.all()
+    rutas = Ruta.objects.all()
+    miFiltro = ComentarioFilter(request.GET, queryset=com)
+    com = miFiltro.qs
+    form = ComentarioForm()
+
+
+    if request.POST:
+        form = ComentarioForm(request.POST, instance=request.user)
+        if form.is_valid():
+            form.save()
+        else:
+            pass
+
+    context = {"comentarios": com, 'miFiltro': miFiltro, 'rutas':rutas, 'form':form }
+    return render(request, "Combi19App/reseñas.html", context)

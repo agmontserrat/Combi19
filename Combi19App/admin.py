@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.contrib.admin.options import ModelAdmin
 from django.db.models.base import Model
-from .models import Vehiculo, Viaje, Lugar, Ruta, Pasaje
+from .models import Comentario, Vehiculo, Viaje, Lugar, Ruta, Pasaje
 
 admin.site.site_header = 'Sitio administrativo de COMBI-19'
 
@@ -22,6 +22,14 @@ class ViajeAdmin(admin.ModelAdmin):
 class PasajeAdmin(admin.ModelAdmin):
     list_display=['usuario','viaje','cantidad']
 
+class ComentarioAdmin(admin.ModelAdmin):
+    
+    list_display=['usuario','comentario']
+    def has_add_permission(self, request):
+        return False
+    def has_change_permission(self, request, obj=None):
+        return False
+
 # class InsumoAdmin(admin.ModelAdmin):
 #     list_display = ['nombre','descripcion','precio','cantidad']
 
@@ -31,3 +39,4 @@ admin.site.register(Viaje, ViajeAdmin)
 admin.site.register(Lugar, LugarAdmin)
 admin.site.register(Pasaje, PasajeAdmin)
 admin.site.register(Ruta, RutaAdmin)
+admin.site.register(Comentario, ComentarioAdmin)

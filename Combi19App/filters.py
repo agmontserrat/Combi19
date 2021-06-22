@@ -16,3 +16,9 @@ class ViajeFilter(django_filters.FilterSet):
         fields = '__all__'
         exclude = ['fecha', 'ruta','combi', 'estado', 'pasajeros', 'insumo', 'comentarios', 'precio', 'asientos_ocupados']
 
+class ComentarioFilter(django_filters.FilterSet):
+    """Filtro para comentarios"""
+    class Meta:
+        model = Comentario
+        fields = '__all__'
+        exclude = ['usuario', 'comentario']

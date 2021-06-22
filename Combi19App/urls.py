@@ -12,6 +12,7 @@ urlpatterns = [
     path('suscripcion/gold', views.suscripcion_gold_exito, name="GOLD"),
     path('suscripcion/cancelargold', views.suscripcion_gold_chau, name="NO-GOLD"),
     path('exito', views.compra_exitosa, name="Compra Exitosa"),
+    path('reseñas', views.reseñas, name="Reseñas"),
     path('tienda/exito', views.insumo_exitoso, name="Insumo Exitoso"),
     path ('pasajes/comprar<v_id>', views.comprar_pasaje, name = "Comprar Pasaje"),
     path('', views.index, name="Index")

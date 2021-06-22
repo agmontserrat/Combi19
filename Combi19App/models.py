@@ -31,6 +31,7 @@ class Lugar(models.Model):
         return f'{self.nombre}'
 
 
+
 class Ruta(models.Model):
     origen        = models.ForeignKey(Lugar, default=None, on_delete=models.CASCADE, related_name='origen')
     destino       = models.ForeignKey(Lugar, default=None, on_delete=models.CASCADE, related_name='destino')
@@ -50,21 +51,20 @@ class Ruta(models.Model):
 
 class Comentario(models.Model):
     usuario = models.ForeignKey(Account, default=None, null=True,on_delete=models.CASCADE)
-    comentario = models.CharField(max_length=100)
-
+    comentario = models.CharField(max_length=300)
+    ruta = models.ForeignKey(Ruta, default=None, null=True,on_delete=models.CASCADE)
+    
     def __str__(self):
         return f"{self.usuario}: {self.comentario}"
 
 class Viaje(models.Model):
-    
     fecha         =   models.DateTimeField(blank=True, null=True)
     ruta          =   models.ForeignKey(Ruta, default=None, blank=True, null=True, on_delete=models.CASCADE)
     combi         =   models.ForeignKey(Vehiculo, blank=True, null=True, on_delete=models.CASCADE)
     estado        =   models.BooleanField(default=False)
     precio        =   models.DecimalField(default=None, blank=True, null=True, max_digits=10, decimal_places=2)
     insumo        =   models.ManyToManyField(Insumo,default=None, blank=True,)
-    pasajeros     =   models.ManyToManyField(Account, default=None, blank=True,)
-    comentarios   =   models.ManyToManyField(Comentario, default=None, blank=True, )
+    pasajeros     =   models.ManyToManyField(Account, default=None, blank=True)
     asientos_ocupados = models.IntegerField(default=0, null=True, blank=True)
     
     class Meta:
