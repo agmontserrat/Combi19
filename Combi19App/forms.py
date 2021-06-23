@@ -32,3 +32,15 @@ class ComentarioForm(forms.ModelForm):
         if commit:
             comentario.save()
         return comentario
+
+class EditarComentarioForm(forms.ModelForm):
+    class Meta:
+        model = Comentario
+        fields = ("ruta", "comentario")
+    def clean_ruta(self):
+        ruta = self.cleaned_data['ruta']
+        return ruta
+
+    def clean_comentario(self):
+        comentario = self.cleaned_data["comentario"]
+        return comentario

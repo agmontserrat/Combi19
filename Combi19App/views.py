@@ -5,7 +5,7 @@ from django.contrib.auth.decorators import login_required
 from .filters import ViajeFilter, ComentarioFilter
 from django.db.models import F
 
-from Combi19App.forms import CompraPasajeForm, ComentarioForm
+from Combi19App.forms import CompraPasajeForm, ComentarioForm, EditarComentarioForm
 
 # Aca creamos nuestras vistas.
 @login_required
@@ -131,3 +131,37 @@ def reseñas(request):
 
     context = {"comentarios": com, 'miFiltro': miFiltro, 'rutas':rutas, 'form':form }
     return render(request, "Combi19App/reseñas.html", context)
+
+
+def modificar_comentario(request, *args, **kwargs):
+    c_id = kwargs.get("c_id")
+    try:
+        comentario = Comentario.objects.get(pk=c_id)
+    except Tarjeta.DoesNotExist:
+        return HttpResponse("Hubo un error")
+
+    form = EditarComentarioForm(instance=comentario)
+    context = {"comentario":comentario, "form": form}
+
+    if request.POST:
+        form = EditarComentarioForm(request.POST, instance=comentario)
+        if form.is_valid():
+            form.save()
+            return redirect("Reseñas")
+        
+    return render(request, "Combi19App/modificar_comentario.html", context)
+
+    
+def delete_comentario(request, *args, **kwargs):
+    c_id = kwargs.get("c_id")
+    try:
+        comentario = Comentario.objects.get(pk=c_id)
+    except Tarjeta.DoesNotExist:
+        return HttpResponse("Hubo un error")
+    context = {"comentario":comentario}
+
+    if request.POST:
+        comentario.delete()
+        return redirect("Reseñas")
+
+    return render(request, "Combi19App/eliminar_comentario.html", context)
