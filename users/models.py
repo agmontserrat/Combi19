@@ -31,22 +31,6 @@ class MyAccountManager(BaseUserManager):
         user.set_password(password)
         user.save(using=self._db)
         return user
-    
-
-    # def create_bus_driver(self, email, dni, first_name, last_name, tipo_de_usuario, password):
-    #     user = self.create_user(
-    #         email = self.normalize_email(email),
-    #         dni = dni,
-    #         first_name = first_name,
-    #         last_name = last_name,
-    #         password=password,
-    #         tipo_de_usuario=tipo_de_usuario,
-    #     )
-    #     user.tipo_de_usuario = 1 #Es chofer
-    #     user.is_staff = True #El chofer es staff
-    #     user.tipo_de_usuario
-    #     user.save(using=self._db)
-    #     return user
 
 
     def create_superuser(self, email, dni, first_name, last_name, date_of_birth, password):
@@ -129,6 +113,10 @@ class Chofer(models.Model):
 
     def __str__(self):
         return str(self.user)
+    
+    @property
+    def es_chofer(self):
+        return True
 	
 
 class Tarjeta(models.Model):

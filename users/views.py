@@ -94,6 +94,37 @@ def misviajes_view(request):
     context = {"finalizados": viajes_finalizados, "pendientes":viajes_pendientes}
     return render(request, "users/misviajes.html", context)
 
+def viajeschofer_view(request):
+    viajes_pendientes = Viaje.objects.filter(combi__chofer__user=request.user).filter(estado=False)
+    viajes_finalizados = Viaje.objects.filter(combi__chofer__user=request.user).filter(estado=True)
+    context = {"finalizados": viajes_finalizados, "pendientes":viajes_pendientes}
+    return render(request, "users/misviajes.html", context)
+
+def pasajeros_view(request, *args, **kwargs):
+    viaje_id = kwargs.get("v_id")
+    try:
+        viaje = Viaje.objects.get(pk=viaje_id)
+    except Viaje.DoesNotExist:
+        return HttpResponse("Hubo un error")
+
+    context = {"viaje": viaje}
+    return render(request, "users/pasajeros.html", context)
+
+def finalizar_viaje_view(request, *args, **kwargs):
+    viaje_id = kwargs.get("v_id")
+    try:
+        viaje = Viaje.objects.get(pk=viaje_id)
+    except Viaje.DoesNotExist:
+        return HttpResponse("Hubo un error")
+
+    if request.POST:
+        viaje.finalizar_viaje()
+        viaje.save()
+        return redirect("Viajes Chofer")
+        
+    context = {"viaje": viaje}
+    return render(request, "users/finalizar_viaje.html", context)
+
 def mistarjetas_view(request):
     tarjetas = Tarjeta.objects.filter(usuario_id=request.user.id)
     return render(request, "users/mistarjetas.html", {"tarjetas": tarjetas})

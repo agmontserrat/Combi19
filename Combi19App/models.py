@@ -73,6 +73,9 @@ class Viaje(models.Model):
     def __str__(self):
         return f'Fecha: {self.fecha} - Ruta: {self.ruta} - Combi:{self.combi} '
 
+    def finalizar_viaje(self):
+        self.estado = True
+
 class Pasaje(models.Model):
     viaje = models.ForeignKey(Viaje, on_delete=models.CASCADE)
     usuario = models.ForeignKey(Account, on_delete=models.CASCADE)  

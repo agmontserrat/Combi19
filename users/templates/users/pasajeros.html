@@ -1,0 +1,47 @@
+{% extends 'Combi19App/base.html' %}
+
+{% load static %}
+{% block content %}
+<div class="container rounded mt-5 mb-5">
+{% if viaje.pasajeros.all %}
+    {% for p in viaje.pasajeros.all %}
+    <div class="col-xl-6 col-md-6 col-sm-12 ">
+        <div  class="card bg-light border-0 shadow-lg overflow-hidden">
+            <div class="card-body ">
+                <div class="row">
+                    <div class="col-2 my-auto">
+                        <div href="#" class="card border-0 text-white shadow-sm overflow-hidden">
+                            <div class="card partner-wap py-1 px-1">
+                                <i class='display-6 text-white bx bx-user mx-auto'></i> 
+                            </div>
+                        </div>
+                    </div>
+                    <div class=" col-6 px-3">
+                        <h5 class="h5 ">{{p}}</h2>
+                        <p class="text-muted m-0">{{p.email}}</h2>
+                        <p class="text-muted m-0">{{p.dni}}</h2>
+                    </div>
+                    <div class="col-4">
+                        <a href="#" class="btn btn-warning my-1 semi-bold-600"><i class='bx bxs-spreadsheet mx-auto'></i> COVID</a>
+                        <a href="#" class="btn btn-danger my-1 semi-bold-600"><i class='bx bx-block mx-auto'></i> Eliminar</a>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+{% else %}
+    <p>No hay pasajeros</p>
+{% endif %}
+</div>
+ <!-- Bootstrap core JS-->
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js "></script>
+ <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js "></script>
+ <!-- Third party plugin JS-->
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js "></script>
+ <!-- Bootstrap -->
+ <script src="{% static 'Combi19App/js/bootstrap.bundle.min.js' %}"></script>
+ <!-- Load jQuery require for isotope -->
+ <script src="{% static 'Combi19App/js/jquery.min.js' %}"></script>
+{% endblock %} 
