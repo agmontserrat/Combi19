@@ -96,7 +96,7 @@ class Testeo(models.Model):
     perdida_gusto_olfato = models.BooleanField()
     tos = models.BooleanField()
     dificultad_respiratoria = models.BooleanField()
-    cantidad = models.IntegerField(blank=True, null=True)
+    cantidad = models.IntegerField(verbose_name='Cantidad de sintomas', blank=True, null=True)
 
     class Meta:
         verbose_name_plural = "Testeos"

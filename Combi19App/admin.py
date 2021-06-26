@@ -24,7 +24,16 @@ class PasajeAdmin(admin.ModelAdmin):
     list_display=['usuario','viaje','cantidad']
 
 class TesteoAdmin(admin.ModelAdmin):
-    list_display=['usuario','temperatura', 'tos']
+    list_display=['usuario','temperatura', 'tos', 'dolor_cabeza', 'dolor_muscular', 'dolor_garganta', 'vomitos_diarrea','perdida_gusto_olfato','dificultad_respiratoria']
+    fields=[]
+    list_filter =['viaje','cantidad']
+
+    def has_add_permission(self, request):
+        return False 
+    def has_change_permission(self, request, obj=None):
+        return False
+
+
 
 class ComentarioAdmin(admin.ModelAdmin):
     

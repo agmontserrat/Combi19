@@ -161,14 +161,15 @@ def datos_covid (request, *args, **kwargs):
         viaje = Viaje.objects.get(pk=viaje_id)
     except Viaje.DoesNotExist:
         return HttpResponse("Hubo un error")
-
     
-    testeo = Testeo.objects.filter(usuario=usuario).filter(viaje=viaje)[0]
+    testeo = Testeo.objects.filter(usuario=usuario).filter(viaje=viaje)
+    
     if testeo:
+        testeo = Testeo.objects.filter(usuario=usuario).filter(viaje=viaje)[0]
         return redirect("Datos Covid Llenos", t_id=testeo.id)
 
     form = DatosCovid()
-
+    
     if request.POST:
         form = DatosCovid(request.POST, instance=usuario)
         if form.is_valid():
