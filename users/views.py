@@ -42,6 +42,7 @@ def register_view(request, *args, **kwargs):
 def profile_view(request):
     return render(request, "users/profile.html")
 
+
 def editprofile_view(request, *args, **kwargs):
     if not request.user.is_authenticated:
         return redirect("Login")
@@ -51,7 +52,6 @@ def editprofile_view(request, *args, **kwargs):
         return HttpResponse("Hubo un error")
     if account.pk != request.user.pk:
         return HttpResponse("No podes editar el perfil de otro")
-
 
     context = {}
     if request.POST:
@@ -134,6 +134,9 @@ def eliminar_pasajero_view(request, *args, **kwargs):
         return redirect("Viajes Chofer")
         
     return render(request, "users/eliminar_pasajero.html", context)
+def datos_covid (request):
+    return render(request, "users/datos_covid.html")
+
 
 def finalizar_viaje_view(request, *args, **kwargs):
     viaje_id = kwargs.get("v_id")
