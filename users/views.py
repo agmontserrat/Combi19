@@ -1,3 +1,4 @@
+from Combi19App.views import contacto
 from users.models import Account, Tarjeta
 from Combi19App.models import Pasaje, Viaje
 from django.shortcuts import render, redirect
@@ -134,8 +135,16 @@ def eliminar_pasajero_view(request, *args, **kwargs):
         return redirect("Viajes Chofer")
         
     return render(request, "users/eliminar_pasajero.html", context)
-def datos_covid (request):
-    return render(request, "users/datos_covid.html")
+
+def datos_covid (request, *args, **kwargs):
+    usuario_id = kwargs.get("p_id")
+    try:
+        usuario = Account.objects.get(pk=usuario_id)
+    except Account.DoesNotExist:
+        return HttpResponse("Hubo un error")
+
+    context = {"pasajero": usuario}
+    return render(request, "users/datos_covid.html", context)
 
 
 def finalizar_viaje_view(request, *args, **kwargs):

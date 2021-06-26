@@ -10,8 +10,8 @@
                 <div class="card partner-wap  py-5 px-5">
                     <i class='display-1 text-white bx bx-user'></i> 
                 </div>
-                <span class="font-weight-bold pt-5">{{request.user.first_name}}</span>
-                <span class="text-black-50">{{request.user.email}}</span>
+                <span class="font-weight-bold pt-5">{{pasajero}}</span>
+                <span class="text-black-50">{{pasajero.email}}</span>
                 <span> </span>
             </div>
         </div>
@@ -23,8 +23,8 @@
                             <h4 class="text-right">Cagar informe COVID-19</h4>
                         </div>
                         <div class="row mt-2">
-                            <div class="col-md-6"><label class="labels">Nombre</label><input type="text" name="first_name" id="first_name" class="form-control" placeholder="" required value={{form.initial.first_name}}></div>
-                            <div class="col-md-6"><label class="labels">Apellido</label><input type="text" name="last_name" id="last_name" class="form-control" placeholder="" required value={{form.initial.last_name}}></div>
+                            <div class="col-md-6"><label class="labels">Nombre</label><input type="text" name="first_name" id="first_name" class="form-control" placeholder="" disabled value={{pasajero.first_name}}></div>
+                            <div class="col-md-6"><label class="labels">Apellido</label><input type="text" name="last_name" id="last_name" class="form-control" placeholder="" disabled value={{pasajero.last_name}}></div>
                         </div>
                         <div class="row mt-3">
                             <div class="col-md-6"><label class="labels">Temperatura</label><input type="number" name="temperatura" id="first_name" class="form-control" placeholder=""></div>
@@ -46,13 +46,11 @@
                             <div class="col-md-12"><label class="labels">¿Tiene dolor muscular?</label><br>
                                 <input type="radio" name="hm" value="h"> Si
                                 <input type="radio" name="hm" value="m" required> No </div>
-                                       
-                            
-                        </div>
+                            </div>
          
                         <div class="mt-5 text-center">
                             <button class="btn btn-primary profile-button" type="submit">Guardar cambios</button>
-                            <a href="{% url 'Profile' %}">
+                            <a href="{% url 'Viajes Chofer' %}">
                                 <button class="btn btn-outline-primary profile-button" type="button">Cancelar</button>
                             </a>
                         </div>
