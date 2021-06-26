@@ -32,7 +32,7 @@ class AccountAdmin(UserAdmin):
     
     ordering = ('email',)
     filter_horizontal = ()
-    list_filter = ('is_GOLD',)
+    list_filter = ('is_GOLD', 'is_staff', )
 
     def get_form(self, request, obj=None, **kwargs):
         form = super(AccountAdmin,self).get_form(request, obj, **kwargs)

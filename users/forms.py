@@ -11,7 +11,7 @@ from django.db.models import Q
 class RegistrationForm(UserCreationForm):
     email          = forms.EmailField(max_length=225, help_text="Requerido. Añadí una dirección de email válida.")
     first_name     = forms.CharField(max_length=30, help_text="Requerido. Añadí tu nombre.")
-    last_name      = forms.CharField(max_length=30, help_text="Requerido. Añadí tu nombre.")
+    last_name      = forms.CharField(max_length=30, help_text="Requerido. Añadí tu apellido.")
     date_of_birth  = forms.DateField()
 
 
@@ -48,8 +48,7 @@ class RegistrationForm(UserCreationForm):
 
 class AccountAuthenticationForm(forms.ModelForm):
     password = forms.CharField(label="Password", widget=forms.PasswordInput)
-    
-    
+
     class Meta:
         model = Account
         fields = ("email", "password")
