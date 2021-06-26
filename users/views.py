@@ -1,6 +1,7 @@
+from Combi19App.forms import DatosCovid
 from Combi19App.views import contacto
 from users.models import Account, Tarjeta
-from Combi19App.models import Pasaje, Viaje
+from Combi19App.models import Pasaje, Viaje, Testeo
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.contrib.auth import login, authenticate, logout
@@ -143,8 +144,12 @@ def datos_covid (request, *args, **kwargs):
     except Account.DoesNotExist:
         return HttpResponse("Hubo un error")
 
-    context = {"pasajero": usuario}
+    form = DatosCovid()
+
+    context = {"pasajero": usuario, "form": form}
     return render(request, "users/datos_covid.html", context)
+
+
 
 
 def finalizar_viaje_view(request, *args, **kwargs):

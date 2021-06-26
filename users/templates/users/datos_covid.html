@@ -1,6 +1,7 @@
 {% extends 'Combi19App/base.html' %}
-
-{% load static %}
+{% load static %} 
+{% load bootstrap %}
+{% load poll_extras %}
 {% block content %}
 
 <div class="container rounded bg-white mt-5 mb-5">
@@ -12,12 +13,11 @@
                 </div>
                 <span class="font-weight-bold pt-5">{{pasajero}}</span>
                 <span class="text-black-50">{{pasajero.email}}</span>
-                <span> </span>
             </div>
         </div>
         
             <div class="col-md-7 border-right">
-                <form class="form" method="post">
+                <form class="form-control col-md-5" method="post" action="#" role="form">{% csrf_token %}
                     <div class="p-3 py-5">
                         <div class="d-flex justify-content-between align-items-center mb-3">
                             <h4 class="text-right">Cagar informe COVID-19</h4>
@@ -26,41 +26,32 @@
                             <div class="col-md-6"><label class="labels">Nombre</label><input type="text" name="first_name" id="first_name" class="form-control" placeholder="" disabled value={{pasajero.first_name}}></div>
                             <div class="col-md-6"><label class="labels">Apellido</label><input type="text" name="last_name" id="last_name" class="form-control" placeholder="" disabled value={{pasajero.last_name}}></div>
                         </div>
-                        <div class="row mt-3">
-                            <div class="col-md-6"><label class="labels">Temperatura</label><input type="number" name="temperatura" id="first_name" class="form-control" placeholder=""></div>
-                            <div class="col-md-12"><label class="labels">¿Percibe una marcada perdida de gusto u olfato repentina?</label><br>
-                                <input type="radio" name="hm" value="h"> Si
-                                <input type="radio" name="hm" value="m" required> No </div>
-                            <div class="col-md-12"><label class="labels">¿Tiene dolor de gargante?</label><br>
-                                <input type="radio" name="hm" value="h"> Si
-                                <input type="radio" name="hm" value="m" required> No </div>
-                            <div class="col-md-12"><label class="labels">¿Tiene dificultad respiratoria o falta de aire?</label><br>
-                                <input type="radio" name="hm" value="h"> Si
-                                <input type="radio" name="hm" value="m" required> No </div>
-                            <div class="col-md-12"><label class="labels">¿Tiene vomitos o diarrea?</label><br>
-                                <input type="radio" name="hm" value="h"> Si
-                                <input type="radio" name="hm" value="m" required> No </div>
-                            <div class="col-md-12"><label class="labels">¿Tiene dolor de cabeza?</label><br>
-                                <input type="radio" name="hm" value="h"> Si
-                                <input type="radio" name="hm" value="m" required> No </div>
-                            <div class="col-md-12"><label class="labels">¿Tiene dolor muscular?</label><br>
-                                <input type="radio" name="hm" value="h"> Si
-                                <input type="radio" name="hm" value="m" required> No </div>
-                            </div>
-         
-                        <div class="mt-5 text-center">
-                            <button class="btn btn-primary profile-button" type="submit">Guardar cambios</button>
+                        {{form|bootstrap}}
+                        <div class="col-md-12 col-12 m-left py-2 text-end">
                             <a href="{% url 'Viajes Chofer' %}">
-                                <button class="btn btn-outline-primary profile-button" type="button">Cancelar</button>
+                                <button class="btn btn-outline-primary profile-button" type="button">Volver</button>
                             </a>
+                            <button type="submit" class="btn btn-secondary rounded-pill px-md-5 px-5 py-2 radius-5 text-light light-300">Guardar</button>
+                            
                         </div>
-                    </div>
+                        {% for field in form %}
+                        <!--Basicamente esto dice que si hay errores, que los muestre-->
+                        <p>
+                            {% for error in field.errors %}
+                                <p style="color: darkred">{{ error }}</p>
+                            {% endfor %}
+                        </p>
+                        {% endfor %} 
+                        {% if form.non_field_errors %}
+                            <div style="color: darkred">
+                            <p>{{form.non_field_errors}}</p>
+                        </div>
+                        {% endif %}
+                            
+                        </div>
+                    </div>  
                 </form>
             </div>
-            
-            
-
-            
     </div>
 </div>
 </div>
