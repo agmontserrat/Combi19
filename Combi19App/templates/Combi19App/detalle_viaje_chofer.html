@@ -18,12 +18,12 @@
           <div class="row">
             <div class="col-md-6 mb-3">
               <label for="firstName">Nombre</label>
-              <input type="text" class="form-control" id="firstName" placeholder=""  readonly value="{{request.user.first_name}}">
+              <input type="text" class="form-control" id="firstName" placeholder=""  readonly value="{{usuario.firstName}}">
               
             </div>
             <div class="col-md-6 mb-3">
               <label for="lastName">Apellido</label>
-              <input type="text" class="form-control" id="lastName" placeholder=""  readonly value="{{request.user.last_name}}">
+              <input type="text" class="form-control" id="lastName" placeholder=""  readonly value="{{usuario.last_name}}">
             </div>
           </div>
 
@@ -33,7 +33,7 @@
               <div class="input-group-prepend">
                 <span class="input-group-text">@</span>
               </div>
-              <input type="text" class="form-control" id="username" placeholder="Username" readonly value="{{request.user.email}}"">
+              <input type="text" class="form-control" id="username" placeholder="Username" readonly value="{{usuario.email}}"">
             </div>
           </div>
           <hr class="mb-4">
@@ -61,47 +61,32 @@
                             
                         </div>
                         <div class="col-md-4 px-3 d-flex  flex-column justify-content-end">
-                            <p class=" h5 text-end" id="total-precio">{{precio}}</p>
+                            <p class=" h5 text-end" id="total-precio">{{viaje.precio}}</p>
                             
                         </div>
                     </div>
                 </div>
             </div>
-        
-
-
-          <hr class="mb-4">
-
-          <h4 class="mb-3">Pago</h4>
-
-          <div class="d-block my-3">
-            {% for t in tarjetas %}
-                <div class="custom-control custom-radio">
-                <input id="credit" name="paymentMethod" type="radio" class="custom-control-input" checked="" required="">
-                <label class="custom-control-label" for="credit">{{t.nro}}</label>
-                </div>
-            {% endfor%}
-          </div>
           <hr class="mb-4">
           <div id= "error"></div>
           <button class="btn btn-primary btn-lg btn-block " id="boton-listo" type="button">Listo</button>
           <div class="text-end" style="display:none;" id="final-form">
             <h4 class="mb-3 " id="mostrar">Total: </h4>          
-            <button class="btn btn-primary btn-lg btn-block"  type="submit">Confirmar compra</button>
+            <button class="btn btn-primary btn-lg btn-block"  type="submit">Vender pasaje</button>
           </div>
         </form>
       </div>
     </div>
-  </div>
+</div>
 
 
 
 <!-- Bootstrap core JS-->
 <script type="text/javascript">
-    const form = document.getElementById("formulario")
-    const elementoError = document.getElementById("error")
-    const boton = document.getElementById("boton-listo")
-    var precio = parseInt({{ precio }})
+    const form = document.getElementById("formulario");
+    const elementoError = document.getElementById("error");
+    const boton = document.getElementById("boton-listo");
+    var precio = parseInt({{ viaje.precio }});
 
     
     boton.addEventListener("click", (e) => {

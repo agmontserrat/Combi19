@@ -3,7 +3,7 @@ from Combi19App.models import Pasaje, Viaje
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.contrib.auth import login, authenticate, logout
-from datetime import datetime
+from datetime import date, datetime
 import pytz
 from django.db.models import F
 from django.utils import timezone
@@ -108,7 +108,32 @@ def pasajeros_view(request, *args, **kwargs):
         return HttpResponse("Hubo un error")
 
     context = {"viaje": viaje}
+
+    
+        
     return render(request, "users/pasajeros.html", context)
+
+def eliminar_pasajero_view(request, *args, **kwargs):
+    viaje_id = kwargs.get("v_id")
+    try:
+        viaje = Viaje.objects.get(pk=viaje_id)
+    except Viaje.DoesNotExist:
+        return HttpResponse("Hubo un error")
+    
+    usuario_id = kwargs.get("p_id")
+    try:
+        usuario = Account.objects.get(pk=usuario_id)
+    except Account.DoesNotExist:
+        return HttpResponse("Hubo un error")
+
+    context = {"viaje": viaje, "usuario": usuario}
+
+    if request.POST:
+        viaje.pasajeros.remove(usuario)
+        viaje.save()
+        return redirect("Viajes Chofer")
+        
+    return render(request, "users/eliminar_pasajero.html", context)
 
 def finalizar_viaje_view(request, *args, **kwargs):
     viaje_id = kwargs.get("v_id")
@@ -124,6 +149,21 @@ def finalizar_viaje_view(request, *args, **kwargs):
         
     context = {"viaje": viaje}
     return render(request, "users/finalizar_viaje.html", context)
+
+def cancelar_viaje_view(request, *args, **kwargs):
+    viaje_id = kwargs.get("v_id")
+    try:
+        viaje = Viaje.objects.get(pk=viaje_id)
+    except Viaje.DoesNotExist:
+        return HttpResponse("Hubo un error")
+
+    if request.POST:
+        viaje.finalizar_viaje()
+        viaje.save()
+        return redirect("Viajes Chofer")
+        
+    context = {"viaje": viaje}
+    return render(request, "users/cancelar_viaje.html", context)
 
 def mistarjetas_view(request):
     tarjetas = Tarjeta.objects.filter(usuario_id=request.user.id)
@@ -265,3 +305,27 @@ def get_redirect_if_exists(request):
         if request.GET.get("next"):
             redirect = str(request.GET.get("next"))
     return redirect
+
+def nuevo_usuario_view(request,*args, **kwargs):
+    viaje_id = kwargs.get("v_id")
+    try:
+        viaje = Viaje.objects.get(pk=viaje_id)
+    except Viaje.DoesNotExist:
+        return HttpResponse("Hubo un error")
+
+
+    form = RegistrationForm(
+        initial={'date_of_birth': date(2000, 1, 1), }
+    )
+    context = {"form": form, "v": viaje}
+
+    if request.POST:
+        form = RegistrationForm(request.POST)
+        if form.is_valid():
+            usuario = form.save()
+            # usuario = Account.objects.get(email=email)
+            return redirect("Comprar Pasaje Chofer", v_id=viaje.id, p_id=usuario.id)
+        else:
+            context['form'] = form
+    
+    return render(request, "users/nuevo_usuario.html", context)

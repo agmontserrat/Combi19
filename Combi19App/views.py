@@ -1,4 +1,4 @@
-from users.models import Tarjeta
+from users.models import Account, Tarjeta
 from Combi19App.models import Comentario, Viaje, Pasaje, Ruta
 from django.shortcuts import render, HttpResponse, redirect
 from django.contrib.auth.decorators import login_required
@@ -31,9 +31,9 @@ def comprar_pasaje(request, *args, **kwargs):
     except:
         return HttpResponse("Hubo un error")
 
-    try: 
-        tarjetas_usuario = Tarjeta.objects.filter(usuario_id=request.user.id)
-    except Exception as E: #No tenemos tarjetas
+    tarjetas_usuario = Tarjeta.objects.filter(usuario_id=request.user.id)
+
+    if not (request.user.es_chofer) and not tarjetas_usuario:
         return redirect("Tarjetas")
 
     if request.user.is_GOLD:
@@ -59,7 +59,38 @@ def comprar_pasaje(request, *args, **kwargs):
         return redirect("Compra Exitosa")
     
     return render(request, "Combi19App/detalle_viaje.html", context)
+
+@login_required
+def comprar_pasaje_chofer(request, *args, **kwargs):
+    viaje_id = kwargs.get("v_id")
+    try: 
+        viaje = Viaje.objects.get(pk = viaje_id)
+    except:
+        return HttpResponse("Hubo un error")
     
+    usuario_id = kwargs.get("p_id")
+    try: 
+        usuario = Account.objects.get(pk = usuario_id)
+    except:
+        return HttpResponse("Hubo un error")
+
+    context = {"viaje": viaje, "usuario":usuario}
+
+    if request.POST:
+        form = CompraPasajeForm(request.POST)
+        if form.is_valid():
+            ocupados = int(form.cleaned_data.get('asientos_ocupados'))
+            viaje.asientos_ocupados= F('asientos_ocupados') + ocupados
+            viaje.pasajeros.add(usuario)
+            viaje.save()
+            viaje.refresh_from_db()
+            
+            p = Pasaje(viaje=viaje, usuario=usuario, cantidad=ocupados)
+            p.save()
+        return redirect("Compra Exitosa")
+    
+    return render(request, "Combi19App/detalle_viaje_chofer.html", context)
+
 @login_required
 def suscripcion_gold_exito(request):
     tarjetas = Tarjeta.objects.filter(usuario_id=request.user.id)

@@ -20,6 +20,7 @@ urlpatterns = [
 
     path('tienda/exito', views.insumo_exitoso, name="Insumo Exitoso"),
     path ('pasajes/comprar<v_id>', views.comprar_pasaje, name = "Comprar Pasaje"),
+    path ('pasajes/comprar<v_id>/<p_id>', views.comprar_pasaje_chofer, name = "Comprar Pasaje Chofer"),
     path('', views.index, name="Index")
     
 ]

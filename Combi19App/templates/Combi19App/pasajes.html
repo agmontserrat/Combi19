@@ -30,6 +30,7 @@
                 </form>
         </div>
 </section>
+
 <section class="py-5 mb-5">
     <div class="container">
         <div class="row gy-5 g-lg-5 mb-4"> 
@@ -56,11 +57,15 @@
                                         {% if request.user.is_GOLD %}
                                             <span class="h5 text-end text-muted text-decoration-strike" style="text-decoration: line-through;">{{v.precio}} </span>
                                             <span class="h5 text-end">{{v.precio | porcentaje:0.1}}</span>
-                                        
                                         {% else %}
                                             <p class=" h5 text-end">{{v.precio}}</p>
                                         {% endif %}
-                                        <a href="{% url 'Comprar Pasaje' v_id=v.id %}" class="btn btn-primary">Viajar</a>
+                                        
+                                        {% if request.user.es_chofer %}
+                                            <a href="{% url 'Nuevo Pasajero' v_id=v.id %}" class="btn btn-primary">Vender Pasaje</a>
+                                        {% else %}
+                                            <a href="{% url 'Comprar Pasaje' v_id=v.id %}" class="btn btn-primary">Viajar</a>
+                                        {% endif %}
                                     </div>
                                 </div>
                             </div>

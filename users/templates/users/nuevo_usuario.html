@@ -1,0 +1,44 @@
+{% extends 'Combi19App/base.html' %}
+
+{% load static %} 
+{% load bootstrap %}
+{% load poll_extras %}
+{% block content %}
+
+<section class="py-5 ">
+    <div class="container">
+        <h3 class="mb-3" >Añadir usuario</h3>
+        <div class="row gy-5 g-lg-5 ">
+                <form class="form-control col-md-5" method="post" action="#" role="form">{% csrf_token %}
+                    {{form|bootstrap}}
+                    <div id= "error"></div> 
+                    <div class="col-md-12 col-12 m-auto py-2 text-end">
+                        <button type="submit" class="btn btn-secondary rounded-pill px-md-5 px-4 py-2 radius-0 text-light light-300">Añadir</button>
+                    </div>
+                    {% for field in registration_form %}
+                    <!--Basicamente esto dice que si hay errores, que los muestre-->
+                    <p>
+                        {% for error in field.errors %}
+                        <p style="color: darkred">{{ error }}</p>
+                        {% endfor %}
+                    </p>
+                    {% endfor %} 
+                    {% if registration_form.non_field_errors %}
+                    <div style="color: darkred">
+                        <p>{{registration_form.non_field_errors}}</p>
+                    </div>
+ 
+                    {% endif %}
+                </form>
+        </div>
+</section>
+ <!-- Bootstrap core JS-->
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js "></script>
+ <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js "></script>
+ <!-- Third party plugin JS-->
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js "></script>
+ <!-- Bootstrap -->
+ <script src="{% static 'Combi19App/js/bootstrap.bundle.min.js' %}"></script>
+ <!-- Load jQuery require for isotope -->
+ <script src="{% static 'Combi19App/js/jquery.min.js' %}"></script>
+{% endblock %} 

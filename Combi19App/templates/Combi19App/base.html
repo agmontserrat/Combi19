@@ -84,7 +84,7 @@
                     <div class="btn-group" role="group">
                         <div class="btn-group" role="group">
                             <button class="btn btn-outline-light dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                {% if request.user.chofer.is_chofer %}
+                                {% if request.user.es_chofer %}
                                     <i class='bx bx-bus bx-sm text-primary''></i>
                                 {% else %}
                                     <i class='bx bx-user-circle bx-sm text-primary'></i>
@@ -92,7 +92,7 @@
                                 <span class="text-dark">{{ request.user.first_name }}</span>
                             </button>
                             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                {% if request.user.chofer.is_chofer %}
+                                {% if request.user.es_chofer %}
                                     <a class="dropdown-item" href="{% url 'Profile' %}">Mi perfil</a>
                                     <a class="dropdown-item" href="{% url 'Viajes Chofer' %}">Mis Viajes</a>
                                 {% else %}
@@ -100,8 +100,6 @@
                                     <a class="dropdown-item" href="{% url 'Viajes' %}">Mis Viajes</a>
                                     <a class="dropdown-item" href="{% url 'Tarjetas' %}">Mis tarjetas</a>
                                     <a class="dropdown-item" href="{% url 'Suscripcion' %}">Suscripción GOLD</a>
-
-
                                     {% if request.user.is_superuser %}
                                         <a class="dropdown-item" href="{% url 'admin:index' %}">Panel de administración</a>
                                     {% endif %}

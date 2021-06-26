@@ -57,6 +57,7 @@ class Comentario(models.Model):
     def __str__(self):
         return f"{self.usuario}: {self.comentario}"
 
+
 class Viaje(models.Model):
     fecha         =   models.DateTimeField(blank=True, null=True)
     ruta          =   models.ForeignKey(Ruta, default=None, blank=True, null=True, on_delete=models.CASCADE)
@@ -78,8 +79,9 @@ class Viaje(models.Model):
 
 class Pasaje(models.Model):
     viaje = models.ForeignKey(Viaje, on_delete=models.CASCADE)
-    usuario = models.ForeignKey(Account, on_delete=models.CASCADE)  
-    cantidad = models.IntegerField(blank=True,null=True)
+    usuario = models.ForeignKey(Account, on_delete=models.CASCADE)
+    cantidad = models.IntegerField(blank=True, null=True)
+
     class Meta:
         verbose_name_plural = "Pasajes"
 

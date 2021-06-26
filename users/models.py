@@ -103,6 +103,15 @@ class Account(AbstractBaseUser):
     def is_admin(self):
         return self.is_staff
 
+    @property
+    def es_chofer(self):
+        try:
+            chofer = self.chofer
+            print(chofer)
+            return True
+        except Chofer.DoesNotExist:
+            return False
+
 class Chofer(models.Model):
     user = models.OneToOneField(Account, on_delete=models.CASCADE, null=True, verbose_name='Usuario')
     telefono = models.BigIntegerField()
@@ -114,11 +123,9 @@ class Chofer(models.Model):
     def __str__(self):
         return str(self.user)
     
-    @property
-    def es_chofer(self):
-        return True
+    
 	
-
+    
 class Tarjeta(models.Model):
     usuario = models.ForeignKey(Account, on_delete=models.CASCADE, null=True)
     nro = models.BigIntegerField(blank=True, null=True, verbose_name='Numero de tarjerta')

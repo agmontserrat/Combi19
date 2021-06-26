@@ -5,10 +5,10 @@
 
 
 <div class="my-5 mx-5 card">
-    <h5 class="card-header">Finalizar Viaje</h5>
+    <h5 class="card-header">Cancelar Viaje</h5>
     <div class="card-body">
-        <h5 class="card-title">Estas a punto de cambiar el estado de este viaje.</h5>
-        <div class="row">
+        <h5 class="card-title">Estas a punto de cancelar el viaje.</h5>
+        <div class="row my-2">
             <div class="col-md-2">
                 <div href="#" class="card border-0 text-white shadow-sm overflow-hidden mx-5 m-sm-0">
                     <img class="card-img" src="{{viaje.ruta.destino.imagen.url}}" alt="">
@@ -22,10 +22,17 @@
                 <p class="m-0 p-0 text-muted">{{viaje.fecha|date:"d/m/Y"  }} </p> 
                 <p class="m-0 p-0 text-muted">{{viaje.fecha | time}} </p> 
             </div>
+            <div class=" col-md-4 px-3">
+                <h4 class="h4 ">Pasajeros</h4>
+                {% for p in viaje.pasajeros.all%}
+                <p class="m-0 p-0">{{p}}</p>
+                {% endfor %}
+            </div>
         </div>
+        <p class="card-text">Estas a punto de cancelar el viaje. Se le enviará un mail a tus pasajeros informando la cancelación, y el rembolso de su dinero.</p>
         <form method="POST" class="mt-2"> {% csrf_token %}
-            <a href=""><button class="btn btn-danger" type="submit" >Finalizar Viaje</button></a>
-            <a href="{% url 'Viajes Chofer' %}" class="btn btn-outline-primary">Cancelar</a>
+            <a href=""><button class="btn btn-danger" type="submit" >Cancelar Viaje</button></a>
+            <a href="{% url 'Viajes Chofer' %}" class="btn btn-outline-primary">Volver</a>
         </form>
     </div>
   </div>
