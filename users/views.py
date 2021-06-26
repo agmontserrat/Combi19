@@ -137,6 +137,9 @@ def eliminar_pasajero_view(request, *args, **kwargs):
         
     return render(request, "users/eliminar_pasajero.html", context)
 
+def datos_covid_sospechoso(request):
+    return render(request, "users/datos_covid_sospechoso.html")
+
 def datos_covid_llenos(request, *args, **kwargs):
     testeo_id = kwargs.get("t_id")
     try:
@@ -177,7 +180,9 @@ def datos_covid (request, *args, **kwargs):
             testeo.viaje = viaje
             testeo.save()
             if (testeo.cantidad > 1) or (testeo.temperatura > 38):
-                pass
+                viaje.pasajeros.remove(usuario)
+                viaje.save()
+                return redirect("Pasajero Sospechoso")
             else:
                 return redirect("Viajes Chofer")
 

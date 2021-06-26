@@ -116,7 +116,6 @@ class DatosCovid(forms.ModelForm):
         return datos_covid
 
 class DatosCovidLlenos(forms.ModelForm):
-
     temperatura = forms.FloatField(disabled=True)
     dificultad_respiratoria = forms.BooleanField(disabled=True)
     tos = forms.BooleanField(disabled=True)
