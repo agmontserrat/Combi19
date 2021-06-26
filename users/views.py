@@ -42,15 +42,10 @@ def register_view(request, *args, **kwargs):
 def profile_view(request):
     return render(request, "users/profile.html")
 
+
 def editprofile_view(request, *args, **kwargs):
     if not request.user.is_authenticated:
         return redirect("Login")
-    try:
-        account = Account.objects.get(pk=request.user.id)
-    except Account.DoesNotExist:
-        return HttpResponse("Hubo un error")
-    if account.pk != request.user.pk:
-        return HttpResponse("No podes editar el perfil de otro")
 
 
     context = {}
@@ -109,6 +104,10 @@ def pasajeros_view(request, *args, **kwargs):
 
     context = {"viaje": viaje}
     return render(request, "users/pasajeros.html", context)
+
+def datos_covid (request):
+    return render(request, "users/datos_covid.html")
+
 
 def finalizar_viaje_view(request, *args, **kwargs):
     viaje_id = kwargs.get("v_id")

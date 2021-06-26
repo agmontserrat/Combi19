@@ -11,6 +11,7 @@ urlpatterns = [
     path ('viajes/', views.misviajes_view, name = "Viajes"),
     path ('viajes/chofer', views.viajeschofer_view, name = "Viajes Chofer"),
     path ('viajes/chofer/viaje<v_id>', views.pasajeros_view, name = "Pasajeros"),
+    path ('datosCovid/', views.datos_covid, name = "DatosCovid"),
     path ('viajes/chofer/finalizar<v_id>', views.finalizar_viaje_view, name = "Finalizar Viaje"),
     path ('tarjetas', views.mistarjetas_view, name = "Tarjetas"),
     path ('tarjetas/agregar', views.tarjeta_view, name = "Nueva Tarjeta"),
