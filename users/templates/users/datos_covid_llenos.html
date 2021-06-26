@@ -11,27 +11,28 @@
                 <div class="card partner-wap  py-5 px-5">
                     <i class='display-1 text-white bx bx-user'></i> 
                 </div>
-                <span class="font-weight-bold pt-5">{{pasajero}}</span>
-                <span class="text-black-50">{{pasajero.email}}</span>
+                <span class="font-weight-bold pt-5">{{t.usuario}}</span>
+                <span class="text-black-50">{{t.usuario.email}}</span>
             </div>
         </div>
         
             <div class="col-md-7 border-right">
-                <form class="form-control col-md-5" method="post" action="#" role="form">{% csrf_token %}
+                <!-- <form class="form-control col-md-5" method="post" action="#" role="form">{% csrf_token %} -->
                     <div class="p-3 py-5">
                         <div class="d-flex justify-content-between align-items-center mb-3">
-                            <h4 class="text-right">Cargar informe COVID-19</h4>
+                            <h4 class="text-right">Visualizar informe COVID-19</h4>
                         </div>
                         <div class="row mt-2">
-                            <div class="col-md-6"><label class="labels">Nombre</label><input type="text" name="first_name" id="first_name" class="form-control" placeholder="" disabled value={{pasajero.first_name}}></div>
-                            <div class="col-md-6"><label class="labels">Apellido</label><input type="text" name="last_name" id="last_name" class="form-control" placeholder="" disabled value={{pasajero.last_name}}></div>
+                            
+                            <div class="col-md-6"><label class="labels">Nombre</label><input type="text" name="first_name" id="first_name" class="form-control" placeholder="" readonly value="{{t.usuario.first_name}}"></div>
+                            <div class="col-md-6"><label class="labels">Apellido</label><input type="text" name="last_name" id="last_name" class="form-control" placeholder="" readonly value={{t.usuario.last_name}}></div>
                         </div>
                         {{form|bootstrap}}
                         <div class="col-md-12 col-12 m-left py-2 text-end">
                             <a href="{% url 'Viajes Chofer' %}">
                                 <button class="btn btn-outline-primary profile-button" type="button">Volver</button>
                             </a>
-                            <button type="submit" class="btn btn-secondary rounded-pill px-md-5 px-5 py-2 radius-5 text-light light-300">Guardar</button>
+                            
                             
                         </div>
                         {% for field in form %}
@@ -50,7 +51,7 @@
                             
                         </div>
                     </div>  
-                </form>
+                <!-- </form> -->
             </div>
     </div>
 </div>

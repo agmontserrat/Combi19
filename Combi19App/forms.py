@@ -55,11 +55,9 @@ class DatosCovid(forms.ModelForm):
 
     def clean_temperatura(self):
         temperatura = self.cleaned_data['temperatura']
-            # if temperatura > 38:
-            #     self.contador_sintomas = self.contador_sintomas+1
         return temperatura
     
-    def clean_dificultadRespiratoria(self):
+    def clean_dificultad_respiratoria(self):
         dificultad_respiratoria = self.cleaned_data["dificultad_respiratoria"]
         if dificultad_respiratoria:
             self.contador_sintomas = self.contador_sintomas+1
@@ -71,31 +69,31 @@ class DatosCovid(forms.ModelForm):
             self.contador_sintomas = self.contador_sintomas+1
         return tos
     
-    def clean_dolorGarganta(self):
+    def clean_dolor_garganta(self):
         dolor_garganta = self.cleaned_data['dolor_garganta']
         if dolor_garganta:
             self.contador_sintomas = self.contador_sintomas+1
         return dolor_garganta
     
-    def clean_dolorCabeza(self):
+    def clean_dolor_cabeza(self):
         dolor_cabeza = self.cleaned_data['dolor_cabeza']
         if dolor_cabeza:
             self.contador_sintomas = self.contador_sintomas+1
         return dolor_cabeza
 
-    def clean_dolorMuscular(self):
+    def clean_dolor_muscular(self):
         dolor_muscular = self.cleaned_data['dolor_muscular']
         if dolor_muscular:
             self.contador_sintomas = self.contador_sintomas+1
         return dolor_muscular
     
-    def clean_vomitosDiarrea(self):
+    def clean_vomitos_diarrea(self):
         vomitos_diarrea = self.cleaned_data['vomitos_diarrea']
         if vomitos_diarrea:
             self.contador_sintomas = self.contador_sintomas+1
         return vomitos_diarrea
     
-    def clean_perdidaGustoOlfato(self):
+    def clean_perdida_gusto_olfato(self):
         perdida_gusto_olfato = self.cleaned_data['perdida_gusto_olfato']
         if perdida_gusto_olfato:
             self.contador_sintomas = self.contador_sintomas+1
@@ -112,6 +110,26 @@ class DatosCovid(forms.ModelForm):
         datos_covid.dolor_muscular = self.cleaned_data['dolor_muscular']
         datos_covid.vomitos_diarrea = self.cleaned_data['vomitos_diarrea']
         datos_covid.perdida_gusto_olfato = self.cleaned_data['perdida_gusto_olfato']
+        datos_covid.cantidad = self.contador_sintomas
         if commit:
             datos_covid.save()
         return datos_covid
+
+class DatosCovidLlenos(forms.ModelForm):
+
+    temperatura = forms.FloatField(disabled=True)
+    dificultad_respiratoria = forms.BooleanField(disabled=True)
+    tos = forms.BooleanField(disabled=True)
+    dolor_garganta = forms.BooleanField(disabled=True)
+    dolor_cabeza = forms.BooleanField(disabled=True)
+    dolor_muscular = forms.BooleanField(disabled=True)
+    vomitos_diarrea = forms.BooleanField(disabled=True)
+    perdida_gusto_olfato = forms.BooleanField(disabled=True)
+    class Meta:
+        model = Testeo
+        fields = ("temperatura","dificultad_respiratoria","tos","dolor_garganta","dolor_cabeza","dolor_muscular","vomitos_diarrea","perdida_gusto_olfato")
+        widgets = {
+        'temperatura': forms.TextInput(attrs={'readonly': 'readonly'}),
+        }
+
+    

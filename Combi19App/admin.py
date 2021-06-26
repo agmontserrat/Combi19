@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.contrib.admin.options import ModelAdmin
 from django.db.models.base import Model
-from .models import Comentario, Vehiculo, Viaje, Lugar, Ruta, Pasaje
+from .models import Comentario, Vehiculo, Viaje, Lugar, Ruta, Pasaje, Testeo
 
 admin.site.site_header = 'Sitio administrativo de COMBI-19'
 
@@ -23,6 +23,9 @@ class ViajeAdmin(admin.ModelAdmin):
 class PasajeAdmin(admin.ModelAdmin):
     list_display=['usuario','viaje','cantidad']
 
+class TesteoAdmin(admin.ModelAdmin):
+    list_display=['usuario','temperatura', 'tos']
+
 class ComentarioAdmin(admin.ModelAdmin):
     
     list_display=['usuario','comentario']
@@ -35,9 +38,9 @@ class ComentarioAdmin(admin.ModelAdmin):
 #     list_display = ['nombre','descripcion','precio','cantidad']
 
 admin.site.register(Vehiculo, VehiculoAdmin)
-# admin.site.register(Insumo, InsumoAdmin)
 admin.site.register(Viaje, ViajeAdmin)
 admin.site.register(Lugar, LugarAdmin)
 admin.site.register(Pasaje, PasajeAdmin)
 admin.site.register(Ruta, RutaAdmin)
 admin.site.register(Comentario, ComentarioAdmin)
+admin.site.register(Testeo, TesteoAdmin)

@@ -87,14 +87,16 @@ class Pasaje(models.Model):
 
 class Testeo(models.Model):
     usuario = models.ForeignKey(Account, on_delete=models.CASCADE)
-    temperatura = models.FloatField(blank=True, null=True)
-    dolor_cabeza = models.BooleanField(blank=True, null=True)
-    dolor_garganta = models.BooleanField(blank=True, null=True)
-    dolor_muscular = models.BooleanField(blank=True, null=True)
-    vomitos_diarrea = models.BooleanField(blank=True, null=True)
-    perdida_gusto_olfato = models.BooleanField(blank=True, null=True)
-    tos = models.BooleanField(blank=True, null=True)
-    dificultad_respiratoria = models.BooleanField(blank=True, null=True)
+    viaje = models.ForeignKey(Viaje, on_delete=models.CASCADE, blank=True, null=True)
+    temperatura = models.FloatField()
+    dolor_cabeza = models.BooleanField()
+    dolor_garganta = models.BooleanField()
+    dolor_muscular = models.BooleanField()
+    vomitos_diarrea = models.BooleanField()
+    perdida_gusto_olfato = models.BooleanField()
+    tos = models.BooleanField()
+    dificultad_respiratoria = models.BooleanField()
+    cantidad = models.IntegerField(blank=True, null=True)
 
     class Meta:
         verbose_name_plural = "Testeos"

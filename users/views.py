@@ -1,4 +1,4 @@
-from Combi19App.forms import DatosCovid
+from Combi19App.forms import DatosCovid, DatosCovidLlenos
 from Combi19App.views import contacto
 from users.models import Account, Tarjeta
 from Combi19App.models import Pasaje, Viaje, Testeo
@@ -137,14 +137,49 @@ def eliminar_pasajero_view(request, *args, **kwargs):
         
     return render(request, "users/eliminar_pasajero.html", context)
 
+def datos_covid_llenos(request, *args, **kwargs):
+    testeo_id = kwargs.get("t_id")
+    try:
+        testeo = Testeo.objects.get(pk=testeo_id)
+    except Testeo.DoesNotExist:
+        return HttpResponse("Hubo un error")
+
+    form = DatosCovidLlenos(instance=testeo)
+
+    context={"form":form, "t":testeo}
+    return render(request, "users/datos_covid_llenos.html", context)
+
 def datos_covid (request, *args, **kwargs):
     usuario_id = kwargs.get("p_id")
     try:
         usuario = Account.objects.get(pk=usuario_id)
     except Account.DoesNotExist:
         return HttpResponse("Hubo un error")
+    
+    viaje_id = kwargs.get("v_id")
+    try:
+        viaje = Viaje.objects.get(pk=viaje_id)
+    except Viaje.DoesNotExist:
+        return HttpResponse("Hubo un error")
+
+    
+    testeo = Testeo.objects.filter(usuario=usuario).filter(viaje=viaje)[0]
+    if testeo:
+        return redirect("Datos Covid Llenos", t_id=testeo.id)
 
     form = DatosCovid()
+
+    if request.POST:
+        form = DatosCovid(request.POST, instance=usuario)
+        if form.is_valid():
+            testeo = form.save()
+            testeo.viaje = viaje
+            testeo.save()
+            if (testeo.cantidad > 1) or (testeo.temperatura > 38):
+                pass
+            else:
+                return redirect("Viajes Chofer")
+
 
     context = {"pasajero": usuario, "form": form}
     return render(request, "users/datos_covid.html", context)
