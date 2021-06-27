@@ -5,11 +5,11 @@
 
 
 <div class="my-5 mx-5 card">
-    <h5 class="card-header semi-bold-600">¡PASAJERO SOSPECHOSO DE COVID!</h5>
+    <h5 class="card-header semi-bold-600"> <span><i class='bx bxs-virus'></i></span> ¡PASAJERO SOSPECHOSO DE COVID! <span><i class='bx bxs-virus'></i></span></h5>
     <div class="card-body">
-        <h5 class="card-title semi-bold-600"> El pasajero #ACA NO SE COMO PONER EL NOMBRE#</h5>
-        <p class="card-text light-300">No podra a abordar a la combi, se le rembolsara el 100% del dinero <span><i class='bx bx-user-circle bx-sm text-primary'></i></span></p>
-        <a href="{% url 'Home' %}" class="btn rounded-pill btn-outline-primary">Continuar</a>
+        <h5 class="card-title semi-bold-600"> El pasajero {{usuario}}</h5>
+        <p class="card-text light-300">No podra a abordar a la combi, se le rembolsara el 100% del dinero</p>
+        <a href="{% url 'Pasajeros' v_id=viaje.id %}" class="btn rounded-pill btn-outline-primary">Continuar</a>
         </form>
     </div>
   </div>

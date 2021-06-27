@@ -35,8 +35,8 @@
         {% endfor %}
     </div>
     <h4 class="mb-3">Tus Viajes</h4>
-    <p class="lead">¿En qué viaje querés recibir tus insumos?</p>
     {% if viajes %}
+        <p class="lead">¿En qué viaje querés recibir tus insumos?</p>
         <form class="pb-5" id="formulario" method="POST"> {% csrf_token %}
             {% for v in viajes %}
                 <div class="custom-control custom-radio">
@@ -45,11 +45,14 @@
                 </div>
             {% endfor%}
         </form>
+        <div class="text-end" id="final-form">
+            <h4 class="mb-3 " id="mostrar">Total: {{importe_total}}</h4>          
+            <a href="{% url 'Insumo Exitoso' %}"  class="btn btn-primary btn-lg btn-block" >Confirmar compra</a>
+          </div>
+    {% else %}
+        <p class="lead">Necesitas comprar un pasaje antes de comprar un insumo</p>
     {% endif %}
-    <div class="text-end" id="final-form">
-        <h4 class="mb-3 " id="mostrar">Total: {{importe_total}}</h4>          
-        <a href="{% url 'Insumo Exitoso' %}"  class="btn btn-primary btn-lg btn-block" >Confirmar compra</a>
-      </div>
+    
 
 </div>
 

@@ -31,8 +31,7 @@ class MyAccountManager(BaseUserManager):
         user.set_password(password)
         user.save(using=self._db)
         return user
-
-
+    
     def create_superuser(self, email, dni, first_name, last_name, date_of_birth, password):
         user = self.create_user(
             email = self.normalize_email(email),
@@ -107,10 +106,10 @@ class Account(AbstractBaseUser):
     def es_chofer(self):
         try:
             chofer = self.chofer
-            print(chofer)
             return True
         except Chofer.DoesNotExist:
             return False
+
 
 class Chofer(models.Model):
     user = models.OneToOneField(Account, on_delete=models.CASCADE, null=True, verbose_name='Usuario')
@@ -122,10 +121,8 @@ class Chofer(models.Model):
 
     def __str__(self):
         return str(self.user)
-    
-    
-	
-    
+       
+       
 class Tarjeta(models.Model):
     usuario = models.ForeignKey(Account, on_delete=models.CASCADE, null=True)
     nro = models.BigIntegerField(blank=True, null=True, verbose_name='Numero de tarjerta')

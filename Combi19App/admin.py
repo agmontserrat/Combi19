@@ -12,21 +12,25 @@ class VehiculoAdmin(admin.ModelAdmin):
 
 class LugarAdmin(admin.ModelAdmin):
     list_display = ['nombre','provincia','codigo_postal']
+    list_filter =['provincia']
 
 class RutaAdmin(admin.ModelAdmin):
     list_display=['origen','destino','km','nombre']
+    list_filter =['origen', 'destino']
 
 class ViajeAdmin(admin.ModelAdmin):
     list_display=['fecha','ruta','combi','estado','precio']
-    list_filter =['fecha','ruta','combi','estado','precio']
+    list_filter =['estado','fecha','ruta','combi','precio']
+
 
 class PasajeAdmin(admin.ModelAdmin):
     list_display=['usuario','viaje','cantidad']
+    list_filter =['viaje__estado', 'viaje__fecha']
 
 class TesteoAdmin(admin.ModelAdmin):
     list_display=['usuario','temperatura', 'tos', 'dolor_cabeza', 'dolor_muscular', 'dolor_garganta', 'vomitos_diarrea','perdida_gusto_olfato','dificultad_respiratoria']
     fields=[]
-    list_filter =['viaje','cantidad']
+    list_filter =['cantidad','viaje']
 
     def has_add_permission(self, request):
         return False 
@@ -36,8 +40,8 @@ class TesteoAdmin(admin.ModelAdmin):
 
 
 class ComentarioAdmin(admin.ModelAdmin):
-    
     list_display=['usuario','comentario']
+    list_filter =['ruta']
     def has_add_permission(self, request):
         return False
     def has_change_permission(self, request, obj=None):

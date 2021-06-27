@@ -1,0 +1,26 @@
+{% extends 'Combi19App/base.html' %}
+
+{% load static %}
+{% block content %}
+
+
+<div class="my-5 mx-5 card">
+    <h5 class="card-header semi-bold-600">El pasajero puede subir al micro  <span><i class='bx bx-paper-plane'></i></span></h5>
+    <div class="card-body">
+        <h5 class="card-title semi-bold-600"> El pasajero {{usuario}}</h5>
+        <p class="card-text light-300">Podrá viajar sin problemas ya que no presenta fiebre o más de dos síntomas de COVID</p>
+        <a href="{% url 'Pasajeros' v_id=viaje.id %}" class="btn rounded-pill btn-outline-primary">Continuar</a>
+        </form>
+    </div>
+  </div>
+
+ <!-- Bootstrap core JS-->
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js "></script>
+ <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js "></script>
+ <!-- Third party plugin JS-->
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js "></script>
+ <!-- Bootstrap -->
+ <script src="{% static 'Combi19App/js/bootstrap.bundle.min.js' %}"></script>
+ <!-- Load jQuery require for isotope -->
+ <script src="{% static 'Combi19App/js/jquery.min.js' %}"></script>
+{% endblock %} 

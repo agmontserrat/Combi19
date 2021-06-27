@@ -47,56 +47,64 @@ class Ruta(models.Model):
         unique_together = ('origen', 'destino')
         
     def __str__(self):
-        return f'Origen: {self.origen} --> Destino: {self.destino}'
+        return f'De {self.origen} a {self.destino}'
 
 class Comentario(models.Model):
-    usuario = models.ForeignKey(Account, default=None, null=True,on_delete=models.CASCADE)
+    usuario    = models.ForeignKey(Account, default=None, null=True,on_delete=models.CASCADE)
     comentario = models.CharField(max_length=300)
-    ruta = models.ForeignKey(Ruta, default=None, null=True,on_delete=models.CASCADE)
+    ruta       = models.ForeignKey(Ruta, default=None, null=True,on_delete=models.CASCADE)
     
     def __str__(self):
         return f"{self.usuario}: {self.comentario}"
 
-
 class Viaje(models.Model):
-    fecha         =   models.DateTimeField(blank=True, null=True)
-    ruta          =   models.ForeignKey(Ruta, default=None, blank=True, null=True, on_delete=models.CASCADE)
-    combi         =   models.ForeignKey(Vehiculo, blank=True, null=True, on_delete=models.CASCADE)
-    estado        =   models.BooleanField(default=False)
-    precio        =   models.DecimalField(default=None, blank=True, null=True, max_digits=10, decimal_places=2)
-    insumo        =   models.ManyToManyField(Insumo,default=None, blank=True,)
-    pasajeros     =   models.ManyToManyField(Account, default=None, blank=True)
-    asientos_ocupados = models.IntegerField(default=0, null=True, blank=True)
+    comenzado  = "com"
+    finalizado = "fin"
+    cancelado  = "can"
+    ESTADO_CHOICES = [ (comenzado,'COMENZADO'), (finalizado, 'FINALIZADO'), (cancelado,'CANCELADO') ]
+    
+    
+    fecha             =   models.DateTimeField(blank=True, null=True)
+    ruta              =   models.ForeignKey(Ruta, default=None, blank=True, null=True, on_delete=models.CASCADE)
+    combi             =   models.ForeignKey(Vehiculo, blank=True, null=True, on_delete=models.CASCADE)
+    precio            =   models.DecimalField(default=None, blank=True, null=True, max_digits=10, decimal_places=2)
+    insumo            =   models.ManyToManyField(Insumo,default=None, blank=True)
+    pasajeros         =   models.ManyToManyField(Account, default=None, blank=True)
+    asientos_ocupados =   models.IntegerField(default=0, null=True, blank=True)
+    estado            =   models.CharField(max_length=3, choices=ESTADO_CHOICES, default=ESTADO_CHOICES[0])
     
     class Meta:
         unique_together = ('fecha', 'combi')
         
     def __str__(self):
-        return f'Fecha: {self.fecha} - Ruta: {self.ruta} - Combi:{self.combi} '
+        return f'Fecha: {self.fecha:%Y-%m-%d %H:%M} - Ruta: {self.ruta} - Combi: {self.combi} '
 
     def finalizar_viaje(self):
-        self.estado = True
+        self.estado = self.finalizado
+    
+    def cancelar_viaje(self):
+        self.estado = self.cancelado
 
 class Pasaje(models.Model):
-    viaje = models.ForeignKey(Viaje, on_delete=models.CASCADE)
-    usuario = models.ForeignKey(Account, on_delete=models.CASCADE)
+    viaje    = models.ForeignKey(Viaje, on_delete=models.CASCADE)
+    usuario  = models.ForeignKey(Account, on_delete=models.CASCADE)
     cantidad = models.IntegerField(blank=True, null=True)
 
     class Meta:
         verbose_name_plural = "Pasajes"
 
 class Testeo(models.Model):
-    usuario = models.ForeignKey(Account, on_delete=models.CASCADE)
-    viaje = models.ForeignKey(Viaje, on_delete=models.CASCADE, blank=True, null=True)
-    temperatura = models.FloatField()
-    dolor_cabeza = models.BooleanField()
-    dolor_garganta = models.BooleanField()
-    dolor_muscular = models.BooleanField()
-    vomitos_diarrea = models.BooleanField()
-    perdida_gusto_olfato = models.BooleanField()
-    tos = models.BooleanField()
+    usuario                 = models.ForeignKey(Account, on_delete=models.CASCADE)
+    viaje                   = models.ForeignKey(Viaje, on_delete=models.CASCADE, blank=True, null=True)
+    temperatura             = models.FloatField()
+    dolor_cabeza            = models.BooleanField()
+    dolor_garganta          = models.BooleanField()
+    dolor_muscular          = models.BooleanField()
+    vomitos_diarrea         = models.BooleanField()
+    perdida_gusto_olfato    = models.BooleanField()
+    tos                     = models.BooleanField()
     dificultad_respiratoria = models.BooleanField()
-    cantidad = models.IntegerField(verbose_name='Cantidad de sintomas', blank=True, null=True)
+    cantidad                = models.IntegerField(verbose_name='Cantidad de sintomas', blank=True, null=True)
 
     class Meta:
         verbose_name_plural = "Testeos"

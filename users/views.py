@@ -5,8 +5,7 @@ from Combi19App.models import Pasaje, Viaje, Testeo
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.contrib.auth import login, authenticate, logout
-from datetime import date, datetime
-import pytz
+from datetime import date
 from django.db.models import F
 from django.utils import timezone
 from users.forms import AccountUpdateForm, AddCardForm, RegistrationForm, AccountAuthenticationForm, EditCardForm
@@ -43,7 +42,6 @@ def register_view(request, *args, **kwargs):
 
 def profile_view(request):
     return render(request, "users/profile.html")
-
 
 def editprofile_view(request, *args, **kwargs):
     if not request.user.is_authenticated:
@@ -91,14 +89,14 @@ def editprofile_view(request, *args, **kwargs):
     return render(request, "users/edit_profile.html", context)
 
 def misviajes_view(request):
-    viajes_pendientes = Viaje.objects.filter(pasajeros=request.user).filter(estado=False)
-    viajes_finalizados = Viaje.objects.filter(pasajeros=request.user).filter(estado=True)
+    viajes_pendientes = Viaje.objects.filter(pasajeros=request.user).filter(estado=Viaje.comenzado)
+    viajes_finalizados = Viaje.objects.filter(pasajeros=request.user).filter(estado=Viaje.finalizado)
     context = {"finalizados": viajes_finalizados, "pendientes":viajes_pendientes}
     return render(request, "users/misviajes.html", context)
 
 def viajeschofer_view(request):
-    viajes_pendientes = Viaje.objects.filter(combi__chofer__user=request.user).filter(estado=False)
-    viajes_finalizados = Viaje.objects.filter(combi__chofer__user=request.user).filter(estado=True)
+    viajes_pendientes = Viaje.objects.filter(combi__chofer__user=request.user).filter(estado=Viaje.comenzado)
+    viajes_finalizados = Viaje.objects.filter(combi__chofer__user=request.user).filter(estado=Viaje.finalizado)
     context = {"finalizados": viajes_finalizados, "pendientes":viajes_pendientes}
     return render(request, "users/misviajes.html", context)
 
@@ -109,9 +107,10 @@ def pasajeros_view(request, *args, **kwargs):
     except Viaje.DoesNotExist:
         return HttpResponse("Hubo un error")
 
-    context = {"viaje": viaje}
-
+    t= Account.objects.filter(testeo__in=Testeo.objects.filter(viaje=viaje))
     
+    context = {"viaje": viaje, "testeos":t}
+
         
     return render(request, "users/pasajeros.html", context)
 
@@ -137,8 +136,37 @@ def eliminar_pasajero_view(request, *args, **kwargs):
         
     return render(request, "users/eliminar_pasajero.html", context)
 
-def datos_covid_sospechoso(request):
-    return render(request, "users/datos_covid_sospechoso.html")
+def datos_covid_sospechoso(request, *args, **kwargs):
+    viaje_id = kwargs.get("v_id")
+    try:
+        viaje = Viaje.objects.get(pk=viaje_id)
+    except Viaje.DoesNotExist:
+        return HttpResponse("Hubo un error")
+    
+    usuario_id = kwargs.get("p_id")
+    try:
+        usuario = Account.objects.get(pk=usuario_id)
+    except Account.DoesNotExist:
+        return HttpResponse("Hubo un error")
+    
+    context = {"usuario": usuario, "viaje":viaje}
+    return render(request, "users/datos_covid_sospechoso.html", context)
+
+def sin_covid(request, *args, **kwargs):
+    viaje_id = kwargs.get("v_id")
+    try:
+        viaje = Viaje.objects.get(pk=viaje_id)
+    except Viaje.DoesNotExist:
+        return HttpResponse("Hubo un error")
+    
+    usuario_id = kwargs.get("p_id")
+    try:
+        usuario = Account.objects.get(pk=usuario_id)
+    except Account.DoesNotExist:
+        return HttpResponse("Hubo un error")
+    
+    context = {"usuario": usuario, "viaje":viaje}
+    return render(request, "users/sin_covid.html", context)
 
 def datos_covid_llenos(request, *args, **kwargs):
     testeo_id = kwargs.get("t_id")
@@ -182,16 +210,13 @@ def datos_covid (request, *args, **kwargs):
             if (testeo.cantidad > 1) or (testeo.temperatura > 38):
                 viaje.pasajeros.remove(usuario)
                 viaje.save()
-                return redirect("Pasajero Sospechoso")
+                return redirect("Pasajero Sospechoso", v_id=viaje.id, p_id=usuario.id)
             else:
-                return redirect("Viajes Chofer")
+                return redirect("Pasajero Sin COVID", v_id=viaje.id, p_id=usuario.id)
 
 
     context = {"pasajero": usuario, "form": form}
     return render(request, "users/datos_covid.html", context)
-
-
-
 
 def finalizar_viaje_view(request, *args, **kwargs):
     viaje_id = kwargs.get("v_id")
@@ -216,7 +241,7 @@ def cancelar_viaje_view(request, *args, **kwargs):
         return HttpResponse("Hubo un error")
 
     if request.POST:
-        viaje.finalizar_viaje()
+        viaje.cancelar_viaje()
         viaje.save()
         return redirect("Viajes Chofer")
         
@@ -236,7 +261,7 @@ def tarjeta_view(request, *args, **kwargs):
     
     if request.POST:
         form = AddCardForm(request.POST, instance=request.user)
-        print(form.errors)
+        
         if form.is_valid():
             form.save()
             return redirect("Tarjetas")
@@ -258,7 +283,7 @@ def edit_tarjeta_view(request, *args, **kwargs):
     context = {}
     if request.POST:
         form = EditCardForm(request.POST, instance=tarjeta )
-        print(form.errors)
+        
         if form.is_valid():   
             form.save(user=request.user)
             return redirect("Tarjetas")

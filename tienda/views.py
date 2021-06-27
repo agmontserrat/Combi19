@@ -87,7 +87,7 @@ def tienda (request):
 @login_required
 def comprar_insumos(request, *args, **kwargs):
     carrito = request.session['carro']
-    viajes = Viaje.objects.filter(pasajeros=request.user).filter(estado=False)
+    viajes = Viaje.objects.filter(pasajeros=request.user).filter(estado=Viaje.comenzado)
     context = {"viajes":viajes}
 
     return render(request, "tienda/detalle_insumo.html", context)
