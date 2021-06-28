@@ -15,11 +15,11 @@ class LugarAdmin(admin.ModelAdmin):
     list_filter =['provincia']
 
 class RutaAdmin(admin.ModelAdmin):
-    list_display=['origen','destino','km','nombre']
+    list_display=['id','origen','destino','km','nombre']
     list_filter =['origen', 'destino']
 
 class ViajeAdmin(admin.ModelAdmin):
-    list_display=['fecha','ruta','combi','estado','precio']
+    list_display=['id','fecha','ruta','combi','estado','precio']
     list_filter =['estado','fecha','ruta','combi','precio']
 
 

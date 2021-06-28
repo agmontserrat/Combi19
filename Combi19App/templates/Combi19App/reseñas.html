@@ -30,13 +30,28 @@
     <h3 class="h3"> Agregá tu reseña</h3>
     <div class="col-md-12 ">
         <form class="contact-form row" method="post" action="#" role="form"> {% csrf_token %}
-            {{form|bootstrap}}
-            <div class="py-4">
-                <div class="col-md-3">
-                    <button type="submit" class="btn btn-secondary rounded-pill px-md-5 px-4 py-2 radius-0 text-light light-300">Añadir comentario</button>
+            <input type="hidden">
+            <div class="form-group">
+                <label class="control-label  " for="id_ruta">Ruta</label>
+                <div class=" ">
+                        <select name="ruta" class=" form-control" required="" id="id_ruta">
+                            {% for r in rutas %}
+                                <option value={{r.id}}>{{r}}</option>
+                            {% endfor %}
+                        </select>
                 </div>
             </div>
-            
+            <div class="form-group">
+                <label class="control-label  " for="id_comentario">Comentario</label>
+                    <div class=" ">
+                        <input type="text" name="comentario" maxlength="300" class=" form-control" required="" id="id_comentario">
+                    </div>
+            </div>
+                <div class="py-4">
+                    <div class="col-md-3">
+                        <button type="submit" class="btn btn-secondary rounded-pill px-md-5 px-4 py-2 radius-0 text-light light-300">Añadir comentario</button>
+                    </div>
+                </div>
         </form>
     </div>
     

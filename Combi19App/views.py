@@ -147,10 +147,17 @@ def comprar_insumos(request, *args, **kwargs):
 @login_required
 def reseñas(request):
     com = Comentario.objects.all()
-    rutas = Ruta.objects.all()
+
+    mis_viajes = Viaje.objects.filter(pasajeros=request.user).filter(estado=Viaje.finalizado)
+    mis_viajes = mis_viajes
+
+    print(mis_viajes)
+    rutas = Ruta.objects.filter(viaje__in=mis_viajes)
+    print(rutas)
+
     miFiltro = ComentarioFilter(request.GET, queryset=com)
     com = miFiltro.qs
-    form = ComentarioForm()
+    form = ComentarioForm(instance=request.user)
 
 
     if request.POST:
@@ -162,7 +169,6 @@ def reseñas(request):
 
     context = {"comentarios": com, 'miFiltro': miFiltro, 'rutas':rutas, 'form':form }
     return render(request, "Combi19App/reseñas.html", context)
-
 
 def modificar_comentario(request, *args, **kwargs):
     c_id = kwargs.get("c_id")
@@ -181,7 +187,6 @@ def modificar_comentario(request, *args, **kwargs):
             return redirect("Reseñas")
         
     return render(request, "Combi19App/modificar_comentario.html", context)
-
     
 def delete_comentario(request, *args, **kwargs):
     c_id = kwargs.get("c_id")

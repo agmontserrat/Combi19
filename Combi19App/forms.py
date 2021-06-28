@@ -1,6 +1,6 @@
 
 from django import forms
-from Combi19App.models import Comentario, Testeo, Viaje
+from Combi19App.models import Comentario, Ruta, Testeo, Viaje
 
 
 class CompraPasajeForm(forms.ModelForm):
@@ -13,9 +13,10 @@ class CompraPasajeForm(forms.ModelForm):
         return asientos
 
 class ComentarioForm(forms.ModelForm):
-    class Meta:
+    
+    class Meta():
         model = Comentario
-        fields = ("ruta", "comentario")
+        fields = ("ruta","comentario")
 
     def clean_ruta(self):
         ruta = self.cleaned_data['ruta']
