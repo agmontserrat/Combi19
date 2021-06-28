@@ -14,7 +14,7 @@ def home (request):
 
 @login_required
 def pasajes (request):
-    viajes = Viaje.objects.all().filter(asientos_ocupados__lt= F('combi__capacidad') )
+    viajes = Viaje.objects.all().filter(asientos_ocupados__lt= F('combi__capacidad') ).filter(estado=Viaje.comenzado)
 
     miFiltro = ViajeFilter(request.GET, queryset=viajes)
 

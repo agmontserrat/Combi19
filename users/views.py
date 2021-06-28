@@ -196,7 +196,7 @@ def datos_covid (request, *args, **kwargs):
     testeo = Testeo.objects.filter(usuario=usuario).filter(viaje=viaje)
     
     if testeo:
-        testeo = Testeo.objects.filter(usuario=usuario).filter(viaje=viaje)[0]
+        testeo = testeo[0]
         return redirect("Datos Covid Llenos", t_id=testeo.id)
 
     form = DatosCovid()
