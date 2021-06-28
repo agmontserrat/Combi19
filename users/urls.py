@@ -19,7 +19,7 @@ urlpatterns = [
     path ('viajes/chofer/finalizar<v_id>', views.finalizar_viaje_view, name = "Finalizar Viaje"),
     path ('viajes/chofer/cancelar<v_id>', views.cancelar_viaje_view, name = "Cancelar Viaje"),
     path ('pasajes/<v_id>/nuevo', views.nuevo_usuario_view, name = "Nuevo Pasajero"),
-    path('datosCovidSospechoso<p_id>', views.datos_covid_sospechoso, name="Pasajero Sospechoso"),
+    path('datosCovidSospechoso/<v_id>/<p_id>', views.datos_covid_sospechoso, name="Pasajero Sospechoso"),
     path('datosCovidPerfectos/<v_id>/<p_id>', views.sin_covid, name="Pasajero Sin COVID"),
 
 
