@@ -3,8 +3,7 @@ from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 from django.contrib.auth.models import Group
 from django.core.exceptions import ValidationError
 
-
-from datetime import date
+import datetime
 
 #Crear un nuevo usuario
 #Crear un superusuario
@@ -60,6 +59,7 @@ class Account(AbstractBaseUser):
     is_active           = models.BooleanField(default=True)
     is_staff            = models.BooleanField(default=False)
     _is_superuser       = models.BooleanField(default=False)
+    reactivar           = models.DateField(blank=True, null=True)
     
     objects = MyAccountManager()
 
@@ -108,6 +108,20 @@ class Account(AbstractBaseUser):
             chofer = self.chofer
             return True
         except Chofer.DoesNotExist:
+            return False
+    
+    def desactivar_cuenta(self):
+        self.is_active = False
+        print(f"hola {self.is_active}")
+        self.reactivar = datetime.datetime.today() + datetime.timedelta(days=1)
+    
+    def activar_cuenta(self):
+        if self.reactivar is not None:
+            if self.reactivar <= datetime.date.today():
+                print(f"{self.reactivar} -- {datetime.date.today()}")
+                self.is_active = True
+                self.reactivar = None
+                return True
             return False
 
 

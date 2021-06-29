@@ -13,11 +13,11 @@ class AccountAdmin(UserAdmin):
     list_display = ('email','first_name', 'last_name', 'is_GOLD',)
     list_filter = ('is_admin','is_GOLD', 'is_staff')
     search_fields = ('email', 'is_GOLD')
-    readonly_fields = ('id', 'last_login')
+    readonly_fields = ('id', 'last_login', 'reactivar')
     
     fieldsets = (
         (None, {'fields': ('email', 'password', )}),
-        ('Personal info', {'fields': ('last_login', 'first_name', 'last_name', 'date_of_birth','dni',)}),
+        ('Personal info', {'fields': ('last_login', 'first_name', 'last_name', 'date_of_birth','dni','reactivar')}),
         ('Permissions', {'fields': ('is_active','is_staff', 'is_GOLD')}),
     )
     # add_fieldsets is not a standard ModelAdmin attribute. UserAdmin
@@ -25,7 +25,7 @@ class AccountAdmin(UserAdmin):
     add_fieldsets = (
         (None, {
             'classes': ('wide',),
-            'fields': ('email', 'first_name', 'last_name', 'date_of_birth', 'dni', 'password1', 'password2', 'is_GOLD'),
+            'fields': ('email', 'first_name', 'last_name', 'date_of_birth', 'dni', 'password1', 'password2', 'is_GOLD', 'is_active'),
         }),
     )
 

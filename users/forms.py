@@ -58,8 +58,15 @@ class AccountAuthenticationForm(forms.ModelForm):
         if self.is_valid():
             email = self.cleaned_data['email']
             password = self.cleaned_data['password']
+            try:
+                user = Account.objects.get(email=email)
+            except Account.DoesNotExist:
+                pass
+            user.activar_cuenta()
+            user.save()
             if not authenticate(email=email, password=password):
                 raise forms.ValidationError("Inicio de sesión inválido.")
+
 
 class AccountUpdateForm(forms.ModelForm):
 

@@ -149,11 +149,8 @@ def reseñas(request):
     com = Comentario.objects.all()
 
     mis_viajes = Viaje.objects.filter(pasajeros=request.user).filter(estado=Viaje.finalizado)
-    mis_viajes = mis_viajes
-
-    print(mis_viajes)
     rutas = Ruta.objects.filter(viaje__in=mis_viajes)
-    print(rutas)
+
 
     miFiltro = ComentarioFilter(request.GET, queryset=com)
     com = miFiltro.qs

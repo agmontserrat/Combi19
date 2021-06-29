@@ -208,8 +208,10 @@ def datos_covid (request, *args, **kwargs):
             testeo.viaje = viaje
             testeo.save()
             if (testeo.cantidad > 1) or (testeo.temperatura > 38):
-                viaje.pasajeros.remove(usuario)
-                viaje.save()
+                # viaje.pasajeros.remove(usuario)
+                usuario.desactivar_cuenta()
+                usuario.save()
+                # viaje.save()
                 return redirect("Pasajero Sospechoso", v_id=viaje.id, p_id=usuario.id)
             else:
                 return redirect("Pasajero Sin COVID", v_id=viaje.id, p_id=usuario.id)
