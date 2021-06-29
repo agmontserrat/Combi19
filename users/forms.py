@@ -10,7 +10,7 @@ from django.db.models import Q
 
 class RegistrationForm(UserCreationForm):
     email          = forms.EmailField(max_length=225, help_text="Requerido. Añadí una dirección de email válida.")
-    first_name     = forms.CharField( max_length=30, help_text="Requerido. Añadí tu nombre.")
+    first_name     = forms.CharField(max_length=30, help_text="Requerido. Añadí tu nombre.")
     last_name      = forms.CharField(max_length=30, help_text="Requerido. Añadí tu apellido.")
     date_of_birth  = forms.DateField()
 
@@ -36,6 +36,10 @@ class RegistrationForm(UserCreationForm):
         except Account.DoesNotExist:
             return dni
         raise forms.ValidationError(f"Ya existe una cuenta con el DNI {dni}. Olvidaste tu contraseña?")
+    
+    def clean_first_name(self):
+        first_name = self.cleaned_data['first_name']
+        return first_name
 
     def clean_email(self):
         '''Recibe un email y lo valida.'''
@@ -66,7 +70,6 @@ class AccountAuthenticationForm(forms.ModelForm):
             user.save()
             if not authenticate(email=email, password=password):
                 raise forms.ValidationError("Inicio de sesión inválido.")
-
 
 class AccountUpdateForm(forms.ModelForm):
 
