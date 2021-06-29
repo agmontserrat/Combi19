@@ -91,13 +91,15 @@ def editprofile_view(request, *args, **kwargs):
 def misviajes_view(request):
     viajes_pendientes = Viaje.objects.filter(pasajeros=request.user).filter(estado=Viaje.comenzado)
     viajes_finalizados = Viaje.objects.filter(pasajeros=request.user).filter(estado=Viaje.finalizado)
-    context = {"finalizados": viajes_finalizados, "pendientes":viajes_pendientes}
+    viajes_cancelados = Viaje.objects.filter(pasajeros=request.user).filter(estado=Viaje.cancelado)
+    context = {"finalizados": viajes_finalizados, "pendientes":viajes_pendientes,"cancelados": viajes_cancelados}
     return render(request, "users/misviajes.html", context)
 
 def viajeschofer_view(request):
     viajes_pendientes = Viaje.objects.filter(combi__chofer__user=request.user).filter(estado=Viaje.comenzado)
     viajes_finalizados = Viaje.objects.filter(combi__chofer__user=request.user).filter(estado=Viaje.finalizado)
-    context = {"finalizados": viajes_finalizados, "pendientes":viajes_pendientes}
+    viajes_cancelados = Viaje.objects.filter(combi__chofer__user=request.user).filter(estado=Viaje.cancelado)
+    context = {"finalizados": viajes_finalizados, "pendientes":viajes_pendientes,"cancelados": viajes_cancelados}
     return render(request, "users/misviajes.html", context)
 
 def pasajeros_view(request, *args, **kwargs):
