@@ -62,11 +62,16 @@
                                         {% endif %}
                                         
                                         {% if request.user.es_chofer %}
-                                            <a href="{% url 'Nuevo Pasajero' v_id=v.id %}" class="btn btn-primary">Vender Pasaje</a>
+                                            <a href="{% url 'Existe Nuevo Pasajero' v_id=v.id %}" class="btn btn-primary">Vender Pasaje</a>
                                         {% elif request.user.is_superuser %}
                                             <a href="{% url 'Pasajeros' v_id=v.id %}" class="btn btn-primary">Ver pasajeros</a>
                                         {% else %}
-                                            <a href="{% url 'Comprar Pasaje' v_id=v.id %}" class="btn btn-primary">Viajar</a>
+                                            {% if request.user.puedeComprar %}
+                                                <a href="{% url 'Comprar Pasaje' v_id=v.id %}" class="btn btn-primary">Viajar</a>
+                                            {% else %}
+                                                <span class="semi-bold-600 text-end"> Estas en cuarentena </span>
+                                                <a href="{% url 'Comprar Pasaje' v_id=v.id %}" class="btn btn-primary disabled">No podes comprar</a>
+                                            {% endif %}
                                         {% endif %}
                                     </div>
                                 </div>

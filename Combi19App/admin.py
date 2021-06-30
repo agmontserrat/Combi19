@@ -24,8 +24,8 @@ class ViajeAdmin(admin.ModelAdmin):
 
 
 class PasajeAdmin(admin.ModelAdmin):
-    list_display=['usuario','viaje','cantidad']
-    list_filter =['viaje__estado', 'viaje__fecha']
+    list_display=['usuario','viaje','cantidad', 'estado']
+    list_filter =['viaje__estado', 'viaje__fecha', 'estado']
 
 class TesteoAdmin(admin.ModelAdmin):
     list_display=['usuario','temperatura', 'tos', 'dolor_cabeza', 'dolor_muscular', 'dolor_garganta', 'vomitos_diarrea','perdida_gusto_olfato','dificultad_respiratoria']

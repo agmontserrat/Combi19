@@ -89,11 +89,16 @@ def editprofile_view(request, *args, **kwargs):
     return render(request, "users/edit_profile.html", context)
 
 def misviajes_view(request):
-    viajes_pendientes = Viaje.objects.filter(pasajeros=request.user).filter(estado=Viaje.comenzado)
-    viajes_finalizados = Viaje.objects.filter(pasajeros=request.user).filter(estado=Viaje.finalizado)
-    viajes_cancelados = Viaje.objects.filter(pasajeros=request.user).filter(estado=Viaje.cancelado)
+    # viajes_pendientes = Viaje.objects.filter(pasajeros=request.user).filter(estado=Viaje.comenzado)
+    # viajes_finalizados = Viaje.objects.filter(pasajeros=request.user).filter(estado=Viaje.finalizado)
+    # viajes_cancelados = Viaje.objects.filter(pasajeros=request.user).filter(estado=Viaje.cancelado)
+
+    viajes_pendientes = Pasaje.objects.filter(usuario=request.user).filter(estado=Pasaje.pendiente)
+    viajes_finalizados = Pasaje.objects.filter(usuario=request.user).filter(estado=Pasaje.finalizado)
+    viajes_cancelados = Pasaje.objects.filter(usuario=request.user).filter(estado=Pasaje.cancelado)
+
     context = {"finalizados": viajes_finalizados, "pendientes":viajes_pendientes,"cancelados": viajes_cancelados}
-    return render(request, "users/misviajes.html", context)
+    return render(request, "users/misviajes_usuario.html", context)
 
 def viajeschofer_view(request):
     viajes_pendientes = Viaje.objects.filter(combi__chofer__user=request.user).filter(estado=Viaje.comenzado)
@@ -211,6 +216,12 @@ def datos_covid (request, *args, **kwargs):
             testeo.save()
             if (testeo.cantidad > 1) or (testeo.temperatura > 38):
                 # viaje.pasajeros.remove(usuario)
+                pasajes = Pasaje.objects.filter(viaje=viaje).filter(usuario=usuario)
+                print(pasajes)
+                for each in pasajes:
+                    print(f"{each} HOLA")
+                    each.estado = Pasaje.cancelado
+                    each.save()
                 usuario.desactivar_cuenta()
                 usuario.save()
                 # viaje.save()
@@ -345,9 +356,10 @@ def delete_viaje(request, *args, **kwargs):
         context = {"mensaje": "Estas cancelando dentro de las 48hs previas al viaje, se te reembolsará solo el 50% de tu pago."}
     
     if request.POST:
-        pasaje = Pasaje.objects.filter(viaje=viaje_id).filter(usuario=request.user)[0]
+        pasaje = Pasaje.objects.filter(viaje=viaje_id).filter(usuario=request.user).filter(estado=Pasaje.pendiente)[0]
         cant = pasaje.cantidad
-        pasaje.delete()
+        pasaje.estado = Pasaje.cancelado
+        pasaje.save()
         viaje.asientos_ocupados= F('asientos_ocupados') - cant
         viaje.pasajeros.remove(request.user)
         viaje.save()
@@ -416,3 +428,24 @@ def nuevo_usuario_view(request,*args, **kwargs):
             context['form'] = form
     
     return render(request, "users/nuevo_usuario.html", context)
+
+def chequear_usuario_view(request, *args, **kwargs):
+    viaje_id = kwargs.get("v_id")
+    try:
+        viaje = Viaje.objects.get(pk=viaje_id)
+    except Viaje.DoesNotExist:
+        return HttpResponse("Hubo un error")
+   
+    if request.POST:
+        email = request.POST["email"]
+        if email:
+            try:
+                usuario = Account.objects.get(email=email)
+            except Account.DoesNotExist:
+                return redirect("Nuevo Pasajero", v_id=viaje.id)
+            else:
+                return redirect("Comprar Pasaje Chofer", v_id=viaje.id, p_id=usuario.id)
+
+    return render(request, "users/existe_nuevo_usuario.html")
+
+

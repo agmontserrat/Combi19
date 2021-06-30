@@ -2,6 +2,7 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate
 from datetime import date
+from django.db.models.fields import EmailField
 from django.http import request
 from users.models import Account, Tarjeta
 from django.db.models import Q
@@ -64,10 +65,10 @@ class AccountAuthenticationForm(forms.ModelForm):
             password = self.cleaned_data['password']
             try:
                 user = Account.objects.get(email=email)
+                user.activar_cuenta()
+                user.save()
             except Account.DoesNotExist:
                 pass
-            user.activar_cuenta()
-            user.save()
             if not authenticate(email=email, password=password):
                 raise forms.ValidationError("Inicio de sesión inválido.")
 
@@ -160,7 +161,6 @@ class AddCardForm(forms.ModelForm):
             tarjeta.save()
         return tarjeta
     
-
 class EditCardForm(forms.ModelForm):
 
     class Meta:
@@ -210,3 +210,15 @@ class EditCardForm(forms.ModelForm):
         if commit:
             tarjeta.save()
         return tarjeta 
+
+# class ChequearUsuarioForm(forms.TextInput):
+#     email = forms.EmailField(label="Email")
+    
+#     def clean_email(self):
+#         '''Recibe un email y lo valida.'''
+#         email = self.cleaned_data['email'].lower()
+#         try:
+#             account = Account.objects.exclude(pk=self.instance.pk).get(email=email)
+#         except Account.DoesNotExist:
+#             return False
+#         return email

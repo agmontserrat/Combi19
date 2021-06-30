@@ -54,7 +54,7 @@ def comprar_pasaje(request, *args, **kwargs):
             viaje.save()
             viaje.refresh_from_db()
             
-            p = Pasaje(viaje=viaje, usuario=request.user, cantidad=ocupados)
+            p = Pasaje(viaje=viaje, usuario=request.user, cantidad=ocupados, estado=Pasaje.pendiente)
             p.save()
         return redirect("Compra Exitosa")
     

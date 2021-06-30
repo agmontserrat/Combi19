@@ -86,9 +86,15 @@ class Viaje(models.Model):
         self.estado = self.cancelado
 
 class Pasaje(models.Model):
+    pendiente  = "pen"
+    finalizado = "fin"
+    cancelado  = "can"
+    ESTADO_CHOICES = [ (pendiente,'PENDIENTE'), (finalizado, 'FINALIZADO'), (cancelado,'CANCELADO') ]
+    
     viaje    = models.ForeignKey(Viaje, on_delete=models.CASCADE)
     usuario  = models.ForeignKey(Account, on_delete=models.CASCADE)
     cantidad = models.IntegerField(blank=True, null=True)
+    estado   = models.CharField(max_length=3, choices=ESTADO_CHOICES, default=ESTADO_CHOICES[0])
 
     class Meta:
         verbose_name_plural = "Pasajes"

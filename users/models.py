@@ -1,3 +1,4 @@
+
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 from django.contrib.auth.models import Group
@@ -59,6 +60,7 @@ class Account(AbstractBaseUser):
     is_active           = models.BooleanField(default=True)
     is_staff            = models.BooleanField(default=False)
     _is_superuser       = models.BooleanField(default=False)
+    puede_comprar       = models.BooleanField(default=True)
     reactivar           = models.DateField(blank=True, null=True)
     
     objects = MyAccountManager()
@@ -111,19 +113,22 @@ class Account(AbstractBaseUser):
             return False
     
     def desactivar_cuenta(self):
-        self.is_active = False
-        print(f"hola {self.is_active}")
-        self.reactivar = datetime.datetime.today() + datetime.timedelta(days=1)
+        self.puede_comprar = False
+        self.reactivar = datetime.datetime.today() + datetime.timedelta(days=14)
+        # viajes =  Viaje.objects.filter(pasajeros=self).filter(estado=Viaje.comenzado)
+        # for i in viajes:
+        #     pass
     
     def activar_cuenta(self):
         if self.reactivar is not None:
             if self.reactivar <= datetime.date.today():
-                print(f"{self.reactivar} -- {datetime.date.today()}")
-                self.is_active = True
+                self.puede_comprar = True
                 self.reactivar = None
                 return True
             return False
 
+    def puedeComprar(self):
+        return self.puede_comprar
 
 class Chofer(models.Model):
     user = models.OneToOneField(Account, on_delete=models.CASCADE, null=True, verbose_name='Usuario')
