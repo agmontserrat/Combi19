@@ -134,11 +134,19 @@ def eliminar_pasajero_view(request, *args, **kwargs):
     except Account.DoesNotExist:
         return HttpResponse("Hubo un error")
 
+    try: 
+        pasajes = Pasaje.objects.filter(viaje=viaje)
+    except Pasaje.DoesNotExist:
+        return HttpResponse("Hubo un error")
+
     context = {"viaje": viaje, "usuario": usuario}
 
     if request.POST:
         viaje.pasajeros.remove(usuario)
         viaje.save()
+        for each in pasajes:
+            each.estado = Pasaje.cancelado
+            each.save()
         return redirect("Viajes Chofer")
         
     return render(request, "users/eliminar_pasajero.html", context)
@@ -240,10 +248,20 @@ def finalizar_viaje_view(request, *args, **kwargs):
     except Viaje.DoesNotExist:
         return HttpResponse("Hubo un error")
 
+    try: 
+        pasajes = Pasaje.objects.filter(viaje=viaje)
+    except Pasaje.DoesNotExist:
+        return HttpResponse("Hubo un error")
+
     if request.POST:
         viaje.finalizar_viaje()
         viaje.save()
+        for each in pasajes:
+            each.estado = Pasaje.finalizado
+            each.save()
         return redirect("Viajes Chofer")
+
+    
         
     context = {"viaje": viaje}
     return render(request, "users/finalizar_viaje.html", context)
@@ -255,10 +273,21 @@ def cancelar_viaje_view(request, *args, **kwargs):
     except Viaje.DoesNotExist:
         return HttpResponse("Hubo un error")
 
+    try: 
+        pasajes = Pasaje.objects.filter(viaje=viaje)
+    except Pasaje.DoesNotExist:
+        return HttpResponse("Hubo un error")
+
     if request.POST:
         viaje.cancelar_viaje()
         viaje.save()
-        return redirect("Viajes Chofer")
+        for each in pasajes:
+            each.estado = Pasaje.cancelado
+            each.save()
+        if request.user.es_chofer():
+            return redirect("Viajes Chofer")
+        else:
+            return redirect("Pasajes")
         
     context = {"viaje": viaje}
     return render(request, "users/cancelar_viaje.html", context)

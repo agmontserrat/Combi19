@@ -46,11 +46,9 @@
                                                 <div class="col-3 ">
                                                     {% if request.user.es_chofer %}
                                                     <a href="{% url 'Pasajeros' v_id=v.id %}" class="btn btn-primary my-1">Ver Pasajeros</a>
-                                                        {% if v.fecha >= now %}
-                                                            <a href="{% url 'Finalizar Viaje' v_id=v.id %}" class="btn btn-warning my-1">Finalizar Viaje</a>
-                                                        {% else %}
-                                                            <a href="{% url 'Finalizar Viaje' v_id=v.id %}" class="btn btn-warning my-1 disabled" >Finalizar Viaje</a>
-                                                        {% endif %}
+                                                     
+                                                    <a href="{% url 'Finalizar Viaje' v_id=v.id %}" class="btn btn-warning my-1">Finalizar Viaje</a>
+                                                    
                                                     <a href="{% url 'Cancelar Viaje' v_id=v.id %}" class="btn btn-danger my-1">Cancelar viaje</a>
                                                     {% else %}
                                                         <a href="{% url 'Eliminar Viaje' v_id=v.id %}" class="btn btn-primary">Cancelar</a>

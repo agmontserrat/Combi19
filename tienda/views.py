@@ -86,8 +86,21 @@ def tienda (request):
 
 @login_required
 def comprar_insumos(request, *args, **kwargs):
+    tarjetas_usuario = Tarjeta.objects.filter(usuario_id=request.user.id)
+    if not tarjetas_usuario:
+        return redirect("Tarjetas")
+
     carrito = request.session['carro']
     viajes = Viaje.objects.filter(pasajeros=request.user).filter(estado=Viaje.comenzado)
     context = {"viajes":viajes}
+
+    if request.POST:
+        d = dict(carrito.items())
+        for each in d.values():
+            insumo = Insumo.objects.get(id=each["insumo_id"])
+            insumo.restar_insumo(each["cantidad"])
+            insumo.save()
+            return redirect("Insumo Exitoso")
+
 
     return render(request, "tienda/detalle_insumo.html", context)

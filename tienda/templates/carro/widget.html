@@ -43,12 +43,14 @@
         <tr>
             <td colspan="3">
                 <h6 class="">TOTAL:{{importe_total}}</h6>
-                <a href="{% url 'Comprar Insumo'  %}">
-                    <span class="btn btn-outline-success rounded-pill light-300  right">
-                        Comprar 
-                        <i class='bx bxs-cart-add'></i>
-                    </span>
-                </a>
+                {% if importe_total > 0  %}  
+                    <a href="{% url 'Comprar Insumo'  %}">
+                        <span class="btn btn-outline-success rounded-pill light-300  right">
+                            Comprar 
+                            <i class='bx bxs-cart-add'></i>
+                        </span>
+                    </a>
+                {% endif %}
                 <a href="{% url 'carro:limpiar'  %}">
                     <span class="btn btn-outline-danger rounded-pill light-300right">
                         Limpiar

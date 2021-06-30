@@ -12,7 +12,7 @@
 
     
     <h4 class="mb-3">Tus Items</h4>
-    <div class="row gy-5 g-lg-5 mb-4" > 
+    <div class="row gy-5 g-lg-5 mb-4"> 
         {% for key,value in request.session.carro.items %}
         <div class="col-xl-4 col-md-5 col-sm-12">
             <div class="card border-0 shadow-sm overflow-hidden mx-2 m-sm-0 mb-3" style="width: 18rem; ">
@@ -43,12 +43,13 @@
                     <input id={{v.id}} name="opcion" type="radio" class="custom-control-input" checked="" required="">
                     <label class="custom-control-label" for="{{v.id}}">{{v.ruta.origen}} - {{v.ruta.destino}}</label>
                 </div>
+                <div class="text-end" id="final-form">
+                    <h4 class="mb-3 " id="mostrar">Total: {{importe_total}}</h4>          
+                    <button class="btn btn-primary btn-lg btn-block" type=submit>Confirmar compra</button></a>
+                  </div>
             {% endfor%}
         </form>
-        <div class="text-end" id="final-form">
-            <h4 class="mb-3 " id="mostrar">Total: {{importe_total}}</h4>          
-            <a href="{% url 'Insumo Exitoso' %}"  class="btn btn-primary btn-lg btn-block" >Confirmar compra</a>
-          </div>
+        
     {% else %}
         <p class="lead">Necesitas comprar un pasaje antes de comprar un insumo</p>
     {% endif %}
